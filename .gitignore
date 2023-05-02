@@ -1,0 +1,24 @@
+#Django
+/__pycache__
+__pycache__/
+db.sqlite3
+/media
+
+#VENV
+/Lib
+/Scripts
+pyvenv.cfg
+/Include
+
+#Other
+todo
+
+
+
+
+
+
+
+
+#Never delete:
+.env
