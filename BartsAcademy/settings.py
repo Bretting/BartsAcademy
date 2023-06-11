@@ -30,9 +30,6 @@ ALLOWED_HOSTS = ['127.0.0.1', '.ondigitalocean.app']
 if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
