@@ -144,3 +144,8 @@ a {
     width: 100px;
     height: 100px;
 }
+
+.plaatje {
+    max-height: 85vh;
+    object-fit: contain;
+}

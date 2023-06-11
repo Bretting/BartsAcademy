@@ -46,7 +46,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav align-items-center container">
-            <a class="nav-link mx-auto" href="/" title='HOME'>HOME</a>
+            <a class="nav-link mx-auto" href="{% url 'Academy:home' %}" title='HOME'>HOME</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:categories' %}#top" title='CATEGORIES'>CATEGORIES</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:brands' %}#top" title='BRANDS'>BRANDS</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:bottles' brand='All' %}#top" title='BOTTLES'>BOTTLES</a>
@@ -82,7 +82,7 @@
         <div class="col mb-3">
           <h5>Navigation</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="/" class="nav-link p-0 text-body-secondary">Home</a></li>
+            <li class="nav-item mb-2"><a href="{% url 'Academy:home' %}" class="nav-link p-0 text-body-secondary">Home</a></li>
             <li class="nav-item mb-2"><a href="{% url 'Academy:categories' %}" class="nav-link p-0 text-body-secondary">Categories</a></li>
             <li class="nav-item mb-2"><a href="{% url 'Academy:brands' %}" class="nav-link p-0 text-body-secondary">Brands</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Bottles</a></li>

@@ -22,14 +22,16 @@ from Accounts.views import (
     login_view,
     logout_view,
 )
+from Academy.views import placeholder_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('Academy.urls')),
+    path('test-site/',include('Academy.urls')),
     path('tinymce',include('tinymce.urls')),
     path('sign-in',login_view),
     path('sign-out',logout_view),
+    path('',placeholder_view)
 
 ]
 

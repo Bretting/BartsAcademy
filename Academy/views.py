@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, HttpRequest
 from django_htmx.middleware import HtmxDetails
+from django.contrib.auth.decorators import login_required
 import random
 from .models import (
     CoreImages,
@@ -24,6 +25,7 @@ class HtmxHttpRequest(HttpRequest):
 
 ##############################################
 # Create your views here.
+@login_required
 def main_view(request):
 
     random_category = random.choice(Category.objects.all())
@@ -41,6 +43,7 @@ def main_view(request):
 #CATEGORIES
 
 #Main view
+@login_required
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
     random_picture = random.choice(CoreImages.objects.all())
     context = {
@@ -53,6 +56,7 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
         return render(request,'Academy/categories.html', context)
 
 #Category detail view
+@login_required
 def category_select_view(request, category=None):
     try:
         print('sub')
@@ -73,6 +77,7 @@ def category_select_view(request, category=None):
     return render(request,'Academy/category-overview.html', context)
 
 #Filter by global categories
+@login_required
 def category_global_view(request):
     context = {
         'categories' : Category.objects.all()
@@ -80,6 +85,7 @@ def category_global_view(request):
     return render(request,'Academy/partials/global-categories.html', context)
 
 #Filter by subcategories
+@login_required
 def category_filtered_view(request, object = None):
     obj = Category.objects.filter(name=object)
     context = {
@@ -92,6 +98,7 @@ def category_filtered_view(request, object = None):
 #BRANDS
 
 #Main view
+@login_required
 def brand_view(request: HtmxHttpRequest) -> HttpResponse:
     random_picture = random.choice(CoreImages.objects.all())
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
@@ -112,6 +119,7 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
         return render(request,'Academy/brands.html',context)
 
 #Filter Brands
+@login_required
 def brand_filtered_view(request, filter=None):
 
     if Brand.objects.filter(category__subcategory=filter):
@@ -129,6 +137,7 @@ def brand_filtered_view(request, filter=None):
 
     return render(request,'Academy/partials/brands.html', context)
 
+@login_required
 def brand_overview(request, brandname):
     brand = Brand.objects.get(name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
@@ -144,7 +153,7 @@ def brand_overview(request, brandname):
 
 ##############################################
 #BOTTLES
-
+@login_required
 def bottle_view(request, brand=None):
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
     category_list = Category.objects.exclude(brand__isnull=True)
@@ -164,6 +173,7 @@ def bottle_view(request, brand=None):
 
     return render(request,'Academy/bottles.html', context)
 
+@login_required
 def bottle_detail_view(request, item=None):
 
     obj = Bottle.objects.get(slug=item)
@@ -176,6 +186,7 @@ def bottle_detail_view(request, item=None):
 
     return render(request,'Academy/bottle.html', context)
 
+@login_required
 def bottle_filtered_view(request, filter=None):
 
     if Bottle.objects.filter(category__subcategory=filter):
@@ -191,7 +202,7 @@ def bottle_filtered_view(request, filter=None):
 
     return render(request,'Academy/partials/bottles.html',context)
 
-
+@login_required
 def bottle_create_view(request):
 
     if request.method == 'POST':
@@ -208,6 +219,7 @@ def bottle_create_view(request):
 
     return render(request, 'Academy/bottle_crud.html', context)
 
+@login_required
 def bottle_update_view(request, id=None):
     object = get_object_or_404(Bottle, id=id)
     form = BottleForm(request.POST or None, instance=object)
@@ -227,6 +239,7 @@ def bottle_update_view(request, id=None):
 ##############################################
 # DASHBOARD
 
+@login_required
 def dashboard_view(request):
 
     context = {
@@ -234,3 +247,6 @@ def dashboard_view(request):
     }
 
     return render(request,'Academy/dashboard.html', context)
+
+def placeholder_view(request):
+    return render(request,'Academy/placeholder.html')

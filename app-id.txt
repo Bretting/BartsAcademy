@@ -1,0 +1,1 @@
+"$(doctl apps create --spec app.yaml --format ID --no-header)" 
