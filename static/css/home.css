@@ -1,0 +1,12 @@
+.sku {
+    text-align: center;
+}
+.sku img{
+    height:40vh;
+    width: 100%; 
+    object-fit:contain;
+}
+
+.sku:hover {
+    box-shadow: 10px 10px 5px #e3e5e5;
+}

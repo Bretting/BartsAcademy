@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bottles{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/brands.css' %}">{% endblock page-css %}
+
+{% block content %}
+
+<div class='container my-5'>
+    <div id='top'></div>
+    <div class='row my-5'>
+        <h1 class='text-center bold'>LEARN MORE</h1> 
+        <h5 class='text-center'><i>Learn all you ever wanted to know about each bottle</i></h5>
+    </div>
+
+    <div class='text-center'>
+        <h3>Filters</h3>
+        <div class='d-flex justify-content-center mx-5 row'>
+            <div class='col-lg-3'></div>
+            <div class='col-lg-3'>
+                <div class="dropdown-center show">
+                    <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <h4 class='button'>CATEGORY</h4>
+                    </a>
+                
+                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
+                                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
+                                <p  hx-get="{% url 'Academy:brands' %}"
+                                hx-trigger='click'
+                                hx-target='#brands'
+                                hx-swap='outerhtml'                            
+                                >All categories</p>
+                            {% for category in category_list  %}
+                                <p  hx-get="{% url 'Academy:bottle_filtered' filter=category %}"
+                                    hx-trigger='click'
+                                    hx-target='#brands'
+                                    hx-swap='outerhtml'>
+                                {{category}}</p>
+                            {% endfor %}     
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3'>
+                <div class="dropdown-center show">
+                    <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <h4 class='button'>COUNTRY</h4>
+                    </a>
+                
+                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
+                        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
+                        <p  hx-get="{% url 'Academy:brands' %}"
+                            hx-trigger='click'
+                            hx-target='#brands'
+                            hx-swap='outerhtml'                            
+                            >All countries</p>
+                        {% for country in country_list  %}
+                                <p class='text-center'
+                                    hx-get="{% url 'Academy:bottle_filtered' filter=country %}"
+                                    hx-trigger='click'
+                                    hx-target='#brands'
+                                    hx-swap='outerhtml'>
+                                    {{country}}</p>
+            
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3'></div>
+        </div>
+    </div>
+
+    <div class='container' id='brands'>
+        <div class='row d-flex justify-content-center'>
+            {% for bottle in bottles  %}
+            <div class="col-md-3 m-3 brand-tile"> 
+                <a href="{{bottle.get_bottle_link}}">
+                <div class='my-4 brand-img text-center'>
+                    <img class='img-fluid' src={{bottle.image.url}} class='img-fluid' alt="Picture of {{bottle.name}}">
+                </div>
+                
+                <div class="text-center">
+                    <i><h4>{{bottle.brand}}</h4></i>
+                    <h2>{{bottle.name | upper}}</h2>
+                </div>
+            </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>   
+
+</div>
+
+{% endblock content %}

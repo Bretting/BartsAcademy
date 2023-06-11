@@ -1,0 +1,146 @@
+
+/* FONTS
+
+font-family: 'Roboto', sans-serif;
+font-family: 'Roboto Serif', serif; */
+
+/* Colors
+Backgrounds: #f0f3f3
+
+
+
+
+
+/* CSS FOR BASE.HTML
+
+
+
+/* MAIN CSS */
+
+.test{
+    border: 1px solid red;
+}
+
+.top-min{
+    top: -50px !important;
+}
+
+
+#top {
+    padding-top: 1px;
+}
+
+
+.ql-font-roboto {
+    font-family: 'Roboto', sans-serif;
+  }
+
+.ql-font-robotoserif {
+    font-family: 'Roboto Serif', serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Roboto', sans-serif;
+}
+
+h5 {
+    font-family: 'Roboto Serif', serif;
+}
+
+p, li, a{
+    font-family: 'Roboto Serif', serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.grey {
+    background-color: #f0f3f3;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+
+/* NAVIGATION */
+.logo-big {
+    width: 350px;
+    height: 350px;
+}
+
+
+.nav-link {
+    font-family:'Roboto', sans-serif ;
+}
+
+.nav-link::before{
+    display: block;
+    content: attr(title);
+    font-weight: bold;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.nav-link:hover{
+    font-weight: bold;
+}
+
+
+.button {
+    font-size: 16px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    border: 2px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 250px;
+}
+
+.button:hover {
+    font-weight: 600;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+}
+
+.brand-tile:hover {
+    box-shadow: 5px 5px 5px #e3e5e5;
+}
+
+
+.brand-img img {
+    height: 300px;
+    object-fit: contain;
+}
+
+.main {
+    height: 500px;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.main-category {
+    object-fit: fill;
+}
+
+/* FOOTER */
+.footer {
+    border-top: 1px #cecece;
+}
+
+.copy {
+    font-size: 12px;
+    text-align: center;
+}
+
+.logo{
+    width: 100px;
+    height: 100px;
+}

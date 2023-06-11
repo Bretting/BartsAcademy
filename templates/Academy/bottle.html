@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{bottle.brand}} - {{bottle.name}}{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/bottles.css' %}">{% endblock page-css %}
+
+{% block content %}
+
+<div class='container my-5'>
+
+    <div class='row'>
+        <div class='col-md-6 my-5'>
+            <img class='img-fluid' src="{{bottle.image.url}}" alt="Picture of {{bottle.name}}" title="Picture of {{bottle.name}}">
+        </div>
+        <div class='col-md-6'>
+            <h1 class='mb-3'>{{bottle.brand | upper}} {{bottle.name | upper}}</h1>
+            <article class='col-md-12 col-lg-6 short-info'><i>
+                <div class='d-flex justify-content-between'><p>Category:</p><p> {{bottle.category}}</p></div>
+                <div class='d-flex justify-content-between'><p>ABV:</p><p> {{bottle.abv}}%</p></div>
+                <div class='d-flex justify-content-between'><p>Country:</p><p> {{country}}</p></div>
+                {% if bottle.tech_region  %}<div class='d-flex justify-content-between'><p>Region:</p><p> {{bottle.tech_region}}</p></div>{% endif %}
+            </i></article>
+
+            <div class='my-3'>
+                {{bottle.info | safe}}
+            </div>
+
+            <div class='d-flex justify-content-center'>
+                <a class='my-3' data-bs-toggle="collapse" href="#collapseExample" role="button" aria-bs-expanded="false" aria-bs-controls="collapseExample">
+                    <p class='button'>TECHNICAL INFO</p>
+                </a>
+            </div>
+
+            
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                <table>
+                    <tbody>
+                        {% if bottle.tech_nom %}
+                        <tr>
+                            <td>NOM:</td>
+                            <td><p>{{bottle.tech_nom}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_fermentation %}
+                        <tr>
+                            <td>Fermentation:</td>
+                            <td>{{bottle.tech_fermentation | safe}}</td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_source_material %}
+                        <tr>
+                            {% if bottle.tech_nom %}
+                            <td>Agave:</td>
+                            {% else %}
+                            <td>Source:</td>
+                            {% endif %}
+                            <td><p>{{bottle.tech_source_material}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_cooking %}
+                        <tr>
+                            <td>Cooking method:</td>
+                            <td><p>{{bottle.tech_cooking}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_extraction %}
+                        <tr>
+                            <td>Extraction method:</td>
+                            <td><p>{{bottle.tech_extraction}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_mash %}
+                        <tr>
+                            <td>Mash:</td>
+                            <td><p>{{bottle.tech_mash}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_botanicals %}
+                        <tr>
+                            <td>Botanicals:</td>
+                            <td><p>{{bottle.tech_botanicals}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_water_source %}
+                        <tr>
+                            <td>Water Source:</td>
+                            <td><p>{{bottle.tech_water_source}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_fermentation %}
+                        <tr>
+                            <td>Water Source:</td>
+                            <td>{{bottle.tech_fermentation | safe}}</td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_distillation %}
+                        <tr>
+                            <td>Distillation:</td>
+                            <td><p>{{bottle.tech_distillation}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_filtration %}
+                        <tr>
+                            <td>Filtration:</td>
+                            <td><p>{{bottle.tech_filtration}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_still %}
+                        <tr>
+                            <td>Still:</td>
+                            <td><p>{{bottle.tech_still}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_batch_size %}
+                        <tr>
+                            <td>Batch size:</td>
+                            <td><p>{{bottle.tech_batch_size}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_blend %}
+                        <tr>
+                            <td>Blend:</td>
+                            <td><p>{{bottle.tech_blend}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_aging %}
+                        <tr>
+                            <td>Aging:</td>
+                            <td><p>{{bottle.tech_aging}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_aging_barrels %}
+                        <tr>
+                            <td>Barrel type:</td>
+                            <td><p>{{bottle.tech_aging_barrels}}</p></td>
+                        </tr>
+                        {% endif %}
+                        {% if bottle.tech_other %}
+                        <tr>
+                            <td>Aging:</td>
+                            <td>{{bottle.tech_other | safe}}</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>            
+                </div>
+            </div>
+
+
+
+            <div class='grey p-3 my-3 rounded-corner'>
+                <h3 class='my-2 text-center'>TASTING NOTES</h3>
+                {{bottle.tasting_notes | safe}}
+            </div>
+
+
+            <div class='mx-3 row my-5'>
+                <div class='col-lg d-flex justify-content-center'>
+                    <a href="{{bottle.website_link}}" target='_blank'>
+                        <p class="button">BRAND WEBSITE</p> 
+                    </a>
+                </div>
+
+                <div class='col-lg d-flex justify-content-center'>
+                    <a role='button' data-bs-toggle="modal" data-bs-target="#shopModal">
+                        <p class="button">BUY</p> 
+                    </a>
+                </div>
+      
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade p-5" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3 class='modal-title w-100'>WHERE TO BUY</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <div class='col-12 d-flex justify-content-center'>
+                        <a class='mx-2' role='button' data-bs-target="#exampleModal" href="{{bottle.consumer_shop_link}}" target='_blank'>
+                            <p class="button">BUY AS A CONSUMER</p> 
+                        </a>        
+                    </div>
+                    <div class='col-12 d-flex justify-content-center'>        
+                        <a class='mx-2' role='button' data-bs-target="#exampleModal" href="{{bottle.shop_link}}" target='_blank'>
+                            <p class="button">BUY AS A BUSINESS</p> 
+                        </a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock content %}

@@ -18,11 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from Accounts.views import (
+    login_view,
+    logout_view,
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('Academy.urls')),
     path('tinymce',include('tinymce.urls')),
+    path('sign-in',login_view),
+    path('sign-out',logout_view),
 
 ]
 

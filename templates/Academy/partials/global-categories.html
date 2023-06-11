@@ -1,0 +1,28 @@
+{% load static %}
+<div class='row d-flex justify-content-center'>
+    {% for category in categories  %}
+    {% ifchanged category.name %}
+    <div class="{% cycle 'col-md-6' 'col-md-6' 'col-md-12' %} my-2 d-flex justify-content-center category-tile">
+        <a  class='category-link' 
+            {% if category.subcategory %}
+            hx-get="{% url 'Academy:category-global-filtered' object=category.name %}"
+            hx-trigger='click'
+            hx-target='#categories'
+            hx-swap='outerhtml'
+            {% else %}
+            href="{{category.get_overview_link}}"
+            {% endif %}>
+            <div class="{% cycle 'row' 'rowreverse' %}">
+                <div class='col-6'>
+                    <h1 class='mt-3 text-center'>{{category.name | upper}}</h1>
+                    <p>{{category.teaser | safe}}</p>
+                </div>
+                <img class='category-logo col-6' src="{{category.logo.url}}" alt="Logo of category" title="Logo of {{category.name}}">
+            </div>
+            
+            
+        </a>
+    </div>
+    {% endifchanged %}
+    {% endfor %}
+</div>

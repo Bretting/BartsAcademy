@@ -7,3 +7,5 @@ from .models import *
 admin.site.register(Category)
 admin.site.register(Brand)
 admin.site.register(Bottle)
+admin.site.register(Blog)
+admin.site.register(CoreImages)

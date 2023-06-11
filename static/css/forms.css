@@ -1,0 +1,13 @@
+.corner {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+.form h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.link {
+    font-size: 1rem;
+}

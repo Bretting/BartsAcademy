@@ -1,0 +1,22 @@
+tr td:nth-child(1) {
+    text-align: left;
+    vertical-align: top;
+    font-weight: bold;
+    font-family: 'Roboto Serif', serif;
+}
+
+tr td:nth-child(2) {
+    padding-left: 10px;
+}
+
+.short-info {
+    line-height: .5em;
+}
+
+
+@media only screen and (max-width: 991px) {
+    tr {
+        font-size: .9em;
+    }
+    
+}

@@ -1,0 +1,22 @@
+.category-link:hover{
+    cursor: pointer;
+}
+
+.category-tile:hover{
+    box-shadow: 5px 5px 5px #e3e5e5;
+}
+
+.category-logo {
+    height: 200px;
+    object-fit: contain;
+}
+
+.rowreverse {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    margin-top: calc(-1*var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+

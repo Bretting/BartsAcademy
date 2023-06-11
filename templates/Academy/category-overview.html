@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Barts Academy: {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/categories.css' %}">{% endblock page-css %}
+
+{% block content %}
+
+<div class='container my-5'>
+    <div class='row my-5'>
+        <h1 class='text-center bold'>{% if category.subcategory %}{{category.subcategory | upper}}{% else %}{{category.name | upper}}{% endif %}</h1> 
+        <h5 class='subtitle text-center mb-5'><i>Learn all you ever wanted to know about {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</i></h5>
+        <div class='col-lg-6 p-3'>
+            <article>
+                <h5 class='mb-3 text-center'>About {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</h5>
+                <p>
+                    {{category.info | safe}}
+                </p>
+            </article>    
+        </div>
+        <img class='main col-lg-6 img-fluid' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
+    </div>
+
+
+    <div class='row d-flex justify-content-center'>
+        {% for bottle in bottles  %}
+        <div class="col-md-3 m-3 brand-tile"> 
+            <a href="{{bottle.get_bottle_link}}">
+            <div class='my-4 brand-img text-center'>
+                <img class='img-fluid' src={{bottle.image.url}} class='img-fluid' alt="Picture of {{bottle.name}}">
+            </div>
+            
+            <div class="text-center">
+                <i><h4>{{bottle.brand}}</h4></i>
+                <h2>{{bottle.name | upper}}</h2>
+            </div>
+        </a>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

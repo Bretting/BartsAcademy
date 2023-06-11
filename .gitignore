@@ -13,7 +13,8 @@ pyvenv.cfg
 #Other
 todo
 
-
+/.do
+app.yaml
 
 
 

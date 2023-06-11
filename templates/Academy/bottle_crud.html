@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Barts Academy - Add Bottle{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock page-css %}
+
+{% block content %}
+
+<div class='container'> 
+    <div class='row form'>
+        <h1 class='text-center my-5'>Add & Update bottle</h1>
+       {% if message %}
+            <div> 
+                <div><h2>{{message}}</h2></div>
+                <div><a href="{{object.get_bottle_link}}"><h2 class='link'>Check bottle</h2></a></div>
+            </div>
+        
+       {% endif %}
+
+        {% crispy form %}
+
+        </form>
+    </div>
+</div>
+
+{% endblock content %} 

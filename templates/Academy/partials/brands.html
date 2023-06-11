@@ -1,0 +1,15 @@
+<div class='row d-flex justify-content-center'>
+    {% for brand in brands  %}
+    <div class="col-md-3 m-3 brand-tile"> 
+        <a href="{{brand.get_bottle_by_brand_link}}">
+        <div class='my-4 brand-img text-center'>
+            <img class='img-fluid' src={{brand.image.url}} class='img-fluid' alt="Picture of {{brand.name}}">
+        </div>
+        
+        <div class="text-center">
+            <h1>{{brand.name}}</h1>
+        </div>
+    </a>
+    </div>
+    {% endfor %}
+</div>

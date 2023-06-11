@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'storages',
     'django_htmx',
     'tinymce',
+    'django_cleanup.apps.CleanupConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'BartsAcademy.urls'
@@ -182,25 +186,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # TinyMCE
 TINYMCE_DEFAULT_CONFIG = {
-        "theme": "silver",
-        "height": 250,
-        "menubar": True,
-        "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
-        "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
-        "code,help,wordcount",
-        "toolbar": "undo redo | formatselect | fontsizeselect "
-        "bold italic backcolor | alignleft aligncenter "
-        "alignright alignjustify | bullist numlist outdent indent | "
-        "removeformat | help",
-    }
+'theme': "silver", # default value
+'relative_urls': False, # default value
+'paste_as_text': True,
+'plugins': 'paste,searchreplace',
+'theme_advanced_buttons1': 'bold,italic,underline,bullist,numlist,link,unlink,styleselect,fontselect,fontsizeselect',
+'width': '100%',
+'height': 250,
+'paste_text_sticky': True,
+'paste_text_sticky_default': True,
+'valid_styles': 'font-weight,font-style,text-decoration',
+'fontsize_formats': "8pt 10pt 11pt 12pt 13pt 14pt 16pt 18pt 20pt 24pt 36pt",
+'font_formats': 
+    "Roboto=Roboto;" +
+    "Roboto Serif=Roboto Serif;",
+'content_style':"@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital@0;1&family=Roboto:ital@0;1&display=swap');"}
+TINYMCE_SPELLCHECKER = True
+TINYMCE_COMPRESSOR = False
 
-TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js";
-
-TINYMCE_COMPRESSOR = False;
 
 # Django-Resized
 
 DJANGORESIZED_DEFAULT_KEEP_META = True
-DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_QUALITY = 100
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
+
+# Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
