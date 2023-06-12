@@ -15,7 +15,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is None:
             context = {"error": "Invalid username or password."}
-            return render(request, "accounts/login.html", context)
+            return render(request, "Accounts/login.html", context)
         login(request, user)
 
         if next_url:
@@ -31,5 +31,5 @@ def logout_view(request):
         logout(request)
         return redirect("/sign-in")
 
-    return render(request,"accounts/logout.html")
+    return render(request,"Accounts/logout.html")
 
