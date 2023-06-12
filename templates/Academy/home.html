@@ -44,7 +44,7 @@
             <div class='text-center'>
             <article>
                 <h2 class='mb-3'>Learn more about {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</h2>
-                <p>{% lorem 2 b random %}</p>    
+                {{category.info|safe}}   
             </article>       
             </div>
         </div>

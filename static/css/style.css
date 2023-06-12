@@ -127,7 +127,7 @@ a {
 }
 
 .main-category {
-    object-fit: fill;
+    object-fit: cover;
 }
 
 /* FOOTER */
