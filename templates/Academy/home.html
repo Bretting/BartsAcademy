@@ -43,8 +43,8 @@
         <div class='col-lg-6 p-3'>
             <div class='text-center'>
             <article>
-                <h2 class='mb-3'>Learn more about {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</h2>
-                {{category.info|safe}}   
+                <h2 class='mb-3'>LEARN MORE ABOUT {% if category.subcategory %}{{category.subcategory|upper}}{% else %}{{category.name|upper}}{% endif %}</h2>
+                <p>{{category.info|safe}}</p>   
             </article>       
             </div>
         </div>
