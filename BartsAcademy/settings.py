@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = str(os.environ.get('DEBUG')) == "1"
 
 ENV_ALLOWED_HOST = os.environ.get('DJANGO_ALLOWED_HOST') or None
-ALLOWED_HOSTS = ['127.0.0.1', '.ondigitalocean.app','.bartsacademy.nl']
+ALLOWED_HOSTS = ['127.0.0.1', '.ondigitalocean.app','.bartsacademy.nl','.bartsacademy.nl/']
 if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
