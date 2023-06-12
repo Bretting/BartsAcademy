@@ -23,7 +23,7 @@ def login_view(request):
         else:
             return redirect('/')    
 
-    return render(request, "accounts/login.html", {})
+    return render(request, "Accounts/login.html", {})
 
 
 def logout_view(request):
