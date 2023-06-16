@@ -45,7 +45,7 @@
             <article>
                 <h2 class='mb-3'>LEARN MORE ABOUT {% if category.subcategory %}{{category.subcategory|upper}}{% else %}{{category.name|upper}}{% endif %}</h2>
                 <p>{{category.teaser|safe}}</p>   
-                <a href="{{category.get_absolute_url}}"><h2 class='button'>LEARN MORE</h2></a>
+                <a href="{{category.get_absolute_url}}"><h2 class='button my-3'>LEARN MORE</h2></a>
             </article>       
             </div>
         </div>
