@@ -276,7 +276,7 @@ def bottle_create_view(request):
         form = BottleForm(request.POST, request.FILES)
         if form.is_valid():
             bottle = form.save()
-            return redirect(bottle.get_bottle_link())
+            return redirect(bottle.get_absolute_url())
     else:
         form = BottleForm
     
