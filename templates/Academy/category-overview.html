@@ -26,7 +26,12 @@
     </div>
 
     <div class='row my-5 collapse' id='collapseInfo'>
-        {{category.info|safe}}        
+        {{category.info|safe}}      
+        <div class='d-flex justify-content-center my-2'> 
+            <a data-bs-toggle="collapse" href="#collapseInfo" role="button" aria-expanded="false" aria-controls="collapseInfo"> 
+                <h2 class='button'>CLOSE</h2>
+            </a>
+        </div>  
     </div>
 
 
