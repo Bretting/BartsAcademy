@@ -42,13 +42,6 @@
                             <td><p>{{bottle.tech_nom}}</p></td>
                         </tr>
                         {% endif %}
-                        {% if bottle.tech_fermentation %}
-                        <tr>
-                            <td>Fermentation:</td>
-                            <td>{{bottle.tech_fermentation | safe}}</td>
-                        </tr>
-                        {% endif %}
-                        {% if bottle.tech_source_material %}
                         <tr>
                             {% if bottle.tech_nom %}
                             <td>Agave:</td>
@@ -90,8 +83,8 @@
                         {% endif %}
                         {% if bottle.tech_fermentation %}
                         <tr>
-                            <td>Water Source:</td>
-                            <td>{{bottle.tech_fermentation | safe}}</td>
+                            <td>Distillation:</td>
+                            <td><p>{{bottle.tech_fermentation}}</p></td>
                         </tr>
                         {% endif %}
                         {% if bottle.tech_distillation %}
