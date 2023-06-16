@@ -12,7 +12,7 @@ from .models import (
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'subcategory','teaser','info','logo','image','video']
+        fields = ['name', 'subcategory','tagline','teaser','info','logo','image','video']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,6 +23,7 @@ class CategoryForm(forms.ModelForm):
             Column('name', css_class='form-group col-md-6'),
             Column('subcategory', css_class='form-group col-md-6'),
             ),
+            Row('tagline', css_class='form-group col-md-12'),
             Row('teaser', css_class='form-group col-md-12'),
             Row('info',css_class='form-group col-md-12'),
             Row(
