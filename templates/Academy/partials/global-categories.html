@@ -15,7 +15,7 @@
             <div class="{% cycle 'row' 'rowreverse' %}">
                 <div class='col-6'>
                     <h1 class='mt-3 text-center'>{{category.name | upper}}</h1>
-                    <p>{{category.teaser | safe}}</p>
+                    <p>{{category.tagline | safe}}</p>
                 </div>
                 <img class='category-logo col-6' src="{{category.logo.url}}" alt="Logo of category" title="Logo of {{category.name}}">
             </div>
