@@ -27,7 +27,7 @@ from Academy.views import placeholder_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test-site/',include('Academy.urls')),
+    path('preview/',include('Academy.urls')),
     path('tinymce',include('tinymce.urls')),
     path('sign-in',login_view),
     path('sign-out',logout_view),

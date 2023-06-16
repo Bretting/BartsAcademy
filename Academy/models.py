@@ -4,8 +4,14 @@ from tinymce.models import HTMLField
 from django_resized import ResizedImageField
 from django.urls import reverse
 from django.core.validators import MaxValueValidator
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import pathlib
+import sys
+from PIL import Image
+from io import BytesIO
+from django.db import models
+
 
 
 #Custom functions
@@ -53,6 +59,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255, unique = True, blank=True, null=True)
     teaser = HTMLField()
+    tagline = HTMLField()
     slug = models.SlugField(unique=True, blank=True)
     info = HTMLField()
     image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
@@ -76,11 +83,18 @@ class Category(models.Model):
         else:
             return self.name
         
-    def get_overview_link(self):
+    def get_absolute_url(self):
         if self.subcategory:
             return reverse('Academy:category_filter', kwargs={'category':self.subcategory})
         else:
-            return reverse('Academy:category_filter', kwargs={'category':self.name})            
+            return reverse('Academy:category_filter', kwargs={'category':self.name}) 
+        
+    def get_update_link(self):
+        return reverse('Academy:category_update',kwargs={'id':self.id})
+    
+    def get_delete_link(self):
+        return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Category'})
+               
 
 
 
@@ -105,13 +119,19 @@ class Brand(models.Model):
         return self.name
 
     def get_bottle_by_brand_link(self):
-        return reverse('Academy:brand-overview', kwargs={'brandname':self.name})
+        return reverse('Academy:brand_overview', kwargs={'brandname':self.name})
     
     def get_brands_by_category_link(self):
-        return reverse('Academy:brand-filtered', kwargs={'filter':self.category})
+        return reverse('Academy:brand_filtered', kwargs={'filter':self.category})
     
     def get_brand_by_country_link(self):
-        return reverse('Academy:brand-country', kwargs={'country':self.country_of_origin})
+        return reverse('Academy:brand_country', kwargs={'country':self.country_of_origin})
+        
+    def get_update_link(self):
+        return reverse('Academy:brand_update',kwargs={'id':self.id})
+    
+    def get_delete_link(self):
+        return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Brand'})
 
 
 
@@ -129,6 +149,7 @@ class Bottle(models.Model):
     tasting_notes = HTMLField()
     abv = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='Alcohol %')
     image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
+    thumbnail = models.ImageField(upload_to='thumbnails')
     shop_link = models.URLField()
     consumer_shop_link = models.URLField()
     website_link = models.URLField()
@@ -154,7 +175,19 @@ class Bottle(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(f"{self.brand}-{self.name}")
-        super(Bottle, self).save(*args, **kwargs)
+        output_size = (300, 169)
+        output_thumb = BytesIO()
+
+        img = Image.open(self.image)
+        img_name = self.image.name.split('.')[0]
+
+        if img.height > 300 or img.width > 300:
+            img.thumbnail(output_size)
+            img.save(output_thumb,format='JPEG',quality=90)
+
+        self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/jpeg', sys.getsizeof(output_thumb), None)
+
+        super(Bottle, self).save()
 
     def __str__(self):
         return (f"{self.brand} - {self.name}")
@@ -162,10 +195,14 @@ class Bottle(models.Model):
     class Meta:
         ordering = ['category', 'name']
 
-    def get_bottle_link(self):
+    def get_absolute_url(self):
         return reverse('Academy:bottle_detail', kwargs={'item':self.slug})
-
-
+    
+    def get_update_link(self):
+        return reverse('Academy:bottle_update',kwargs={'id':self.id})
+    
+    def get_delete_link(self):
+        return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Bottle'})
 
 
 class Blog(models.Model):

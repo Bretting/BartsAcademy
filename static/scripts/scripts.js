@@ -40,20 +40,3 @@ function filterFunction() {
     }
   }
 }
-
-
-//Glide.js
-// new Glide('.glide').mount()
-
-window.addEventListener('load', function(){
-  new Glider(document.querySelector('.glider'), {
-    slidesToScroll: 1,
-    slidesToShow: 3,
-    draggable: true,
-    arrows: {
-      prev: '.glider-prev',
-      next: '.glider-next'
-    },
-    scrollLock: true,
-  })
-});

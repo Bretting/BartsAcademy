@@ -1,0 +1,68 @@
+{% load static %}
+
+<div class='container' id='main'>
+    <div class='d-flex justify-content-center'>
+        <a hx-get= "{% url 'Academy:analytics-dashboard' %}"
+        hx-trigger= 'click'
+        hx-target= '#main'
+        hx-swap='outerhtml'>
+        <h2 class='button mx-2'>BACK</h2></a>
+        <a href={% url link %}><h2 class='button mx-2'>CREATE NEW</h2></a>
+        <p></p>
+    </div>
+    
+    <div class='d-flex justify-content-center'>
+        <input type="text" id="searchBox" placeholder="Search" class='form-control my-3 w-50'>
+    </div>
+    <div class='d-flex justify-content-center'>
+        <table id="item-list" class='item-table'>
+
+            {% for item in objects  %}
+            <tr>
+                {% if item.brand %}
+                    <td>{{item.brand}}</td>
+                {% endif %}
+                <td>
+                {% if item.subcategory %}{{item.subcategory}}
+                {% else %}{{item.name}}
+                {% endif %}</td>
+                {% if item.thumbnail or item.logo %}
+                    <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}><img 
+                        {% if item.thumbnail %}src="{{item.thumbnail.url}}" {% else %}src="{{item.logo.url}}"{% endif %}
+                        alt="Thumbnail of {{item.name}}"></a></td>
+                {% endif %}
+                <td ><a href="{{item.get_update_link}}" class='edit-delete'>Edit</td>
+                <td ><a href="{{item.get_delete_link}}" class='edit-delete'>Delete</td>
+            </tr>
+            {% endfor %} 
+        </table>
+    </div>  
+</div>
+
+<script>
+    var searchBox = document.getElementById("searchBox");
+    searchBox.addEventListener("keyup",function(){
+    var keyword = this.value;
+    keyword = keyword.toUpperCase();
+    var item_table = document.getElementById("item-list");
+    var all_tr = item_table.getElementsByTagName("tr");
+    for(var i=0; i<all_tr.length; i++){
+        var first_column = all_tr[i].getElementsByTagName("td")[0];
+        var second_column = all_tr[i].getElementsByTagName("td")[1];
+        if(first_column && second_column){
+        var first_value = first_column.textContent || first_column.innerText;
+        var second_value = second_column.textContent || second_column.innerText;
+        first_value = first_value.toUpperCase();
+        second_value = second_value.toUpperCase();
+        if((first_value.indexOf(keyword) > -1) || (second_value.indexOf(keyword) > -1)){
+            all_tr[i].style.display = ""; // show
+        }else{
+            all_tr[i].style.display = "none"; // hide
+        }
+        };
+    };
+    });
+</script>  
+
+
+

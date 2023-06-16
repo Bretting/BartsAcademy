@@ -23,7 +23,7 @@
     <div class='owl-carousel'>
         {% for bottle in bottles|shuffle %}
             <div class="sku">
-                <a href="{{bottle.get_bottle_link}}">
+                <a href="{{bottle.get_absolute_url}}">
                     <div class='d-flex justify-content-center'>
                         <img src="{{bottle.image.url}}" alt="{{bottle.name}}" title="{{bottle.brand}} - {{bottle.name}}">
                     </div>
@@ -44,7 +44,7 @@
             <div class='text-center'>
             <article>
                 <h2 class='mb-3'>LEARN MORE ABOUT {% if category.subcategory %}{{category.subcategory|upper}}{% else %}{{category.name|upper}}{% endif %}</h2>
-                <p>{{category.info|safe}}</p>   
+                <p>{{category.teaser|safe}}</p>   
             </article>       
             </div>
         </div>

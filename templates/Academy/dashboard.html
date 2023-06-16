@@ -1,5 +1,53 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Barts Academy Dashboard{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">{% endblock page-css %}
 
 {% block content %}
+
+<div class='container my-5'>
+    <div class='row'>
+<!--TODO: add HTMX links 
+    also needs the following:
+    - back button to return to dashboard
+    - edit buttons for all items
+    - thumbnail images when images are included
+    - search bar for bottles and brands
+
+-->
+        <div class='col-md-3 dashboard-menu my-2'>
+            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Category' %}"
+                hx-trigger= 'click'
+                hx-target= '#main'
+                hx-swap='outerhtml'>CATEGORIES</h2>
+            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Bottle' %}"
+                hx-trigger= 'click'
+                hx-target= '#main'
+                hx-swap='outerhtml'>BOTTLES</h2>
+            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Brand' %}"
+                hx-trigger= 'click'
+                hx-target= '#main'
+                hx-swap='outerhtml'>BRANDS</h2>
+            <h2>MENU ITEM</h2>
+            <h2>MENU ITEM</h2>
+        </div>
+
+        <div class='col-md-9 my-2' id='main'>
+            <h1>Google analytics dashboard here</h1>
+<!--TODO: add google analytics dashboard-->
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+
+<a  hx-get='{% url "rhumSite:img_dashboard" %}'
+hx-trigger='click'
+hx-target='#main'
+hx-swap='outerhtml'>
+<h2 class='dash-item'>Main page Images</h2>
+</a>

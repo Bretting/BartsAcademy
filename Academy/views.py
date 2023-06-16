@@ -14,7 +14,8 @@ from .models import (
 
 from .forms import (
     CategoryForm,
-    BottleForm
+    BottleForm,
+    BrandForm,
 )
 ##############################################
 
@@ -94,6 +95,39 @@ def category_filtered_view(request, object = None):
 
     return render (request,'Academy/partials/categories.html', context)
 
+@login_required
+def category_create_view(request):
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            category = form.save()
+            return redirect(category.get_absolute_url())
+    else:
+        form = CategoryForm
+    
+    context = {
+        'form' : form
+    }
+
+    return render(request, 'Academy/dashboard_crud.html', context)
+
+@login_required
+def category_update_view(request, id=None):
+    object = get_object_or_404(Category, id=id)
+    form = CategoryForm(request.POST  or None, request.FILES  or None, instance=object)
+
+    context = {
+        'form':form,
+        'object':object
+    }
+
+    if form.is_valid():
+        form.save()
+        context['message'] = 'Data saved'
+
+    return render(request,'Academy/dashboard_crud.html',context)
+
 ##############################################
 #BRANDS
 
@@ -149,6 +183,39 @@ def brand_overview(request, brandname):
     }
 
     return render(request,'Academy/brands-overview.html',context)
+
+@login_required
+def brand_create_view(request):
+
+    if request.method == 'POST':
+        form = BrandForm(request.POST, request.FILES)
+        if form.is_valid():
+            category = form.save()
+            return redirect(category.get_absolute_url())
+    else:
+        form = BrandForm
+    
+    context = {
+        'form' : form
+    }
+
+    return render(request, 'Academy/category_crud.html', context)
+
+@login_required
+def brand_update_view(request, id=None):
+    object = get_object_or_404(Brand, id=id)
+    form = BrandForm(request.POST  or None, request.FILES  or None, instance=object)
+
+    context = {
+        'form':form,
+        'object':object
+    }
+
+    if form.is_valid():
+        form.save()
+        context['message'] = 'Data saved'
+
+    return render(request,'Academy/dashboard_crud.html',context)
 
 
 ##############################################
@@ -217,12 +284,12 @@ def bottle_create_view(request):
         'form' : form
     }
 
-    return render(request, 'Academy/bottle_crud.html', context)
+    return render(request, 'Academy/dashboard_crud.html', context)
 
 @login_required
 def bottle_update_view(request, id=None):
     object = get_object_or_404(Bottle, id=id)
-    form = BottleForm(request.POST or None, instance=object)
+    form = BottleForm(request.POST  or None, request.FILES  or None, instance=object)
 
     context = {
         'form':form,
@@ -233,7 +300,7 @@ def bottle_update_view(request, id=None):
         form.save()
         context['message'] = 'Data saved'
 
-    return render(request,'Academy/bottle_crud.html',context)
+    return render(request,'Academy/dashboard_crud.html',context)
 
 
 ##############################################
@@ -243,10 +310,63 @@ def bottle_update_view(request, id=None):
 def dashboard_view(request):
 
     context = {
-
+        'bottles' : Bottle.objects.all(),
+        'categories' : Category.objects.all(),
+        'brands': Brand.objects.all(),
     }
 
     return render(request,'Academy/dashboard.html', context)
+
+@login_required
+def dashboard_edit_view(request, item):
+    name_to_model_class = {
+    'Category' : Category,
+    'Bottle': Bottle,
+    'Brand' : Brand,
+    }
+    
+    obj_item = name_to_model_class[item]
+    obj = obj_item.objects.all()
+    create_link = f"Academy:create_{item}"
+
+    context = {
+        'objects': obj,
+        'link' : create_link
+    }
+
+    return render(request,'Academy/partials/dashboard-items.html',context)
+
+@login_required
+def dashboard_analytics_view(request):
+
+    context = {
+
+    }
+
+    return render(request,'Academy/partials/dashboard-analytics.html', context)
+
+
+@login_required
+def dashboard_delete_view(request, id=None, item=None):
+
+    name_to_model_class = {
+        'Bottle': Bottle,
+        'Category': Category,
+        'Brand':Brand,
+    }
+
+    obj_item = name_to_model_class[item]
+    obj = obj_item.objects.get(id=id)
+
+    context = {
+        'item' : obj
+    }
+
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('Academy:dashboard')
+    
+    return render(request,'Academy/dashboard-delete.html',context)
 
 def placeholder_view(request):
     return render(request,'Academy/placeholder.html')

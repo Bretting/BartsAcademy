@@ -1,0 +1,33 @@
+.item-table td{
+    padding: 5px 10px;
+}
+
+.item-table td:nth-child(1),
+.item-table td:nth-child(2) {
+    width: 250px;
+}
+
+
+.thumbnail img {
+    height: 75px;
+    object-fit: cover;
+}
+
+.thumbnail img:hover {
+    box-shadow: 5px 5px 5px #e3e5e5;
+}
+
+.dashboard-menu h2:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.edit-delete:hover {
+    background-color: black;
+    color: white;
+}
+
+.item-table tr{
+    transition: ease-in-out 2s;
+}

@@ -5,13 +5,61 @@ from crispy_forms.layout import Layout, Submit, Div, Row, Column, HTML
 from .models import (
     Category,
     Bottle,
+    Brand,
 )
 
 
-class CategoryForm(forms.Form):
+class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'subcategory','teaser','info','logo','image','video']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+            Row(
+            Column('name', css_class='form-group col-md-6'),
+            Column('subcategory', css_class='form-group col-md-6'),
+            ),
+            Row('teaser', css_class='form-group col-md-12'),
+            Row('info',css_class='form-group col-md-12'),
+            Row(
+            Column('logo', css_class='col-md-6 form-control-file form-row my-1'),
+            Column('image', css_class='col-md-6 form-control-file form-row my-1')
+            ),
+            Row('video', css_class='col-md-12 form-control-file form-row my-1'),
+            Submit('submit', 'Save', css_class='my-3 btn btn-secondary')
+        )
+        )
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['name', 'sorting','category','owner','country_of_origin','story','image','video']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+            Row(
+            Column('name', css_class='form-group col-md-6'),
+            Column('category', css_class='form-group col-md-6'),
+            ),
+            Row(
+            Column('sorting', css_class='form-group col-md-4'),
+            Column('owner', css_class='form-group col-md-4'),
+            Column('country_of_origin', css_class='form-group col-md-4'),
+            ),
+            Row('story', css_class='form-group col-md-12'),
+            Row(
+            Column('image', css_class='form-control-file col-md-6 my-1'),
+            Column('video', css_class='form-control-file col-md-6 my-1'),
+            ),
+            Submit('submit', 'Save', css_class='my-3 btn btn-secondary')
+            )
+        )
 
 class BottleForm(forms.ModelForm):
     class Meta:

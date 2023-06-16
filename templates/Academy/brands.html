@@ -29,7 +29,7 @@
                                 hx-swap='outerhtml'                            
                                 >All categories</p>
                             {% for category in category_list  %}
-                                <p  hx-get="{% url 'Academy:brand-filtered' filter=category %}"
+                                <p  hx-get="{% url 'Academy:brand_filtered' filter=category %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
                                     hx-swap='outerhtml'>
@@ -53,7 +53,7 @@
                             >All countries</p>
                         {% for country in country_list  %}
                                 <p class='text-center'
-                                    hx-get="{% url 'Academy:brand-filtered' filter=country %}"
+                                    hx-get="{% url 'Academy:brand_filtered' filter=country %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
                                     hx-swap='outerhtml'>
