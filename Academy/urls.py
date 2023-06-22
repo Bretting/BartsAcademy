@@ -21,6 +21,7 @@ from .views import (
     dashboard_edit_view,
     dashboard_analytics_view,
     dashboard_delete_view,
+    age_gate_view,
 )
 
 app_name = 'Academy'
@@ -60,4 +61,5 @@ urlpatterns = [
     path('Dashboard-delete/<int:id>-<str:item>',dashboard_delete_view,name='dashboard_delete'),
    ######################
     #TEST VIEW
+    path('agegate',age_gate_view,name='agegate')
 ]

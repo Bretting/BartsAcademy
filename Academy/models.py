@@ -226,3 +226,13 @@ class CoreImages(models.Model):
 
     def __str__(self):
         return str(self.image)
+    
+
+class AgeGate(models.Model):
+    date_time = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    country = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Age gate checked from {self.country}, {self.region}, {self.city} at {self.date_time}"

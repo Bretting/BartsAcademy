@@ -6,6 +6,7 @@ from .models import (
     Category,
     Bottle,
     Brand,
+    AgeGate,
 )
 
 
@@ -139,3 +140,8 @@ class BottleForm(forms.ModelForm):
             css_class='corner px-3 py-2'),
             Submit('submit', 'Save', css_class='my-3 btn btn-secondary')
         )
+
+class AgeGateForm(forms.ModelForm):
+    class Meta:
+        model = AgeGate
+        fields = '__all__'
