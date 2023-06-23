@@ -215,10 +215,21 @@ class Blog(models.Model):
     blog_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     blog_date_edit = models.DateField(auto_now=True, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
+    category_tag = models.ManyToManyField(Category,  blank=True)
+    brand_tag = models.ManyToManyField(Brand, blank=True)
+    bottle_tag = models.ManyToManyField(Bottle, blank=True)
     image_location = 'blog'
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Blog,self).save()
+    
+    def get_absolute_url(self):
+        return reverse("Academy:blog_detail", kwargs={"slug": self.slug})
+    
 
 
 class CoreImages(models.Model):

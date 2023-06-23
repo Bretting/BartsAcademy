@@ -22,6 +22,8 @@ from .views import (
     dashboard_analytics_view,
     dashboard_delete_view,
     age_gate_view,
+    blog_create_view,
+    blog_detail_view,
 )
 
 app_name = 'Academy'
@@ -52,6 +54,10 @@ urlpatterns = [
     path('Bottle-create',bottle_create_view,name='create_Bottle'),
     path('Bottle-update/<int:id>',bottle_update_view,name='bottle_update'),
 
+    ######################
+    #BLOG
+    path('Blog-create',blog_create_view, name='create_Blog'),
+    path('Blog/<str:slug>',blog_detail_view, name='blog_detail'),
 
    ######################
     #DASHBOARD

@@ -7,6 +7,7 @@ from .models import (
     Bottle,
     Brand,
     AgeGate,
+    Blog
 )
 
 
@@ -145,3 +146,28 @@ class AgeGateForm(forms.ModelForm):
     class Meta:
         model = AgeGate
         fields = '__all__'
+
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ['name','blog_teaser','blog_image','blog_text','blog_video','blog_footer_image','category_tag','brand_tag','bottle_tag']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+            Row('name', css_class='form-row my-1'),
+            Row('blog_teaser', css_class='form-control, my-1'),
+            Row('blog_text', css_class='form-control, my-1'),
+            Row('blog_image', css_class='form-control-file form-row my-1'),
+            Row('blog_video', css_class='form-control-file form-row my-1'),
+            Row('blog_footer_image', css_class='form-control-file form-row my-1'),
+            Row(
+            Column('category_tag', css_class='form-group col-md-4 my-1'),
+            Column('brand_tag', css_class='form-group col-md-4 my-1'),
+            Column('bottle_tag', css_class='form-group col-md-4 my-1'),
+            ),
+            Submit('submit', 'Save', css_class='my-3 btn btn-secondary')
+
+            ))

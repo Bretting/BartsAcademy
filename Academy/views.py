@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic.edit import CreateView
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
@@ -13,6 +12,7 @@ from .models import (
     Category,
     Bottle,
     Brand,
+    Blog,
 )
 
 from .forms import (
@@ -20,6 +20,7 @@ from .forms import (
     BottleForm,
     BrandForm,
     AgeGateForm,
+    BlogForm,
 )
 ##############################################
 
@@ -30,7 +31,7 @@ class HtmxHttpRequest(HttpRequest):
 
 def get_ip_geolocation_data(ip):
     api_key = settings.GEO_LOCATE_API
-    api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + api_key
+    api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key='+api_key
     response = requests.get(api_url)
     return response.content
 
@@ -435,6 +436,42 @@ def age_gate_view(request):
     }
 
     return render(request,'Academy/agegate.html', context)
+
+##############################################
+# BLOG
+
+@login_required
+def blog_create_view(request):
+    form = BlogForm
+
+    if request.method == 'POST':
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog = form.save()
+            return redirect(blog.get_absolute_url())
+    else:
+        form = BlogForm
+    
+    context = {
+        'form' : form
+    }
+
+    return render(request,'Academy/dashboard_crud.html',context)
+
+@login_required
+def blog_detail_view(request, slug=None):
+
+    if request.session.has_key('agegate'):
+        blog = get_object_or_404(Blog, slug=slug)
+        context = {
+            'blog' : blog
+        }
+
+        return render(request,'Academy/blog.html', context)
+
+    else:
+        request.session['next_url'] = request.path
+        return redirect('/preview/agegate')
 
 
 def placeholder_view(request):

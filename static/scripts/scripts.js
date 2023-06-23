@@ -8,6 +8,16 @@ $(document).ready(function() {
       theme:'bootstrap-5'                 
   });
 
+  $('#id_category_tag').select2({
+    theme:'bootstrap-5'                 
+  });
+  $('#id_brand_tag').select2({
+    theme:'bootstrap-5'                 
+  });
+  $('#id_bottle_tag').select2({
+    theme:'bootstrap-5'                 
+  });
+
   $(".owl-carousel").owlCarousel({
     center: true,
     items:3,
