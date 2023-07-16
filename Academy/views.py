@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.db.models import Q
 import requests
 import json
 import random
@@ -62,6 +63,10 @@ def main_view(request):
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
     if request.session.has_key('agegate'):
         random_picture = random.choice(CoreImages.objects.all())
+
+        #add related blogposts
+
+
         context = {
             'categories' : Category.objects.all(),
             'image' : random_picture,
@@ -77,23 +82,29 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 #Category detail view
 @login_required
 def category_select_view(request, category=None):
-    try:
-        print('sub')
-        obj = get_object_or_404(Category, subcategory=category)
-    except:
-        print('global')
-        obj = get_object_or_404(Category, name=category)
+    if request.session.has_key('agegate'):
+        try:
+            obj = get_object_or_404(Category, subcategory=category)
+            related_blogs = Blog.objects.filter(category_tag__subcategory=category).order_by('-blog_date_create')[:2]
+            bottle = Bottle.objects.filter(category__subcategory=category)
+        except:
+            obj = get_object_or_404(Category, name=category)
+            related_blogs = Blog.objects.filter(category_tag__name=category).order_by('-blog_date_create')[:2]
+            bottle = Bottle.objects.filter(category__name=category)
 
-    if Bottle.objects.filter(category__subcategory=category):
-        bottle = Bottle.objects.filter(category__subcategory=category)
-    else: 
-        bottle = Bottle.objects.filter(category__name=category)
 
-    context = {
-        'category': obj,
-        'bottles' : bottle
-    }
-    return render(request,'Academy/category-overview.html', context)
+            
+
+
+        context = {
+            'category': obj,
+            'bottles' : bottle,
+            'related_blogs' : related_blogs
+        }
+        return render(request,'Academy/category-overview.html', context)
+    else:
+        request.session['next_url'] = request.path
+        return redirect('/preview/agegate')
 
 #Filter by global categories
 @login_required
@@ -432,7 +443,6 @@ def age_gate_view(request):
     
     context = {
         'form':form,
-        'test':next_url
     }
 
     return render(request,'Academy/agegate.html', context)
@@ -476,3 +486,23 @@ def blog_detail_view(request, slug=None):
 
 def placeholder_view(request):
     return render(request,'Academy/placeholder.html')
+
+
+
+
+###################################################
+#test
+
+def test_view(request):
+
+    obj = Blog.objects.all()
+
+    obj2 = Blog.objects.filter(Q(category_tag__subcategory='Cognac') | Q(brand_tag__name='') | Q(bottle_tag__name='Dry Gin'))
+
+
+    context = {
+        'obj' : obj,
+        'obj2':obj2,
+    }
+
+    return render(request,'Academy/test.html',context)

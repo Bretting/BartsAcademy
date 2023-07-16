@@ -1,33 +1,56 @@
 {% extends 'base.html' %}
-{% block title %}Form{% endblock title %}
+{% block title %}test{% endblock title %}
 
 {% block content %}
-<div class='container my-5'>
 
-    <div class='row'>
+ <div class='container'>
 
-        <div class='col-md'>
-            <form method="POST" enctype='multipart/form-data'>
-                {% csrf_token %}
+       <h1> test:</h1>
+{% comment %} 
+    {% for blogs in obj  %}
+    
+        <h1>{{blogs.name}}</h1>
+        {% for item in blogs.category_tag.all  %}
 
-                {% for field in form  %}
-                <div class='form-outline w-75'>
-                    
-                    <div class='form-label'>
-                        <h3>{{field.label_tag}}</h3>
-                    </div>
-                    <div class='form-field pb-4'>
-                        {{field}}
-                        {{field.errors}}       
-                    </div>     
+        <h3>tag:</h3>
+        <h2>{{item.name}}</h2>
+        <h2>{{item.subcategory}}</h2>
+    
+        {% endfor %}
 
-                </div>           
-                {% endfor %}
-                <input type='submit' value='submit' class='my-2'>
-            </form> 
+    {% endfor %}     {% endcomment %}
+
+    </div>
+
+    <div class='container my-5'>
+
+        {% for blog in obj2  %}
+        {% ifchanged blog.name %}
+        <div class='test my-5'>
+        
+            <a href="{{blog.get_absolute_url}}"><h2>{{blog.name}}</h2></a>
+            <h4>tags:</h4>
+            {% for tag in blog.category_tag.all %}
+            <li>{{tag}}</li>
+            {% endfor %}
+
+            <h4>brand:</h4>
+            {% for tag in blog.brand_tag.all  %}
+            <li>{{tag}}</li>
+            {% endfor %}
+
+            <h4>bottle:</h4>
+            {% for tag in blog.bottle_tag.all  %}
+            <li>{{tag}}</li>
+            {% endfor %}
+        
+        {% endifchanged %}
+        {% endfor %}
         </div>
     </div>
-</div>
+
+    </div>
+
         
 
 {% endblock content %}

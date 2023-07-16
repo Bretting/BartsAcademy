@@ -8,8 +8,16 @@
 
 <div class='container'>
 
-    <h1>{{blog.name}}</h1>
-
+    <h1 class='my-5 text-center'>{{blog.name}}</h1>
+    <article>
+        {{blog.teaser | safe}}
+    </article>
+    <div class='d-flex justify-content-center'>
+        <img class='my-5 img-fluid' src="{{blog.image.url}}" alt="{{blog.name}} picture">
+    </div>
+    <article>
+        {{blog.text | safe}}
+    </article>
 </div>
 
 

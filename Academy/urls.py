@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    test_view,
     main_view,
     category_view,
     category_select_view,
@@ -66,6 +67,13 @@ urlpatterns = [
     path('Dashboard-analytics', dashboard_analytics_view, name='analytics-dashboard'),
     path('Dashboard-delete/<int:id>-<str:item>',dashboard_delete_view,name='dashboard_delete'),
    ######################
-    #TEST VIEW
-    path('agegate',age_gate_view,name='agegate')
+    #AGEGATE
+    path('agegate',age_gate_view,name='agegate'),
+
+
+
+
+    ####################
+    #TEST
+    path('test',test_view,name='test')
 ]

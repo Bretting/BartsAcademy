@@ -69,6 +69,11 @@ a {
     font-weight: 600;
 }
 
+.thumb img {
+    max-height: 200px;
+    object-fit: fill;
+}
+
 
 /* NAVIGATION */
 .logo-big {

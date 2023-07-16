@@ -207,11 +207,11 @@ class Bottle(models.Model):
 
 class Blog(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    blog_teaser = HTMLField()
-    blog_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
-    blog_text = HTMLField()
-    blog_video = models.FileField(upload_to='videos', null=True, blank=True)
-    blog_footer_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler)
+    teaser = HTMLField()
+    image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
+    text = HTMLField()
+    video = models.FileField(upload_to='videos', null=True, blank=True)
+    footer_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler)
     blog_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     blog_date_edit = models.DateField(auto_now=True, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
@@ -222,6 +222,9 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['-blog_date_create']
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

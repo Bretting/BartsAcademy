@@ -150,7 +150,7 @@ class AgeGateForm(forms.ModelForm):
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['name','blog_teaser','blog_image','blog_text','blog_video','blog_footer_image','category_tag','brand_tag','bottle_tag']
+        fields = ['name','teaser','image','text','video','footer_image','category_tag','brand_tag','bottle_tag']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -158,11 +158,11 @@ class BlogForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
             Row('name', css_class='form-row my-1'),
-            Row('blog_teaser', css_class='form-control, my-1'),
-            Row('blog_text', css_class='form-control, my-1'),
-            Row('blog_image', css_class='form-control-file form-row my-1'),
-            Row('blog_video', css_class='form-control-file form-row my-1'),
-            Row('blog_footer_image', css_class='form-control-file form-row my-1'),
+            Row('teaser', css_class='form-control, my-1'),
+            Row('text', css_class='form-control, my-1'),
+            Row('image', css_class='form-control-file form-row my-1'),
+            Row('video', css_class='form-control-file form-row my-1'),
+            Row('footer_image', css_class='form-control-file form-row my-1'),
             Row(
             Column('category_tag', css_class='form-group col-md-4 my-1'),
             Column('brand_tag', css_class='form-group col-md-4 my-1'),
