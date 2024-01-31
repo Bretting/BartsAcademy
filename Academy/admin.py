@@ -10,7 +10,7 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 class BottleAdmin(admin.ModelAdmin):
-    search_fields = ['name']
+    search_fields = ['name', 'category__name', 'category__subcategory']
 
 class BlogAdmin(admin.ModelAdmin):
     search_fields = ['name', 'category_tag__name', 'category_tag__subcategory']

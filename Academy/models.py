@@ -117,6 +117,9 @@ class Brand(models.Model):
  
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('Academy:brand_overview',kwargs={'brandname':self.name})
 
     def get_bottle_by_brand_link(self):
         return reverse('Academy:brand_overview', kwargs={'brandname':self.name})
