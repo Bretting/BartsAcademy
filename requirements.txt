@@ -23,3 +23,4 @@ urllib3==1.26.15
 psycopg2-binary
 gunicorn==20.1.0
 requests==2.31.0
+sentry_sdk
