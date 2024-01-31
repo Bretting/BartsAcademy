@@ -7,7 +7,7 @@
         hx-target= '#main'
         hx-swap='outerhtml'>
         <h2 class='button mx-2'>BACK</h2></a>
-        <a href={% url link %}><h2 class='button mx-2'>CREATE NEW</h2></a>
+        <a href={% url 'Academy:dashboard_create' type=type %}><h2 class='button mx-2'>CREATE NEW</h2></a>
         <p></p>
     </div>
     
@@ -31,7 +31,7 @@
                         {% if item.thumbnail %}src="{{item.thumbnail.url}}" {% else %}src="{{item.logo.url}}"{% endif %}
                         alt="Thumbnail of {{item.name}}"></a></td>
                 {% endif %}
-                <td ><a href="{{item.get_update_link}}" class='edit-delete'>Edit</td>
+                <td ><a href="{% url 'Academy:dashboard_edit' type=type item=item.id %}"class='edit-delete'>Edit</td>
                 <td ><a href="{{item.get_delete_link}}" class='edit-delete'>Delete</td>
             </tr>
             {% endfor %} 

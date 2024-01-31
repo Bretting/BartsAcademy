@@ -27,13 +27,15 @@
                                 <p  hx-get="{% url 'Academy:brands' %}"
                                 hx-trigger='click'
                                 hx-target='#brands'
-                                hx-swap='outerhtml'                            
+                                hx-swap='outerhtml'
+                                hx-push-url='true'                            
                                 >All categories</p>
                             {% for category in category_list  %}
                                 <p  hx-get="{% url 'Academy:bottle_filtered' filter=category %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
-                                    hx-swap='outerhtml'>
+                                    hx-swap='outerhtml'
+                                    hx-push-url='true'   >
                                 {{category}}</p>
                             {% endfor %}     
                     </div>
@@ -50,14 +52,16 @@
                         <p  hx-get="{% url 'Academy:brands' %}"
                             hx-trigger='click'
                             hx-target='#brands'
-                            hx-swap='outerhtml'                            
+                            hx-swap='outerhtml'
+                            hx-push-url='true'                               
                             >All countries</p>
                         {% for country in country_list  %}
                                 <p class='text-center'
                                     hx-get="{% url 'Academy:bottle_filtered' filter=country %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
-                                    hx-swap='outerhtml'>
+                                    hx-swap='outerhtml'
+                                    hx-push-url='true'   >
                                     {{country}}</p>
             
                         {% endfor %}
@@ -71,7 +75,7 @@
     <div class='container' id='brands'>
         <div class='row d-flex justify-content-center'>
             {% for bottle in bottles  %}
-            <div class="col-md-3 m-3 brand-tile"> 
+            <div class="col-md-3 m-3 brand-tile slow-load"> 
                 <a href="{{bottle.get_absolute_url}}">
                 <div class='my-4 brand-img text-center'>
                     <img class='img-fluid' src={{bottle.image.url}} class='img-fluid' alt="Picture of {{bottle.name}}">

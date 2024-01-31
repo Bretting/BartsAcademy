@@ -31,9 +31,9 @@ urlpatterns = [
     path('tinymce',include('tinymce.urls')),
     path('sign-in',login_view),
     path('sign-out',logout_view),
-    path('',placeholder_view)
-
+    path('',placeholder_view),
 ]
+
 
 
 if settings.DEBUG:

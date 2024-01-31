@@ -1,12 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 from django.db.models import Q
-import requests
-import json
 import random
 from .models import (
     CoreImages,
@@ -30,12 +26,6 @@ from .forms import (
 class HtmxHttpRequest(HttpRequest):
     htmx: HtmxDetails
 
-def get_ip_geolocation_data(ip):
-    api_key = settings.GEO_LOCATE_API
-    api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key='+api_key
-    response = requests.get(api_url)
-    return response.content
-
 ##############################################
 # Create your views here.
 @login_required
@@ -47,7 +37,7 @@ def main_view(request):
         context = {
             'image' : random_picture,
             'category' : random_category,
-            'bottles': Bottle.objects.all(),
+            'bottles': Bottle.objects.filter(sorting="1"),
         }
         return render(request,'Academy/home.html', context)
     else:
@@ -61,50 +51,40 @@ def main_view(request):
 #Main view
 @login_required
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
-    if request.session.has_key('agegate'):
-        random_picture = random.choice(CoreImages.objects.all())
 
-        #add related blogposts
+    random_picture = random.choice(CoreImages.objects.all())
+
+    #add related blogposts
 
 
-        context = {
-            'categories' : Category.objects.all(),
-            'image' : random_picture,
-        }
-        if request.htmx:
-            return render(request,'Academy/partials/categories.html', context)
-        else:
-            return render(request,'Academy/categories.html', context)
+    context = {
+        'categories' : Category.objects.all(),
+        'image' : random_picture,
+    }
+    if request.htmx:
+        return render(request,'Academy/partials/categories.html', context)
     else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+        return render(request,'Academy/categories.html', context)
+
 
 #Category detail view
 @login_required
 def category_select_view(request, category=None):
-    if request.session.has_key('agegate'):
-        try:
-            obj = get_object_or_404(Category, subcategory=category)
-            related_blogs = Blog.objects.filter(category_tag__subcategory=category).order_by('-blog_date_create')[:2]
-            bottle = Bottle.objects.filter(category__subcategory=category)
-        except:
-            obj = get_object_or_404(Category, name=category)
-            related_blogs = Blog.objects.filter(category_tag__name=category).order_by('-blog_date_create')[:2]
-            bottle = Bottle.objects.filter(category__name=category)
-
-
-            
-
-
-        context = {
-            'category': obj,
-            'bottles' : bottle,
-            'related_blogs' : related_blogs
-        }
-        return render(request,'Academy/category-overview.html', context)
-    else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+    try:
+        obj = get_object_or_404(Category, subcategory=category)
+        related_blogs = Blog.objects.filter(category_tag__subcategory=category).order_by('-blog_date_create')[:2]
+        bottle = Bottle.objects.filter(category__subcategory=category)
+    except:
+        obj = get_object_or_404(Category, name=category)
+        related_blogs = Blog.objects.filter(category_tag__name=category).order_by('-blog_date_create')[:2]
+        bottle = Bottle.objects.filter(category__name=category)
+     
+    context = {
+        'category': obj,
+        'bottles' : bottle,
+        'related_blogs' : related_blogs
+    }
+    return render(request,'Academy/category-overview.html', context)
 
 #Filter by global categories
 @login_required
@@ -124,38 +104,6 @@ def category_filtered_view(request, object = None):
 
     return render (request,'Academy/partials/categories.html', context)
 
-@login_required
-def category_create_view(request):
-
-    if request.method == 'POST':
-        form = CategoryForm(request.POST, request.FILES)
-        if form.is_valid():
-            category = form.save()
-            return redirect(category.get_absolute_url())
-    else:
-        form = CategoryForm
-    
-    context = {
-        'form' : form
-    }
-
-    return render(request, 'Academy/dashboard_crud.html', context)
-
-@login_required
-def category_update_view(request, id=None):
-    object = get_object_or_404(Category, id=id)
-    form = CategoryForm(request.POST  or None, request.FILES  or None, instance=object)
-
-    context = {
-        'form':form,
-        'object':object
-    }
-
-    if form.is_valid():
-        form.save()
-        context['message'] = 'Data saved'
-
-    return render(request,'Academy/dashboard_crud.html',context)
 
 ##############################################
 #BRANDS
@@ -163,27 +111,23 @@ def category_update_view(request, id=None):
 #Main view
 @login_required
 def brand_view(request: HtmxHttpRequest) -> HttpResponse:
-    if request.session.has_key('agegate'):
-        random_picture = random.choice(CoreImages.objects.all())
-        country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
+    random_picture = random.choice(CoreImages.objects.all())
+    country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
 
-        category_list = Category.objects.exclude(brand__isnull=True)
-        
+    category_list = Category.objects.exclude(brand__isnull=True)
+    
 
-        context = {
-            'image' : random_picture,
-            'brands' : Brand.objects.all().order_by('sorting'), 
-            'country_list' : country_list,
-            'category_list' : category_list,
-        }
+    context = {
+        'image' : random_picture,
+        'brands' : Brand.objects.all().order_by('sorting'), 
+        'country_list' : country_list,
+        'category_list' : category_list,
+    }
 
-        if request.htmx:
-            return render(request,'Academy/partials/brands.html', context)
-        else:
-            return render(request,'Academy/brands.html',context)
+    if request.htmx:
+        return render(request,'Academy/partials/brands.html', context)
     else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+        return render(request,'Academy/brands.html',context)
 
 #Filter Brands
 @login_required
@@ -217,81 +161,40 @@ def brand_overview(request, brandname):
 
     return render(request,'Academy/brands-overview.html',context)
 
-@login_required
-def brand_create_view(request):
-
-    if request.method == 'POST':
-        form = BrandForm(request.POST, request.FILES)
-        if form.is_valid():
-            category = form.save()
-            return redirect(category.get_absolute_url())
-    else:
-        form = BrandForm
-    
-    context = {
-        'form' : form
-    }
-
-    return render(request, 'Academy/category_crud.html', context)
-
-@login_required
-def brand_update_view(request, id=None):
-    object = get_object_or_404(Brand, id=id)
-    form = BrandForm(request.POST  or None, request.FILES  or None, instance=object)
-
-    context = {
-        'form':form,
-        'object':object
-    }
-
-    if form.is_valid():
-        form.save()
-        context['message'] = 'Data saved'
-
-    return render(request,'Academy/dashboard_crud.html',context)
-
 
 ##############################################
 #BOTTLES
 @login_required
-def bottle_view(request, brand=None):
-    if request.session.has_key('agegate'):
-        country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
-        category_list = Category.objects.exclude(brand__isnull=True)
+def bottles_list_view(request, brand=None):
+    country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
+    category_list = Category.objects.exclude(brand__isnull=True)
 
-        if brand=='All':
-            context = {
-                'bottles' : Bottle.objects.all(),
-                'country_list' : country_list,
-                'category_list' : category_list,
-            }
-        else:
-            context = {
-                'bottles' : Bottle.objects.filter(brand__name=brand),
-                'country_list' : country_list,
-                'category_list' : category_list,
-            }
-
-        return render(request,'Academy/bottles.html', context)
+    if brand=='All':
+        context = {
+            'bottles' : Bottle.objects.all(),
+            'country_list' : country_list,
+            'category_list' : category_list,
+        }
     else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+        context = {
+            'bottles' : Bottle.objects.filter(brand__name=brand),
+            'country_list' : country_list,
+            'category_list' : category_list,
+        }
+
+    return render(request,'Academy/bottles_list.html', context)
 
 @login_required
 def bottle_detail_view(request, item=None):
-    if request.session.has_key('agegate'):
-        obj = Bottle.objects.get(slug=item)
-        country = obj.brand.country_of_origin
+    obj = Bottle.objects.get(slug=item)
+    country = obj.brand.country_of_origin
 
-        context = {
-            'bottle' : obj,
-            'country' : country
-        }
+    context = {
+        'bottle' : obj,
+        'country' : country,
+    }
 
-        return render(request,'Academy/bottle.html', context)
-    else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+    return render(request,'Academy/bottle.html', context)
 
 @login_required
 def bottle_filtered_view(request, filter=None):
@@ -309,39 +212,6 @@ def bottle_filtered_view(request, filter=None):
 
     return render(request,'Academy/partials/bottles.html',context)
 
-@login_required
-def bottle_create_view(request):
-
-    if request.method == 'POST':
-        form = BottleForm(request.POST, request.FILES)
-        if form.is_valid():
-            bottle = form.save()
-            return redirect(bottle.get_absolute_url())
-    else:
-        form = BottleForm
-    
-    context = {
-        'form' : form
-    }
-
-    return render(request, 'Academy/dashboard_crud.html', context)
-
-@login_required
-def bottle_update_view(request, id=None):
-    object = get_object_or_404(Bottle, id=id)
-    form = BottleForm(request.POST  or None, request.FILES  or None, instance=object)
-
-    context = {
-        'form':form,
-        'object':object
-    }
-
-    if form.is_valid():
-        form.save()
-        context['message'] = 'Data saved'
-
-    return render(request,'Academy/dashboard_crud.html',context)
-
 
 ##############################################
 # DASHBOARD
@@ -358,20 +228,20 @@ def dashboard_view(request):
     return render(request,'Academy/dashboard.html', context)
 
 @login_required
-def dashboard_edit_view(request, item):
+def dashboard_list_view(request, item):
     name_to_model_class = {
     'Category' : Category,
     'Bottle': Bottle,
     'Brand' : Brand,
+    'Blog' : Blog,
     }
     
     obj_item = name_to_model_class[item]
     obj = obj_item.objects.all()
-    create_link = f"Academy:create_{item}"
 
     context = {
         'objects': obj,
-        'link' : create_link
+        'type': item
     }
 
     return render(request,'Academy/partials/dashboard-items.html',context)
@@ -408,34 +278,91 @@ def dashboard_delete_view(request, id=None, item=None):
     
     return render(request,'Academy/dashboard-delete.html',context)
 
+
+@login_required
+def dashboard_edit_item(request, type=None, item=None):
+    name_to_model_class = {
+        'Category' : Category,
+        'Bottle': Bottle,
+        'Brand' : Brand,
+        'Blog' : Blog,
+        }
+    
+    name_to_form_class = {
+        'Category' : CategoryForm,
+        'Bottle': BottleForm,
+        'Brand' : BrandForm,
+        'Blog' : BlogForm,
+    }
+
+    object_model = name_to_model_class[type]
+    object = get_object_or_404(object_model, id=item)
+    form = name_to_form_class[type](request.POST  or None, request.FILES  or None, instance=object)
+
+
+    context = {
+        'form':form,
+        'object':object
+    }
+
+    if form.is_valid():
+        form.save()
+        context['message'] = 'Data saved'
+
+    return render(request,'Academy/dashboard_crud.html',context)
+
+@login_required
+def dashboard_create_item(request, type=None):
+   
+    name_to_form_class = {
+        'Category' : CategoryForm,
+        'Bottle': BottleForm,
+        'Brand' : BrandForm,
+        'Blog' : BlogForm,
+    }
+
+    if request.method == 'POST':
+        form = name_to_form_class[type](request.POST, request.FILES)
+        if form.is_valid():
+            object = form.save()
+            return redirect(object.get_absolute_url())
+    else:
+        form = name_to_form_class[type]
+    
+    context = {
+        'form' : form
+    }
+
+    return render(request, 'Academy/dashboard_crud.html', context)
+    
+
+
 ##############################################
 # AGE GATE  
 
+
 def age_gate_view(request):
 
+    #Load the original page after checking age gate.
     next_url = request.session['next_url']
 
+    #Register users IP for age gate.
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    geolocation_json = get_ip_geolocation_data(ip)
-    geolocation_data = json.loads(geolocation_json)
     try:
-        country = geolocation_data['country']
-        region = geolocation_data['region']
-        city = geolocation_data['city']
+        ip =ip
     except:
-        country = 'none'
-        region = 'none'
-        city = 'none'
+        ip = 'none'
 
-    form = AgeGateForm({'country':country,'region':region,'city':city})
+    form = AgeGateForm({'ip':ip})
     
+    #Store age gate response
     if request.method == 'POST':
-        form = AgeGateForm(request.POST or None,  {'country':country,'region':region,'city':city})
+        form = AgeGateForm(request.POST or None,  {'ip':ip})
         if form.is_valid():
             form.save()
             request.session['agegate'] = 'welcome'
@@ -450,42 +377,32 @@ def age_gate_view(request):
 ##############################################
 # BLOG
 
-@login_required
-def blog_create_view(request):
-    form = BlogForm
-
-    if request.method == 'POST':
-        form = BlogForm(request.POST, request.FILES)
-        if form.is_valid():
-            blog = form.save()
-            return redirect(blog.get_absolute_url())
-    else:
-        form = BlogForm
-    
-    context = {
-        'form' : form
-    }
-
-    return render(request,'Academy/dashboard_crud.html',context)
 
 @login_required
 def blog_detail_view(request, slug=None):
 
-    if request.session.has_key('agegate'):
-        blog = get_object_or_404(Blog, slug=slug)
-        context = {
-            'blog' : blog
-        }
+    blog = get_object_or_404(Blog, slug=slug)
+    context = {
+        'blog' : blog
+    }
 
-        return render(request,'Academy/blog.html', context)
+    return render(request,'Academy/blog.html', context)    
 
-    else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+@login_required
+def blog_list_view(request):
+        
+    blogs = Blog.objects.all()
+    
+    context = {
+        'blogs' : blogs
+    }
 
+    return render(request,'Academy/blog_list.html', context)
 
-def placeholder_view(request):
-    return render(request,'Academy/placeholder.html')
+@login_required
+def blog_image_uploader(request):
+    pass
+
 
 
 
@@ -506,3 +423,6 @@ def test_view(request):
     }
 
     return render(request,'Academy/test.html',context)
+
+def placeholder_view(request):
+    return render(request,'Academy/placeholder.html')

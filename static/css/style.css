@@ -169,3 +169,38 @@ button {
     max-height: 85vh;
     object-fit: contain;
 }
+
+
+
+
+/* SLOW LOAD ANIMATION */
+
+.slow-load {
+    animation: fadeInAnimation ease .75s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 991px){
+    .logo-big {
+        width: 180px;
+        height: 180px;
+    }
+
+    .main {
+        height: 200px;
+    }
+}

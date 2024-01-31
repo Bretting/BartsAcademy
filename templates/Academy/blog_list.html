@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{blog.name}}{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/blog.css' %}">{% endblock page-css %}
+
+{% block content %}
+
+<div class='container my-5 slow-load'>
+    <div class='row d-flex justify-content-center'>
+
+        {% for blog in blogs  %}
+        
+            <div class='col-md-3 m-3 brand-tile'>
+                <a href="{{blog.get_absolute_url}}">
+                    <div class='my-4 brand-img text-center'>
+                        <img class='img-fluid' src={{blog.image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
+                    </div>
+                    
+                    <div class="text-center">
+                        <h2>{{blog.name | upper}}</h2>
+                        <i><h4>{{blog.teaser | safe}}</h4></i>
+                    </div>
+                </a>
+            </div>
+
+        {% endfor %}
+       
+    </div>
+</div>
+
+{% endblock content %}

@@ -183,9 +183,9 @@ class Bottle(models.Model):
 
         if img.height > 300 or img.width > 300:
             img.thumbnail(output_size)
-            img.save(output_thumb,format='JPEG',quality=90)
+            img.save(output_thumb,format='WEBP',quality=100)
 
-        self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/jpeg', sys.getsizeof(output_thumb), None)
+        self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/webp', sys.getsizeof(output_thumb), None)
 
         super(Bottle, self).save()
 
@@ -233,6 +233,20 @@ class Blog(models.Model):
     def get_absolute_url(self):
         return reverse("Academy:blog_detail", kwargs={"slug": self.slug})
     
+    def get_update_link(self):
+        return reverse('Academy:bottle_update',kwargs={'id':self.id})
+    
+    def get_delete_link(self):
+        return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Blog'})
+    
+class BlogImage(models.Model):
+    name= models.CharField(max_length=255)
+    image = ResizedImageField(size=[100,600],upload_to=image_upload_handler)
+    related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.name)
+    
 
 
 class CoreImages(models.Model):
@@ -244,9 +258,7 @@ class CoreImages(models.Model):
 
 class AgeGate(models.Model):
     date_time = models.DateTimeField(auto_now_add=True, null=False, blank=False)
-    country = models.CharField(max_length=255)
-    region = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
+    ip = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"Age gate checked from {self.country}, {self.region}, {self.city} at {self.date_time}"
+        return f"Age gate checked from {self.ip}, at {self.date_time}"

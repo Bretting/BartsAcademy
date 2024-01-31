@@ -1,5 +1,5 @@
 {% load static %}
-<div class='row d-flex justify-content-center'>
+<div class='row d-flex justify-content-center slow-load'>
     {% for category in categories  %}
     {% ifchanged category.name %}
     <div class="{% cycle 'col-md-6' 'col-md-6' 'col-md-12' %} my-2 d-flex justify-content-center category-tile">

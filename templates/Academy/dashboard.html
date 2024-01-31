@@ -16,19 +16,22 @@
 
 -->
         <div class='col-md-3 dashboard-menu my-2'>
-            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Category' %}"
+            <h2 hx-get= "{% url 'Academy:dashboard_list' item='Category' %}"
                 hx-trigger= 'click'
                 hx-target= '#main'
                 hx-swap='outerhtml'>CATEGORIES</h2>
-            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Bottle' %}"
+            <h2 hx-get= "{% url 'Academy:dashboard_list' item='Bottle' %}"
                 hx-trigger= 'click'
                 hx-target= '#main'
                 hx-swap='outerhtml'>BOTTLES</h2>
-            <h2 hx-get= "{% url 'Academy:item-dashboard' item='Brand' %}"
+            <h2 hx-get= "{% url 'Academy:dashboard_list' item='Brand' %}"
                 hx-trigger= 'click'
                 hx-target= '#main'
                 hx-swap='outerhtml'>BRANDS</h2>
-            <h2>MENU ITEM</h2>
+                <h2 hx-get= "{% url 'Academy:dashboard_list' item='Blog' %}"
+                hx-trigger= 'click'
+                hx-target= '#main'
+                hx-swap='outerhtml'>INSPIRATION</h2>
             <h2>MENU ITEM</h2>
         </div>
 

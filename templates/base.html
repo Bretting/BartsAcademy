@@ -61,9 +61,9 @@
             <a class="nav-link mx-auto" href="{% url 'Academy:home' %}" title='HOME'>HOME</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:categories' %}#top" title='CATEGORIES'>CATEGORIES</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:brands' %}#top" title='BRANDS'>BRANDS</a>
-            <a class="nav-link mx-auto" href="{% url 'Academy:bottles' brand='All' %}#top" title='BOTTLES'>BOTTLES</a>
+            <a class="nav-link mx-auto" href="{% url 'Academy:bottles_list' brand='All' %}#top" title='BOTTLES'>BOTTLES</a>
             <a class="nav-link mx-auto" href="#" title='RECIPES'>RECIPES</a>
-            <a class="nav-link mx-auto" href="#" title='INSPIRATION'>INSPIRATION</a>
+            <a class="nav-link mx-auto" href="{% url 'Academy:blog_list' %}" title='INSPIRATION'>INSPIRATION</a>
             {% if user.is_authenticated %}<a class="nav-link mx-auto" href="{% url 'Academy:dashboard' %}" title='ADMIN'>ADMIN</a>{% endif %}
           </div>
         </div>
