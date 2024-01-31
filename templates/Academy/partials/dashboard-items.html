@@ -12,9 +12,9 @@
     </div>
     
     <div class='d-flex justify-content-center'>
-        <input type="text" id="searchBox" placeholder="Search" class='form-control my-3 w-50'>
+        <input type="text" id="searchBox" placeholder="Search" class='form-control my-5 w-50'>
     </div>
-    <div class='d-flex justify-content-center'>
+    <div class='d-flex justify-content-center mt-3'>
         <table id="item-list" class='item-table'>
 
             {% for item in objects  %}
@@ -22,14 +22,23 @@
                 {% if item.brand %}
                     <td>{{item.brand}}</td>
                 {% endif %}
+
                 <td>
-                {% if item.subcategory %}{{item.subcategory}}
-                {% else %}{{item.name}}
-                {% endif %}</td>
+                    {% if item.subcategory %}
+                        {{item.subcategory}}
+                    {% else %}
+                        {{item.name}}
+                    {% endif %}
+                </td>
+
                 {% if item.thumbnail or item.logo %}
                     <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}><img 
                         {% if item.thumbnail %}src="{{item.thumbnail.url}}" {% else %}src="{{item.logo.url}}"{% endif %}
                         alt="Thumbnail of {{item.name}}"></a></td>
+                {% endif %}
+
+                {% if item.blog_date_edit %}
+                        <td>{{item.blog_date_edit}}</td>
                 {% endif %}
                 <td ><a href="{% url 'Academy:dashboard_edit' type=type item=item.id %}"class='edit-delete'>Edit</td>
                 <td ><a href="{{item.get_delete_link}}" class='edit-delete'>Delete</td>
