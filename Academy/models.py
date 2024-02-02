@@ -214,7 +214,7 @@ class Blog(models.Model):
     image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
     text = HTMLField()
     video = models.FileField(upload_to='videos', null=True, blank=True)
-    footer_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler)
+    footer_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
     blog_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     blog_date_edit = models.DateField(auto_now=True, null=True, blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)

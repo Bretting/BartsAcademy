@@ -6,12 +6,35 @@
 
 {% block content %}
 
+{% for blog in blogs  %}
+{% if forloop.first %}
+<div class='container blog-hero my-5 slow-load'>
+    <a href="{{blog.get_absolute_url}}">
+    <div class='row'>
+        {% if blog.image.url %}
+        <img class='col-6 img-fluid' src={{blog.image.url}} alt="Latest blog image">
+        {% elif blog.video.url %}
+            <h1>Test</h1>
+        {% endif %}
+        <div class='col-6'>
+            <h1 class='mb-5'>{{blog.name}}</h1>
+            <p>{{blog.teaser | safe}}</p>
+            <i>{{blog.blog_date_edit}}</i>
+        </div>
+    </div>
+    </a>
+</div>
+{% endif %}
+{% endfor %}
+
+
+
 <div class='container my-5 slow-load'>
     <div class='row d-flex justify-content-center'>
 
         {% for blog in blogs  %}
         
-            <div class='col-md-3 m-3 brand-tile'>
+            <div class='col-md-4 m-3 brand-tile'>
                 <a href="{{blog.get_absolute_url}}">
                     <div class='my-4 brand-img text-center'>
                         <img class='img-fluid' src={{blog.image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
@@ -19,7 +42,7 @@
                     
                     <div class="text-center">
                         <h2>{{blog.name | upper}}</h2>
-                        <i><h4>{{blog.teaser | safe}}</h4></i>
+                        <i>{{blog.blog_date_edit}}</i>
                     </div>
                 </a>
             </div>

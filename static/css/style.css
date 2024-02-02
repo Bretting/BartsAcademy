@@ -78,7 +78,6 @@ a {
 /* NAVIGATION */
 .logo-big {
     width: 350px;
-    height: 350px;
 }
 
 
@@ -197,10 +196,9 @@ button {
 @media only screen and (max-width: 991px){
     .logo-big {
         width: 180px;
-        height: 180px;
     }
 
     .main {
-        height: 200px;
+        height: 275px;
     }
 }

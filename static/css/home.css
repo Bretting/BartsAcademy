@@ -2,7 +2,7 @@
     text-align: center;
 }
 .sku img{
-    height:40vh;
+    max-height:40vh;
     width: 100%; 
     object-fit:contain;
 }

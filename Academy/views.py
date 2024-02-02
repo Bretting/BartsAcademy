@@ -263,6 +263,7 @@ def dashboard_delete_view(request, id=None, item=None):
         'Bottle': Bottle,
         'Category': Category,
         'Brand':Brand,
+        'Blog': Blog,
     }
 
     obj_item = name_to_model_class[item]
