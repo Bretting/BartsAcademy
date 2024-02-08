@@ -1,9 +1,15 @@
 .blog-tile {
     width: 100%;
     height: 300px;
+    object-fit: contain;
 }
 
 .blog-tile:hover,
 .blog-hero:hover {
     box-shadow: 5px 5px 5px #e3e5e5;
+}
+
+.blog-tile-image {
+    border-radius: 30px;
+    padding: 5px;
 }

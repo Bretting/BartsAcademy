@@ -74,6 +74,10 @@ a {
     object-fit: fill;
 }
 
+.band {
+    background-color: #f0f3f3;
+}
+
 
 /* NAVIGATION */
 .logo-big {

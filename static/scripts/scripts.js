@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   $(".owl-carousel").owlCarousel({
     center: true,
-    items:3,
+    items:4,
     loop:true,
     autoplay:true,
     autoplayTimeout:1500,

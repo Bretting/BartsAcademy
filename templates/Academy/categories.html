@@ -56,7 +56,7 @@
                 hx-swap='outerhtml'
                 hx-push-url='true'
                 {% else %}
-                href="{{category.get_overview_link}}"
+                href="{{category.get_absolute_url}}"
                 {% endif %}>
                 <div class="{% cycle 'row' 'rowreverse' %}">
                     <div class='col-6'>

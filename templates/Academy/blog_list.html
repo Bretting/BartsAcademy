@@ -12,7 +12,7 @@
     <a href="{{blog.get_absolute_url}}">
     <div class='row'>
         {% if blog.image.url %}
-        <img class='col-6 img-fluid' src={{blog.image.url}} alt="Latest blog image">
+        <img class='col-6 img-fluid blog-tile-image' src={{blog.image.url}} alt="Latest blog image">
         {% elif blog.video.url %}
             <h1>Test</h1>
         {% endif %}
@@ -37,7 +37,7 @@
             <div class='col-md-4 m-3 brand-tile'>
                 <a href="{{blog.get_absolute_url}}">
                     <div class='my-4 brand-img text-center'>
-                        <img class='img-fluid' src={{blog.image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
+                        <img class='img-fluid blog-tile-image' src={{blog.image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
                     </div>
                     
                     <div class="text-center">
