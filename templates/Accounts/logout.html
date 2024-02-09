@@ -7,7 +7,7 @@
 
 <div class='container account d-flex justify-content-center'>
         {% if request.user.is_authenticated %}
-        <div class='my-5 w-25 text-center'>
+        <div class='my-5 text-center'>
             <form action="" method='POST'> 
                 {% csrf_token %}
                 <p>Are you sure you want to logout?</p>

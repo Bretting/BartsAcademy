@@ -10,3 +10,13 @@
 .sku:hover {
     box-shadow: 10px 10px 5px #e3e5e5;
 }
+
+
+/* MEDIA QUERIES */
+
+@media only screen and (min-width: 991px) {
+    .sku img{
+        max-height: 30vh;
+    }
+
+}

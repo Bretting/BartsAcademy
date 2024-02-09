@@ -107,7 +107,8 @@ button {
     border: transparent;
 }
 
-.button {
+.button, 
+.age-button {
     font-size: 16px;
     font-family: 'Roboto';
     font-weight: 600;
@@ -204,5 +205,10 @@ button {
 
     .main {
         height: 275px;
+    }
+
+    .age-button {
+        width: 145px;
+        padding: 15px;
     }
 }

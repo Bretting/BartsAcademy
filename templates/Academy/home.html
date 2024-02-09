@@ -19,10 +19,10 @@
     </div>
 </div>
 
-<div class='container-fluid my-3 g-0'>
+<div class='container my-3 g-0'>
     <div class='owl-carousel'>
         {% for bottle in bottles|shuffle %}
-            <div class="sku">
+            <div class="sku mb-5">
                 <a href="{{bottle.get_absolute_url}}">
                     <div class='d-flex justify-content-center'>
                         <img src="{{bottle.image.url}}" alt="{{bottle.name}}" title="{{bottle.brand}} - {{bottle.name}}">
