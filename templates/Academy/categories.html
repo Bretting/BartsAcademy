@@ -21,26 +21,25 @@
                     <br>
                     If you like, you can also display categories like Whisky <i>(Scotch, Bourbon, Rye, Malt, World)</i> or Agave <i>(Tequila, Mezcal, Raicilla, Bacanora)</i> split out into their subcategories.
                 </p>
-
-                <div class='d-flex flex-column text-center'>
-                    <a  hx-get='{% url "Academy:category_global" %}'
-                    hx-trigger='click'
-                    hx-target='#categories'
-                    hx-swap='outerhtml'>
-                    <h2 class='button'>GLOBAL CATEGORIES</h2>
-                    </a>
-                    <a  hx-get='{% url "Academy:categories" %}'
-                    hx-trigger='click'
-                    hx-target='#categories'
-                    hx-swap='outerhtml'>
-                    <h2 class='button'>SUB CATEGORIES</h2>
-                    </a>
-                </div>
-
-
             </article>    
         </div>
         <img class='main col-lg-6 p-3' src="{{image.image.url}}" alt="{{image.name}}" title="{{image.name}}" loading='lazy'>
+    </div>
+    <div class='cotainer my-5'>
+        <div class='d-flex flex-column text-center'>
+            <a  hx-get='{% url "Academy:category_global" %}'
+            hx-trigger='click'
+            hx-target='#categories'
+            hx-swap='outerhtml'>
+            <h2 class='button'>GLOBAL CATEGORIES</h2>
+            </a>
+            <a  hx-get='{% url "Academy:categories" %}'
+            hx-trigger='click'
+            hx-target='#categories'
+            hx-swap='outerhtml'>
+            <h2 class='button'>SUB CATEGORIES</h2>
+            </a>
+        </div>
     </div>
 </div>
 <div class='container my-5 categories' id='categories'>

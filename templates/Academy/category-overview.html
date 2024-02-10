@@ -7,13 +7,15 @@
 
 
 <div class='container my-5'>
-<!--CATEGORY HEADER-->
     <div class='row my-2'>
         <h1 class='text-center bold'>{% if category.subcategory %}{{category.subcategory | upper}}{% else %}{{category.name | upper}}{% endif %}</h1> 
         <h5 class='subtitle text-center mb-5'><i>Learn all you ever wanted to know about {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</i></h5>
+    </div>
+<!--CATEGORY HEADER-->
+    <div class='row my-2'>
         <div class='col-lg-6 p-3'>
             <article>
-                <h5 class='mb-3 text-center'>About {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}</h5>
+                <h1 class='mb-3 text-center'>ABOUT {% if category.subcategory %}{{category.subcategory | upper}}{% else %}{{category.name | upper}}{% endif %}</h1>
                 <p>
                     {{category.teaser | safe}}
                 </p>
@@ -23,26 +25,28 @@
                     <h2 class='button'>READ MORE</h2>
                 </a>
             </div>
+            <div class='row my-5 collapse' id='collapseInfo'>
+                {{category.info|safe}}      
+                <div class='d-flex justify-content-center my-2'> 
+                    <a data-bs-toggle="collapse" href="#collapseInfo" role="button" aria-expanded="false" aria-controls="collapseInfo"> 
+                        <h2 class='button'>CLOSE</h2>
+                    </a>
+                </div>  
+            </div>
         </div>
         <img class='main col-lg-6 img-fluid' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
     </div>
 
     <!--COLLAPSE FOR CATEGORY TEXT-->
-    <div class='row my-5 collapse' id='collapseInfo'>
-        {{category.info|safe}}      
-        <div class='d-flex justify-content-center my-2'> 
-            <a data-bs-toggle="collapse" href="#collapseInfo" role="button" aria-expanded="false" aria-controls="collapseInfo"> 
-                <h2 class='button'>CLOSE</h2>
-            </a>
-        </div>  
-    </div>
+
 
 <!--OVERVIEW OF RELATED BLOGS-->
 {% if related_blogs %}
-    <div class='container text-center'>
+    <div class='container text-center my-5'>
         <h1>READ ALL ABOUT IT</h1>
         <div class='row'>
             {% for blog in related_blogs  %}
+            {% if forloop.first %}
             <div class='col-md-6 my-3 brand-tile'>
             <a href="{{blog.get_absolute_url}}">
                 <div class='row'>
@@ -57,14 +61,15 @@
                 </div>
             </a>   
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
-    {% endif %}
+{% endif %}
 
 <!--OVERVIEW OF THE BOTTLES-->
 
-    <div class='row d-flex justify-content-center'>
+    <div class='row d-flex justify-content-center my-5'>
         <h1 class='my-4 text-center'>GREAT BOTTLES OF {% if category.subcategory %}{{category.subcategory | upper}}{% else %}{{category.name |upper}}{% endif %}</h1>
         {% for bottle in bottles  %}
         <div class="col-md-3 m-3 brand-tile"> 
