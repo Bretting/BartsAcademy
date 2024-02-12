@@ -108,7 +108,8 @@ button {
 }
 
 .button, 
-.age-button {
+.age-button,
+.button-small {
     font-size: 16px;
     font-family: 'Roboto';
     font-weight: 600;
@@ -120,6 +121,12 @@ button {
     cursor: pointer;
     width: 250px;
     background-color: white;
+}
+
+.button-small {
+    font-size: 12px;
+    padding: 10px 20px;
+    width: 100px;
 }
 
 .buttona {
@@ -205,6 +212,10 @@ button {
 
     .main {
         height: 275px;
+    }
+
+    .button {
+        width: 175px;
     }
 
     .age-button {

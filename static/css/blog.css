@@ -1,7 +1,10 @@
-.blog-tile {
-    width: 100%;
-    height: 300px;
-    object-fit: contain;
+.blog-hero{
+    border-radius: 30px 0 0px 30px;
+}
+
+.blog-hero img{
+    height: 450px;
+    object-fit: cover;
 }
 
 .blog-tile:hover,
@@ -10,6 +13,21 @@
 }
 
 .blog-tile-image {
+    object-fit: cover;
+    max-width: 100%;
+    height: 250px;
+}
+
+.blog-tile-image,
+.blog-hero img {
     border-radius: 30px;
-    padding: 5px;
+}
+
+@media only screen and (max-width: 991px){
+
+    .blog-hero,
+    .blog-hero img {
+        border-radius: 0;
+    }
+
 }
