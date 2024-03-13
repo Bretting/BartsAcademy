@@ -60,8 +60,6 @@ if DEBUG:
         )
 
 
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -71,11 +69,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     #custom middleware
     'BartsAcademy.middleware.AgeGateMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
 ROOT_URLCONF = 'BartsAcademy.urls'
 LOGIN_URL = '/sign-in'
