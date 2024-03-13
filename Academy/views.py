@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.views.decorators.cache import cache_page
 import random
 from .models import (
     CoreImages,
@@ -30,19 +31,17 @@ class HtmxHttpRequest(HttpRequest):
 # Create your views here.
 @login_required
 def main_view(request):
-    if request.session.has_key('agegate'):
-        random_category = random.choice(Category.objects.all())
-        random_picture = random.choice(CoreImages.objects.all())
 
-        context = {
-            'image' : random_picture,
-            'category' : random_category,
-            'bottles': Bottle.objects.filter(sorting="1"),
-        }
-        return render(request,'Academy/home.html', context)
-    else:
-        request.session['next_url'] = request.path
-        return redirect('/preview/agegate')
+    random_category = random.choice(Category.objects.all())
+    random_picture = random.choice(CoreImages.objects.all())
+
+    context = {
+        'image' : random_picture,
+        'category' : random_category,
+        'bottles': Bottle.objects.filter(sorting="1"),
+    }
+    return render(request,'Academy/home.html', context)
+
 
 
 ##############################################
@@ -50,6 +49,7 @@ def main_view(request):
 
 #Main view
 @login_required
+@cache_page(60*30)
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
     random_picture = random.choice(CoreImages.objects.all())
@@ -69,6 +69,7 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
 #Category detail view
 @login_required
+
 def category_select_view(request, category=None):
     try:
         obj = get_object_or_404(Category, subcategory=category)

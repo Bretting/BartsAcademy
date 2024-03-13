@@ -23,7 +23,14 @@
                 </p>
             </article>    
         </div>
-        <img class='brand-hero col-lg-6 img-fluid' src="{{brand.image.url}}" alt="Picture" title="{{brand.name}}">
+        {% if brand.video %}
+            <video controls class='hero-video col-lg-6'> 
+                <source src="{{brand.video.url}}">
+            </video>
+        {% else %}
+            <img class='brand-hero col-lg-6 img-fluid' src="{{brand.image.url}}" alt="Picture" title="{{brand.name}}">
+        {% endif %}
+
     </div>
 
 </div>

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     #custom middleware
     'BartsAcademy.middleware.AgeGateMiddleware',
@@ -126,6 +128,22 @@ if POSTGRES_READY:
         }
     }
 
+
+REDIS_PASSWORD = os.environ.get("REDIS_SECRET_KEY")
+
+CACHES = {
+    'default': { 
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://:@64.23.213.140:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': '{REDIS_PASSWORD}'
+        },
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -228,3 +246,10 @@ sentry_sdk.init(
     # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
 )
+
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
