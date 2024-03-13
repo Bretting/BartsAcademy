@@ -144,10 +144,10 @@ REDIS_PASSWORD = os.environ.get("REDIS_SECRET_KEY")
 CACHES = {
     'default': { 
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': f'redis://:@64.23.213.140:6379/0',
+        'LOCATION': 'redis://:Janx30bla-!!!@64.23.213.140:6379/0',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PASSWORD': '{REDIS_PASSWORD}'
+            # 'PASSWORD': '{REDIS_PASSWORD}'
         },
     }
 }
