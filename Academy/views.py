@@ -69,7 +69,7 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
 #Category detail view
 @login_required
-
+@cache_page(60*30)
 def category_select_view(request, category=None):
     try:
         obj = get_object_or_404(Category, subcategory=category)
@@ -89,6 +89,7 @@ def category_select_view(request, category=None):
 
 #Filter by global categories
 @login_required
+@cache_page(60*30)
 def category_global_view(request):
     context = {
         'categories' : Category.objects.all()
@@ -97,6 +98,7 @@ def category_global_view(request):
 
 #Filter by subcategories
 @login_required
+@cache_page(60*30)
 def category_filtered_view(request, object = None):
     obj = Category.objects.filter(name=object)
     context = {
@@ -132,6 +134,7 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
 
 #Filter Brands
 @login_required
+@cache_page(60*30)
 def brand_filtered_view(request, filter=None):
 
     if Brand.objects.filter(category__subcategory=filter):
@@ -150,6 +153,7 @@ def brand_filtered_view(request, filter=None):
     return render(request,'Academy/partials/brands.html', context)
 
 @login_required
+@cache_page(60*30)
 def brand_overview(request, brandname):
     brand = Brand.objects.get(name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
@@ -166,6 +170,7 @@ def brand_overview(request, brandname):
 ##############################################
 #BOTTLES
 @login_required
+@cache_page(60*30)
 def bottles_list_view(request, brand=None):
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
     category_list = Category.objects.exclude(brand__isnull=True)
@@ -186,6 +191,7 @@ def bottles_list_view(request, brand=None):
     return render(request,'Academy/bottles_list.html', context)
 
 @login_required
+@cache_page(60*30)
 def bottle_detail_view(request, item=None):
     obj = Bottle.objects.get(slug=item)
     country = obj.brand.country_of_origin
@@ -198,6 +204,7 @@ def bottle_detail_view(request, item=None):
     return render(request,'Academy/bottle.html', context)
 
 @login_required
+@cache_page(60*30)
 def bottle_filtered_view(request, filter=None):
 
     if Bottle.objects.filter(category__subcategory=filter):
