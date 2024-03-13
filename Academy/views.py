@@ -49,7 +49,6 @@ def main_view(request):
 
 #Main view
 @login_required
-@cache_page(60*30)
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
     random_picture = random.choice(CoreImages.objects.all())
