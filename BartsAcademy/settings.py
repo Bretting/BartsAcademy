@@ -138,22 +138,24 @@ if POSTGRES_READY:
     }
 
 
-# REDIS_PASSWORD = os.environ.get("REDIS_SECRET_KEY")
+REDIS_PASSWORD = os.environ.get("REDIS_SECRET_KEY")
 
-# if not DEBUG:
-#     CACHES = {
-#         'default': { 
-#             'BACKEND': 'django_redis.cache.RedisCache',
-#             'LOCATION': f'redis://:@64.23.213.140:6379/0',
-#             'OPTIONS': {
-#                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#                 'PASSWORD': '{REDIS_PASSWORD}'
-#             },
-#         }
-#     }
 
-#     SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-#     SESSION_CACHE_ALIAS = "default"
+CACHES = {
+    'default': { 
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://:@64.23.213.140:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': '{REDIS_PASSWORD}'
+        },
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
