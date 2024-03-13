@@ -32,7 +32,7 @@ urlpatterns = [
     path('sign-in',login_view),
     path('sign-out',logout_view),
     path('',placeholder_view),
-    path("__debug__/", include("debug_toolbar.urls"))
+    # path("__debug__/", include("debug_toolbar.urls"))
 ]
 
 
