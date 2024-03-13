@@ -4,6 +4,7 @@ from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 import random
 from .models import (
     CoreImages,
@@ -49,16 +50,19 @@ def main_view(request):
 
 #Main view
 @login_required
-@cache_page(60*30)
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
     random_picture = random.choice(CoreImages.objects.all())
 
     #add related blogposts
 
+    categories = cache.get('category')
+    if not categories:
+        categories = Category.objects.all()
+        cache.set('category', categories, 600)
 
     context = {
-        'categories' : Category.objects.all(),
+        'categories' : categories,
         'image' : random_picture,
     }
     if request.htmx:
@@ -89,8 +93,15 @@ def category_select_view(request, category=None):
 #Filter by global categories
 @login_required
 def category_global_view(request):
+
+    categories = cache.get('category')
+    if not categories:
+        categories = Category.objects.all()
+        cache.set('category', categories, 600)
+
+
     context = {
-        'categories' : Category.objects.all()
+        'categories' : categories
     }
     return render(request,'Academy/partials/global-categories.html', context)
 
@@ -115,11 +126,16 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
 
     category_list = Category.objects.exclude(brand__isnull=True)
+
+    brand_list = cache.get('brands')
+    if not brand_list:
+        brand_list = Brand.objects.all().order_by('sorting')
+        cache.set('brands', brand_list, 600)
     
 
     context = {
         'image' : random_picture,
-        'brands' : Brand.objects.all().order_by('sorting'), 
+        'brands' : brand_list, 
         'country_list' : country_list,
         'category_list' : category_list,
     }
@@ -170,8 +186,14 @@ def bottles_list_view(request, brand=None):
     category_list = Category.objects.exclude(brand__isnull=True)
 
     if brand=='All':
+
+        bottle_list = cache.get('bottles')
+        if not bottle_list:
+            bottle_list = Bottle.objects.all()
+            cache.set('brands', bottle_list, 600)
+
         context = {
-            'bottles' : Bottle.objects.all(),
+            'bottles' : bottle_list,
             'country_list' : country_list,
             'category_list' : category_list,
         }
