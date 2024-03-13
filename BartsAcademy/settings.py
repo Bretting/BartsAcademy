@@ -52,8 +52,15 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'crispy_bootstrap5',
-    'debug_toolbar'
 ]
+
+if DEBUG:
+    INSTALLED_APPS += (
+        'debug_toolbar',
+        )
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
