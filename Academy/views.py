@@ -389,7 +389,10 @@ def age_gate_view(request):
         if form.is_valid():
             form.save()
             request.session['agegate'] = 'welcome'
-            return redirect(next_url)
+            if next_url:
+                return redirect(next_url)
+            else: 
+                return redirect("/")
     
     context = {
         'form':form,

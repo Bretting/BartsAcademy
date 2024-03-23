@@ -26,13 +26,15 @@
                                 <p  hx-get="{% url 'Academy:brands' %}"
                                 hx-trigger='click'
                                 hx-target='#brands'
-                                hx-swap='outerhtml'                            
+                                hx-swap='outerhtml'
+                                hx-push-url='true'                            
                                 >All categories</p>
                             {% for category in category_list  %}
                                 <p  hx-get="{% url 'Academy:brand_filtered' filter=category %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
-                                    hx-swap='outerhtml'>
+                                    hx-swap='outerhtml'
+                                    hx-push-url='true'>
                                 {{category}}</p>
                             {% endfor %}     
                     </div>
@@ -49,14 +51,16 @@
                         <p  hx-get="{% url 'Academy:brands' %}"
                             hx-trigger='click'
                             hx-target='#brands'
-                            hx-swap='outerhtml'                            
+                            hx-swap='outerhtml'
+                            hx-push-url='true'                            
                             >All countries</p>
                         {% for country in country_list  %}
                                 <p class='text-center'
                                     hx-get="{% url 'Academy:brand_filtered' filter=country %}"
                                     hx-trigger='click'
                                     hx-target='#brands'
-                                    hx-swap='outerhtml'>
+                                    hx-swap='outerhtml'
+                                    hx-push-url='true'>
                                     {{country}}</p>
             
                         {% endfor %}

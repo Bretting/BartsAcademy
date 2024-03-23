@@ -26,24 +26,27 @@
         <img class='main col-lg-6 p-3' src="{{image.image.url}}" alt="{{image.name}}" title="{{image.name}}" loading='lazy'>
     </div>
     <div class='cotainer my-5'>
-        <div class='d-flex flex-column text-center'>
+        <div    class='d-flex flex-column text-center'
+                hx-boost="true">
             <a  hx-get='{% url "Academy:category_global" %}'
             hx-trigger='click'
             hx-target='#categories'
-            hx-swap='outerhtml'>
+            hx-swap='outerhtml'
+            hx-push-url="true">
             <h2 class='button'>GLOBAL CATEGORIES</h2>
             </a>
             <a  hx-get='{% url "Academy:categories" %}'
             hx-trigger='click'
             hx-target='#categories'
-            hx-swap='outerhtml'>
+            hx-swap='outerhtml'
+            hx-push-url="true">
             <h2 class='button'>SUB CATEGORIES</h2>
             </a>
         </div>
     </div>
 </div>
 <div class='container my-5 categories' id='categories'>
-    <div class='row d-flex justify-content-center slow-load'>
+    <div class='row d-flex justify-content-center slow-load' hx-boost="true">
         {% for category in categories  %}
         {% ifchanged category.name %}
         <div class="{% cycle 'col-md-6' 'col-md-6' 'col-md-12' %} my-2 d-flex justify-content-center category-tile">
