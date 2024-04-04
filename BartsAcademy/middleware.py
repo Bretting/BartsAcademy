@@ -14,9 +14,9 @@ class AgeGateMiddleware:
             request.path is not None):
             request.session['next_url'] = request.path
             return redirect('/preview/agegate')
-        elif request.path is self.EXCLUDED_URLS:
-            request.session['next_url'] = "/"
-            return redirect('/preview/agegate')
-        else:
-            response = self.get_response(request)
-            return response
+        
+        if request.path in self.EXCLUDED_URLS:
+            request.session['next_url'] = '/'
+
+        response = self.get_response(request)
+        return response
