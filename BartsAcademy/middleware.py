@@ -17,6 +17,6 @@ class AgeGateMiddleware:
         elif request.path is None:
             request.session['next_url'] = "/"
             return redirect('/preview/agegate')
-
-        response = self.get_response(request)
-        return response
+        else:
+            response = self.get_response(request)
+            return response
