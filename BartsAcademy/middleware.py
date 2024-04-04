@@ -10,9 +10,12 @@ class AgeGateMiddleware:
     def __call__(self, request):
         if (not request.session.get('agegate') and 
             request.path not in self.EXCLUDED_URLS and 
-            request.path not in self.IGNORED_PATHS):
+            request.path not in self.IGNORED_PATHS and
+            request.path is not None):
             request.session['next_url'] = request.path
-            print(f"path is: {request.path}")
+            return redirect('/preview/agegate')
+        elif request.path is None:
+            request.session['next_url'] = "/"
             return redirect('/preview/agegate')
 
         response = self.get_response(request)
