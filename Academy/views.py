@@ -367,6 +367,7 @@ def dashboard_create_item(request, type=None):
 def age_gate_view(request):
 
     #Load the original page after checking age gate.
+    print(request.session['next_url'])
     if request.session['next_url']:
         next_url = request.session['next_url']
     else:
