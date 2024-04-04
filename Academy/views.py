@@ -367,7 +367,10 @@ def dashboard_create_item(request, type=None):
 def age_gate_view(request):
 
     #Load the original page after checking age gate.
-    next_url = request.session['next_url']
+    if request.session['next_url']:
+        next_url = request.session['next_url']
+    else:
+        next_url = '/'
 
     #Register users IP for age gate.
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
