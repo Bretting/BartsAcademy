@@ -243,12 +243,11 @@ class Blog(models.Model):
         return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Blog'})
     
 class BlogImage(models.Model):
-    name= models.CharField(max_length=255)
-    image = ResizedImageField(size=[100,600],upload_to=image_upload_handler)
+    image = ResizedImageField(size=[1000,600],upload_to='blog')
     related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.related_blog)
     
 
 

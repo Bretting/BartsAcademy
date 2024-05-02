@@ -33,8 +33,8 @@ class HtmxHttpRequest(HttpRequest):
 @login_required
 def main_view(request):
 
-    random_category = random.choice(Category.objects.all())
-    random_picture = random.choice(CoreImages.objects.all())
+    random_category = Category.objects.order_by('?').first()
+    random_picture = CoreImages.objects.order_by('?').first()
 
     context = {
         'image' : random_picture,
@@ -52,7 +52,7 @@ def main_view(request):
 @login_required
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
-    random_picture = random.choice(CoreImages.objects.all())
+    random_picture = CoreImages.objects.order_by('?').first()
 
     #add related blogposts
 
@@ -122,7 +122,6 @@ def category_filtered_view(request, object = None):
 #Main view
 @login_required
 def brand_view(request: HtmxHttpRequest) -> HttpResponse:
-    random_picture = random.choice(CoreImages.objects.all())
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
 
     category_list = Category.objects.exclude(brand__isnull=True)
@@ -134,7 +133,6 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
     
 
     context = {
-        'image' : random_picture,
         'brands' : brand_list, 
         'country_list' : country_list,
         'category_list' : category_list,
@@ -190,7 +188,7 @@ def bottles_list_view(request, brand=None):
         bottle_list = cache.get('bottles')
         if not bottle_list:
             bottle_list = Bottle.objects.all()
-            cache.set('brands', bottle_list, 600)
+            cache.set('bottles', bottle_list, 600)
 
         context = {
             'bottles' : bottle_list,
