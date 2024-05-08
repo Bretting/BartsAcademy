@@ -1,13 +1,16 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Row, Column, HTML
+from django.forms.models import modelformset_factory
+from tinymce.widgets import TinyMCE
 
 from .models import (
     Category,
     Bottle,
     Brand,
     AgeGate,
-    Blog
+    Blog,
+    BlogImage
 )
 
 
@@ -146,28 +149,44 @@ class AgeGateForm(forms.ModelForm):
     class Meta:
         model = AgeGate
         fields = '__all__'
+       
 
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['name','teaser','image','text','video','footer_image','category_tag','brand_tag','bottle_tag']
+        fields = ['name','teaser','hero_image','text','video','category_tag','brand_tag','bottle_tag']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            Div(
-            Row('name', css_class='form-row my-1'),
-            Row('teaser', css_class='form-control, my-1'),
-            Row('text', css_class='form-control, my-1'),
-            Row('image', css_class='form-control-file form-row my-1'),
-            Row('video', css_class='form-control-file form-row my-1'),
-            Row('footer_image', css_class='form-control-file form-row my-1'),
-            Row(
-            Column('category_tag', css_class='form-group col-md-4 my-1'),
-            Column('brand_tag', css_class='form-group col-md-4 my-1'),
-            Column('bottle_tag', css_class='form-group col-md-4 my-1'),
-            ),
-            Submit('submit', 'Save', css_class='my-3 btn btn-secondary')
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.layout = Layout(
+                Div(
+                Row('name', css_class='form-row my-1'),
+                Row('teaser', css_class='form-control, my-1'),
+                Row('text', css_class='form-control, my-1'),
+                Row('image', css_class='form-control-file form-row my-1'),
+                Row('video', css_class='form-control-file form-row my-1'),
+                Row('footer_image', css_class='form-control-file form-row my-1'),
+                Row(
+                Column('category_tag', css_class='form-group col-md-4 my-1'),
+                Column('brand_tag', css_class='form-group col-md-4 my-1'),
+                Column('bottle_tag', css_class='form-group col-md-4 my-1'),
+                )
 
-            ))
+                ))
+            
+class BlogImageForm(forms.ModelForm):
+    class Meta:
+        model = BlogImage
+        fields = ['image', 'text']
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.form_tag = False
+            self.helper.render_hidden_fields = True
+            self.helper.layout = Layout(
+                Div(
+                Row('image', css_class='form-control-file form-row my-1'),
+                Row('text', css_class='form-control, my-1'),
+                ))

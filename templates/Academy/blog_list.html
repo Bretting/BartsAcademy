@@ -12,11 +12,7 @@
 <div class='container blog-hero my-5 slow-load'>
     <a href="{{blog.get_absolute_url}}">
     <div class='row'>
-        {% if blog.image.url %}
-        <img class='col-md-6 img-fluid g-0' src={{blog.image.url}} alt="Latest blog image">
-        {% elif blog.video.url %}
-            <h1>Test</h1>
-        {% endif %}
+        <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
         <div class='col-md-6'>
             <h1 class='mb-5 text-center'>{{blog.name}}</h1>
             <p>{{blog.teaser | safe}}</p>
@@ -43,7 +39,7 @@
             <div class='col-md-4 col-lg-3 col-sm-4 m-2 blog-tile'>
                 <a href="{{blog.get_absolute_url}}">
                     <div class='mb-2 text-center'>
-                        <img class='img-fluid blog-tile-image' src={{blog.image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
+                        <img class='img-fluid blog-tile-image' src={{blog.hero_image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
                     </div>
                     
                     <div class="text-center">

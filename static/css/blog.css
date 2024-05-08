@@ -27,6 +27,17 @@
     border-radius: 30px;
 }
 
+.gallery img {
+    height: 450px;
+    object-fit: contain;
+}
+
+.img-text {
+    background-color: #727275c1;
+    color: white;
+    padding: 5px;
+}
+
 @media only screen and (max-width: 991px){
 
     .blog-hero,

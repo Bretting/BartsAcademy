@@ -211,13 +211,12 @@ class Bottle(models.Model):
 class Blog(models.Model):
     name = models.CharField(max_length=255, unique=True)
     teaser = HTMLField()
-    image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
+    hero_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler)
     text = HTMLField()
     video = models.FileField(upload_to='videos', null=True, blank=True)
-    footer_image = ResizedImageField(size=[1000,600],upload_to=image_upload_handler, null=True, blank=True)
     blog_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     blog_date_edit = models.DateField(auto_now=True, null=True, blank=True)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True)
     category_tag = models.ManyToManyField(Category,  blank=True)
     brand_tag = models.ManyToManyField(Brand, blank=True)
     bottle_tag = models.ManyToManyField(Bottle, blank=True)
@@ -243,7 +242,8 @@ class Blog(models.Model):
         return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Blog'})
     
 class BlogImage(models.Model):
-    image = ResizedImageField(size=[1000,600],upload_to='blog')
+    image = ResizedImageField(size=[1000,600],upload_to='blog', blank=True, null=True)
+    text = models.CharField(max_length=255, blank=True, null=True)
     related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
 
     def __str__(self):

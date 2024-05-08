@@ -3,11 +3,15 @@
     border-radius: 10px;
 }
 
-.form h2{
+.form-text h2{
     text-align: center;
     margin-bottom: 20px;
 }
 
 .link {
     font-size: 1rem;
+}
+
+.mini {
+    font-size: 5;
 }

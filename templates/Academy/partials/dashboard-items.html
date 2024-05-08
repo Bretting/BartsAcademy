@@ -7,8 +7,12 @@
         hx-target= '#main'
         hx-swap='outerhtml'>
         <h2 class='button mx-2'>BACK</h2></a>
-        <a href={% url 'Academy:dashboard_create' type=type %}><h2 class='button mx-2'>CREATE NEW</h2></a>
-        <p></p>
+        {% if type == 'Blog' %}
+            <a href={% url 'Academy:blog_create' %}><h2 class='button mx-2'>CREATE NEW</h2></a> 
+        {% else %}
+            <a href={% url 'Academy:dashboard_create' type=type %}><h2 class='button mx-2'>CREATE NEW</h2></a> 
+        {% endif %}
+        
     </div>
     
     <div class='d-flex justify-content-center'>
@@ -40,7 +44,13 @@
                 {% if item.blog_date_edit %}
                         <td>{{item.blog_date_edit}}</td>
                 {% endif %}
-                <td ><a href="{% url 'Academy:dashboard_edit' type=type item=item.id %}"class='edit-delete'>Edit</td>
+
+                {% if item.blog_date_edit %}
+                    <td ><a href="{% url 'Academy:blog_edit' item=item.id %}"class='edit-delete'>Edit</td>
+                {% else %}
+                    <td ><a href="{% url 'Academy:dashboard_edit' type=type item=item.id %}"class='edit-delete'>Edit</td>                
+                {% endif %}
+
                 <td ><a href="{{item.get_delete_link}}" class='edit-delete'>Delete</td>
             </tr>
             {% endfor %} 

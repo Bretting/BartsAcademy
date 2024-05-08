@@ -21,6 +21,8 @@ from .views import (
     age_gate_view,
     blog_detail_view,
     blog_list_view,
+    blog_create_view,
+    blog_edit_view,
 )
 
 app_name = 'Academy'
@@ -59,6 +61,10 @@ urlpatterns = [
     path('Dashboard-delete/<int:id>-<str:item>',dashboard_delete_view,name='dashboard_delete'),
     path('Dashboard-edit-item/<str:type>-<str:item>', dashboard_edit_item, name='dashboard_edit'),
     path('Dashboard-create-item/<str:type>', dashboard_create_item, name='dashboard_create'),
+    path('Dashboard-create-blog', blog_create_view, name='blog_create'),
+    path('Dashboard-edit-blog/<str:item>',blog_edit_view, name='blog_edit'),
+
+
 
    ######################
     #AGEGATE

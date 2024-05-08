@@ -5,13 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
-import random
+from django.forms import inlineformset_factory, modelformset_factory
 from .models import (
     CoreImages,
     Category,
     Bottle,
     Brand,
     Blog,
+    BlogImage,
 )
 
 from .forms import (
@@ -20,6 +21,7 @@ from .forms import (
     BrandForm,
     AgeGateForm,
     BlogForm,
+    BlogImageForm,
 )
 ##############################################
 
@@ -259,6 +261,7 @@ def dashboard_list_view(request, item):
     obj_item = name_to_model_class[item]
     obj = obj_item.objects.all()
 
+
     context = {
         'objects': obj,
         'type': item
@@ -351,7 +354,8 @@ def dashboard_create_item(request, type=None):
         form = name_to_form_class[type]
     
     context = {
-        'form' : form
+        'form' : form,
+        'type' : type,
     }
 
     return render(request, 'Academy/dashboard_crud.html', context)
@@ -407,8 +411,10 @@ def age_gate_view(request):
 def blog_detail_view(request, slug=None):
 
     blog = get_object_or_404(Blog, slug=slug)
+    gallery = BlogImage.objects.filter(related_blog=blog)
     context = {
-        'blog' : blog
+        'blog' : blog,
+        'gallery' : gallery
     }
 
     return render(request,'Academy/blog.html', context)    
@@ -424,9 +430,85 @@ def blog_list_view(request):
 
     return render(request,'Academy/blog_list.html', context)
 
+
+def blog_create_view(request):
+    # Create an instance of the BlogForm
+    blog_form = BlogForm(request.POST and request.FILES or None)
+    BlogImageFormSet = inlineformset_factory(Blog, BlogImage, form=BlogImageForm, extra=2)
+
+    if request.method == 'POST':
+        blog_form = BlogForm(request.POST, request.FILES)
+        formset = BlogImageFormSet(request.POST, request.FILES)
+
+        if blog_form.is_valid() and formset.is_valid():
+
+            # Save the BlogForm instance
+            blog_instance = blog_form.save()
+
+            # Save the formset instances
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.related_blog = blog_instance
+                instance.save()
+
+            return redirect(blog_instance.get_absolute_url())
+
+    else:
+        blog_form = BlogForm()
+        formset = BlogImageFormSet()
+
+    context = {
+    'blog_form':blog_form,
+    'formset':formset
+    }
+
+    # Render the template with both forms
+    return render(request, 'Academy/blog_crud.html', context)
+
 @login_required
-def blog_image_uploader(request):
-    pass
+def blog_edit_view(request, item=None):
+    
+    object = get_object_or_404(Blog, id=item)
+    blog_form = BlogForm(request.POST  or None, request.FILES  or None, instance=object)
+    BlogImageFormSet = inlineformset_factory(Blog, BlogImage, form=BlogImageForm, extra=0, can_delete=True)
+    formset = BlogImageFormSet(request.POST  or None, request.FILES  or None, instance=object)
+
+
+    if request.method == 'POST':
+        # Populate the forms with incoming data
+        blog_form = BlogForm(request.POST, request.FILES, instance=object)
+        formset = BlogImageFormSet(request.POST, request.FILES, instance=object)
+
+        if blog_form.is_valid() and formset.is_valid():
+
+            # Save the BlogForm instance
+            blog_instance = blog_form.save()
+
+
+            # Save the formset instances
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.related_blog = blog_instance
+                instance.save()
+
+            return redirect(blog_instance.get_absolute_url())
+        else:
+            print(blog_form.errors)
+            print(formset.errors)
+
+
+    context = {
+        'blog_form':blog_form,
+        'formset':formset
+    }
+
+    return render(request,'Academy/blog_crud.html',context)
+
+
+
+
+
+
 
 
 
@@ -437,17 +519,37 @@ def blog_image_uploader(request):
 
 def test_view(request):
 
-    obj = Blog.objects.all()
 
-    obj2 = Blog.objects.filter(Q(category_tag__subcategory='Cognac') | Q(brand_tag__name='') | Q(bottle_tag__name='Dry Gin'))
-
-
-    context = {
-        'obj' : obj,
-        'obj2':obj2,
+    name_to_form_class = {
+        'Category' : CategoryForm,
+        'Bottle': BottleForm,
+        'Brand' : BrandForm,
+        'Blog' : BlogForm,
     }
 
-    return render(request,'Academy/test.html',context)
+    if request.method == 'POST':
+        form = name_to_form_class[type](request.POST, request.FILES)
+        if form.is_valid():
+            object = form.save()
+            return redirect(object.get_absolute_url())
+    else:
+        form = name_to_form_class[type]
+    
+    context = {
+        'form' : form,
+        'type' : type,
+    }
+
+    return render(request, 'Academy/dashboard_crud.html', context)
+
+
+
+
+
+
+
+
+
 
 def placeholder_view(request):
     return render(request,'Academy/placeholder.html')
