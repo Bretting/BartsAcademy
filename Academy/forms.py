@@ -159,6 +159,8 @@ class BlogForm(forms.ModelForm):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.helper = FormHelper()
+            self.helper.form_tag = False
+            self.helper.render_hidden_fields = True
             self.helper.layout = Layout(
                 Div(
                 Row('name', css_class='form-row my-1'),
@@ -167,6 +169,8 @@ class BlogForm(forms.ModelForm):
                 Row('image', css_class='form-control-file form-row my-1'),
                 Row('video', css_class='form-control-file form-row my-1'),
                 Row('footer_image', css_class='form-control-file form-row my-1'),
+                ),
+                Div(
                 Row(
                 Column('category_tag', css_class='form-group col-md-4 my-1'),
                 Column('brand_tag', css_class='form-group col-md-4 my-1'),

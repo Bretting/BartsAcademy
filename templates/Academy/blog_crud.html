@@ -24,8 +24,11 @@
         {{ blog_form | crispy}}
         
 
-          <div class="formset mt-5" id='formset'>
-            <h2>Add image gallery</h2>
+          <div class="formset corner mt-5" id='formset'>
+            <div class='text-center'>
+              <h2>Add image gallery</h2>
+              <b><i>Max 4 tags total.</i></b>
+            </div>
             
   
             {% for form in formset %}

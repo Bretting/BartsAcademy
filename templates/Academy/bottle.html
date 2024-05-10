@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block title %}{{bottle.brand}} - {{bottle.name}}{% endblock title %}
-{% block page-css %}<link rel="stylesheet" href="{% static 'css/bottles.css' %}">{% endblock page-css %}
+{% block page-css %}
+<link rel="stylesheet" href="{% static 'css/bottles.css' %}">
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+{% endblock page-css %}
 
 {% block content %}
 
@@ -142,7 +146,7 @@
 
 
 
-            <div class='grey p-3 my-3 rounded-corner'>
+            <div class='grey p-3 my-3'>
                 <h3 class='my-2 text-center'>TASTING NOTES</h3>
                 {{bottle.tasting_notes | safe}}
             </div>
@@ -190,6 +194,45 @@
 
         </div>
     </div>
+
+    {% if related_blogs %}
+
+    <div class='container my-5 slow-load'>
+
+        <div class='row d-flex justify-content-center g-0'>
+            <h1 class='text-center'>READ ALL ABOUT IT</h1>
+    
+            {% for blog in related_blogs  %}
+            
+                <div class='col-md-4 col-lg-3 col-sm-4 m-2 blog-tile'>
+                    <a href="{{blog.get_absolute_url}}">
+                        <div class='mb-2 text-center'>
+                            <img class='img-fluid blog-tile-image' src={{blog.hero_image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
+                        </div>
+                        
+                        <div class="text-center">
+                            <h2>{{blog.name | upper}}</h2>
+                            <i>{{blog.blog_date_edit}}</i>
+                            <div>
+                            {% for tag in blog.category_tag.all  %}
+                                {% if tag.subcategory %}
+                                <h3 class='button-small'>{{tag.subcategory}}</h3>
+                                {% else %}
+                                <h3 class='button-small'>{{tag.name}}</h3>
+                                {% endif %}
+                            {% endfor %}
+                            {% for tag in blog.brand_tag.all  %}
+                                <h3 class='button-small'>{{ tag.name }}</h3>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+           
+        </div>
+    </div>
+    {% endif %}
 
 
 </div>

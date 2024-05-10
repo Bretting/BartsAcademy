@@ -70,7 +70,6 @@ a {
 }
 
 .thumb img {
-    max-height: 200px;
     object-fit: fill;
 }
 
@@ -109,7 +108,8 @@ button {
 
 .button, 
 .age-button,
-.button-small {
+.button-small,
+.button-blog {
     font-size: 16px;
     font-family: 'Roboto';
     font-weight: 600;
@@ -127,6 +127,15 @@ button {
     font-size: 12px;
     padding: 10px 20px;
     width: 100px;
+}
+
+.button-blog {
+    font-size: 12px;
+    padding: 10px 20px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttona {

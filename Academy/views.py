@@ -210,11 +210,14 @@ def bottles_list_view(request, brand=None):
 def bottle_detail_view(request, item=None):
     obj = Bottle.objects.get(slug=item)
     country = obj.brand.country_of_origin
+    related_blogs = Blog.objects.filter(bottle_tag=obj)
 
     context = {
         'bottle' : obj,
         'country' : country,
+        'related_blogs' : related_blogs
     }
+    print(related_blogs)
 
     return render(request,'Academy/bottle.html', context)
 
@@ -445,6 +448,10 @@ def blog_create_view(request):
             # Save the BlogForm instance
             blog_instance = blog_form.save()
 
+            for form in formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()            
+
             # Save the formset instances
             instances = formset.save(commit=False)
             for instance in instances:
@@ -483,6 +490,10 @@ def blog_edit_view(request, item=None):
 
             # Save the BlogForm instance
             blog_instance = blog_form.save()
+
+            for form in formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()
 
 
             # Save the formset instances

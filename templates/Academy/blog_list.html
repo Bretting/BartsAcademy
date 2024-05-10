@@ -16,7 +16,24 @@
         <div class='col-md-6'>
             <h1 class='mb-5 text-center'>{{blog.name}}</h1>
             <p>{{blog.teaser | safe}}</p>
-            <i>{{blog.blog_date_edit}}</i>
+
+
+            <div class='d-flex justify-content-center'>
+                <i>{{blog.blog_date_edit}}</i>
+            </div>
+            <div class='d-flex justify-content-center'>
+                {% for tag in blog.category_tag.all  %}
+                    {% if tag.subcategory %}
+                        <h3 class='button-blog'>{{tag.subcategory}}</h3>
+                    {% else %}
+                        <h3 class='button-blog'>{{tag.name}}</h3>
+                    {% endif %}
+                {% endfor %}
+                {% for tag in blog.brand_tag.all  %}
+                    <h3 class='button-blog'>{{ tag.name }}</h3>
+                {% endfor %}
+
+            </div>
         </div>
     </div>
     </a>
@@ -48,11 +65,13 @@
                         <div>
                         {% for tag in blog.category_tag.all  %}
                             {% if tag.subcategory %}
-                                <h3 class='button-small'>{{tag.subcategory}}</h3>
+                            <h3 class='button-small'>{{tag.subcategory}}</h3>
                             {% else %}
-                                <h3 class='button-small'>{{ tag.name }}</h3>
+                            <h3 class='button-small'>{{tag.name}}</h3>
                             {% endif %}
-
+                        {% endfor %}
+                        {% for tag in blog.brand_tag.all  %}
+                            <h3 class='button-small'>{{ tag.name }}</h3>
                         {% endfor %}
                         </div>
                     </div>
