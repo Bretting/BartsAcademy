@@ -718,7 +718,7 @@ def SKU_importer(request):
                 object.save()
                 return redirect(object.get_absolute_url())
             except:
-                return HtmxHttpRequest('Something went wrong. Please doublecheck the excel-template')
+                return HttpResponse('Something went wrong. Please doublecheck the excel-template')
         
     context = {
         'brands' : brands
