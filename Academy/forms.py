@@ -154,35 +154,36 @@ class AgeGateForm(forms.ModelForm):
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ['name','teaser','hero_image','text','video','category_tag','brand_tag','bottle_tag']
+        fields = ['name','teaser','hero_image','text','video','category_tag','brand_tag','bottle_tag', 'type_tag']
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.helper = FormHelper()
-            self.helper.form_tag = False
-            self.helper.render_hidden_fields = True
-            self.helper.layout = Layout(
-                Div(
-                Row('name', css_class='form-row my-1'),
-                Row('teaser', css_class='form-control, my-1'),
-                Row('text', css_class='form-control, my-1'),
-                Row('image', css_class='form-control-file form-row my-1'),
-                Row('video', css_class='form-control-file form-row my-1'),
-                Row('footer_image', css_class='form-control-file form-row my-1'),
-                ),
-                Div(
-                Row(
-                Column('category_tag', css_class='form-group col-md-4 my-1'),
-                Column('brand_tag', css_class='form-group col-md-4 my-1'),
-                Column('bottle_tag', css_class='form-group col-md-4 my-1'),
-                )
-
-                ))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.render_hidden_fields = True
+        self.helper.layout = Layout(
+            Div(
+            Row('name', css_class='form-row my-1'),
+            Row('teaser', css_class='form-control, my-1'),
+            Row('text', css_class='form-control, my-1'),
+            Row('hero_image', css_class='form-control-file form-row my-1'),
+            Row('video', css_class='form-control-file form-row my-1'),
+            Row('footer_image', css_class='form-control-file form-row my-1'),
+            ),
+            Div(
+            HTML("""<h3 class='text-center'>Max 4 category and type tags</h3>"""),
+            Row(
+            Column('category_tag', css_class='form-group col-md-3 my-1'),
+            Column('brand_tag', css_class='form-group col-md-3 my-1'),
+            Column('bottle_tag', css_class='form-group col-md-3 my-1'),
+            Column('type_tag', css_class='form-group col-md-3 my-1'),
+            css_class='form-row my-1'
+            ),css_class='corner px-3 py-2'),)
             
 class BlogImageForm(forms.ModelForm):
     class Meta:
         model = BlogImage
-        fields = ['image', 'text']
+        fields = ['image', 'image_text']
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
@@ -192,5 +193,5 @@ class BlogImageForm(forms.ModelForm):
             self.helper.layout = Layout(
                 Div(
                 Row('image', css_class='form-control-file form-row my-1'),
-                Row('text', css_class='form-control, my-1'),
+                Row('image_text', css_class='form-control, my-1'),
                 ))

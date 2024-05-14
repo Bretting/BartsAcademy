@@ -206,7 +206,12 @@ class Bottle(models.Model):
     
     def get_delete_link(self):
         return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Bottle'})
+    
+class BlogType(models.Model):
+    name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
 
 class Blog(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -220,6 +225,7 @@ class Blog(models.Model):
     category_tag = models.ManyToManyField(Category,  blank=True)
     brand_tag = models.ManyToManyField(Brand, blank=True)
     bottle_tag = models.ManyToManyField(Bottle, blank=True)
+    type_tag = models.ForeignKey(BlogType, on_delete=models.CASCADE, blank=True)
     image_location = 'blog'
 
     def __str__(self):
@@ -243,7 +249,7 @@ class Blog(models.Model):
     
 class BlogImage(models.Model):
     image = ResizedImageField(size=[1000,600],upload_to='blog', blank=True, null=True)
-    text = models.CharField(max_length=255, blank=True, null=True)
+    image_text = models.CharField(max_length=255, blank=True, null=True)
     related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -264,3 +270,5 @@ class AgeGate(models.Model):
 
     def __str__(self):
         return f"Age gate checked from {self.ip}, at {self.date_time}"
+    
+
