@@ -71,7 +71,7 @@ class BottleForm(forms.ModelForm):
     class Meta:
         model = Bottle
         fields = ['name','category','sorting','brand','bottle_size','abv','info','tasting_notes','image','shop_link',
-                  'consumer_shop_link','website_link','tech_nom','tech_source_material','tech_cooking','tech_extraction',
+                  'consumer_shop_link','website_link','tech_nom','tech_region','tech_source_material','tech_cooking','tech_extraction',
                   'tech_mash','tech_water_source','tech_fermentation','tech_distillation','tech_filtration','tech_still','tech_batch_size',
                   'tech_blend','tech_aging','tech_aging_barrels','tech_other', 'tech_botanicals']
 
@@ -79,6 +79,7 @@ class BottleForm(forms.ModelForm):
     abv = forms.DecimalField(label='ABV',widget=forms.NumberInput(attrs={'placeholder':'00.0%'}))    
     tech_source_material = forms.CharField(label='Source material',required=False,widget=forms.TextInput(attrs={'placeholder':'Agave, Cereals etc'}))
     tech_distillation = forms.CharField(label='Distillation',required=False,widget=forms.TextInput(attrs={'placeholder':'How often & other specifics'}))
+    tech_region = forms.CharField(label='Region', required=False, widget=forms.TextInput(attrs={'placeholder':'Specific region of production, I.E. Cognac instead of France'}))
     website_link = forms.URLField(required=False,widget=forms.TextInput(attrs={'placeholder':'please use http://'}))
     shop_link = forms.URLField(required=False,widget=forms.TextInput(attrs={'placeholder':'please use http://'}))
     consumer_shop_link = forms.URLField(required=False,widget=forms.TextInput(attrs={'placeholder':'please use http://'}))
@@ -98,6 +99,7 @@ class BottleForm(forms.ModelForm):
             Column('brand', css_class='form-group col-md-6'),
             Column('bottle_size', css_class='form-group col-md-3'),
             Column('abv', css_class='form-group col-md-3'),
+            Column('tech_region', css_class='form-group col-md-3'),
             css_class='form-row my-1'
             ),css_class='corner px-3 py-2'),
             Row('info', css_class='form-row my-1'
