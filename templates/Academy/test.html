@@ -1,64 +1,70 @@
 {% extends 'base.html' %}
-{% block title %}test{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Barts Academy - CRUD admin{% endblock title %}
+{% block page-css %}
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css"> 
+  {{blog_form.media}} 
+{% endblock page-css %}
+
+{% block scripts %}
+
+<script src="https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
+
+{% endblock scripts %}
 
 {% block content %}
 
- <div class='container'>
+<div class='container'> 
+    <div class='row form-text'>
+        <h1 class='text-center my-5'>Add & Update</h1>
+        <h3 class='text-center my-2'>Blog</h3>
 
-       <h1> test:</h1>
-{% comment %} 
-    {% for blogs in obj  %}
-    
-        <h1>{{blogs.name}}</h1>
-        {% for item in blogs.category_tag.all  %}
-
-        <h3>tag:</h3>
-        <h2>{{item.name}}</h2>
-        <h2>{{item.subcategory}}</h2>
-    
-        {% endfor %}
-
-    {% endfor %}     {% endcomment %}
-
-    </div>
-
-    <div class='container my-5'>
-
-        {% for blog in obj2  %}
-        {% ifchanged blog.name %}
-        <div class='test my-5'>
+       <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form | crispy }}
+        {% crispy blog_form %}
         
-            <a href="{{blog.get_absolute_url}}"><h2>{{blog.name}}</h2></a>
-            <h4>tags:</h4>
-            {% for tag in blog.category_tag.all %}
-            <li>{{tag}}</li>
-            {% endfor %}
-
-            <h4>brand:</h4>
-            {% for tag in blog.brand_tag.all  %}
-            <li>{{tag}}</li>
-            {% endfor %}
-
-            <h4>bottle:</h4>
-            {% for tag in blog.bottle_tag.all  %}
-            <li>{{tag}}</li>
-            {% endfor %}
         
-        {% endifchanged %}
+        {% for form in formset %}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
         {% endfor %}
+        <div class='image-form'>
+          {{ form | crispy }}
         </div>
+        {% endfor %}
+  
+            <button id='add-form' class='my-5 btn btn-secondary text-center' type="button">Add</button>        
+          </div>
+  
+          <div class='text-center mt-5'>
+            <button class='my-5 btn btn-secondary' method='post' type="submit">Save</button>        
+          </div>
+
+      </form>
+
+      
     </div>
+</div>
 
-    </div>
+<script>
 
-        
+  dselect(document.querySelector('#id_bottle_tag'), {
+      search: true
+  });
+  dselect(document.querySelector('#id_brand_tag'), {
 
-{% endblock content %}
+      search: true
+  });
+  dselect(document.querySelector('#id_category_tag'), {
+
+    search: true
+});
+
+</script>
 
 
-
-
-
-
-
-
+{% endblock content %} 

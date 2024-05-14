@@ -225,7 +225,7 @@ class Blog(models.Model):
     category_tag = models.ManyToManyField(Category,  blank=True)
     brand_tag = models.ManyToManyField(Brand, blank=True)
     bottle_tag = models.ManyToManyField(Bottle, blank=True)
-    type_tag = models.ForeignKey(BlogType, on_delete=models.CASCADE, blank=True)
+    type_tag = models.ForeignKey(BlogType, on_delete=models.CASCADE, null=True, blank=True)
     image_location = 'blog'
 
     def __str__(self):

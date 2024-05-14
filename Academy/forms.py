@@ -168,7 +168,6 @@ class BlogForm(forms.ModelForm):
             Row('text', css_class='form-control, my-1'),
             Row('hero_image', css_class='form-control-file form-row my-1'),
             Row('video', css_class='form-control-file form-row my-1'),
-            Row('footer_image', css_class='form-control-file form-row my-1'),
             ),
             Div(
             HTML("""<h3 class='text-center'>Max 4 category and type tags</h3>"""),
@@ -194,4 +193,4 @@ class BlogImageForm(forms.ModelForm):
                 Div(
                 Row('image', css_class='form-control-file form-row my-1'),
                 Row('image_text', css_class='form-control, my-1'),
-                ))
+                css_class='corner px-3 py-2'))

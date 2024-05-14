@@ -551,31 +551,45 @@ def blog_filtered_view(request, filter=None):
 
 ###################################################
 #test
-
+@login_required
 def test_view(request):
-
-
-    name_to_form_class = {
-        'Category' : CategoryForm,
-        'Bottle': BottleForm,
-        'Brand' : BrandForm,
-        'Blog' : BlogForm,
-    }
+    # Create an instance of the BlogForm
+    blog_form = BlogForm(request.POST and request.FILES or None)
+    BlogImageFormSet = inlineformset_factory(Blog, BlogImage, form=BlogImageForm, extra=2)
 
     if request.method == 'POST':
-        form = name_to_form_class[type](request.POST, request.FILES)
-        if form.is_valid():
-            object = form.save()
-            return redirect(object.get_absolute_url())
+        print('posted')
+        blog_form = BlogForm(request.POST, request.FILES)
+        formset = BlogImageFormSet(request.POST, request.FILES)
+
+        if blog_form.is_valid() and formset.is_valid():
+            print('valided')
+            # Save the BlogForm instance
+            blog_instance = blog_form.save()
+
+            for form in formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()            
+
+            # Save the formset instances
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.related_blog = blog_instance
+                instance.save()
+
+            return redirect(blog_instance.get_absolute_url())
+
     else:
-        form = name_to_form_class[type]
-    
+        blog_form = BlogForm()
+        formset = BlogImageFormSet()
+
     context = {
-        'form' : form,
-        'type' : type,
+        'blog_form':blog_form,
+        'formset':formset
     }
 
-    return render(request, 'Academy/dashboard_crud.html', context)
+
+    return render(request, 'Academy/test.html', context)
 
 
 
@@ -652,6 +666,8 @@ def SKU_importer(request):
                 return HttpResponse(f"Category not found with subcategory or name: {data.iloc[4].capitalize()}")
         except Exception as e:
             return HttpResponse('There is something wrong with the template: ' + e )
+        
+        bottle_size
 
 
         #Check if the object already exists, if not: create.
@@ -660,40 +676,43 @@ def SKU_importer(request):
             if object:
                 return HttpResponse('Bottle already exists!')
         except:
-            object = Bottle.objects.create(
-                name = data.iloc[3].capitalize(),
-                category = category_name,
-                sorting = 2,
-                brand = brand_name,
-                bottle_size = data.iloc[8],
-                info = '<p>' + data.iloc[12] + '</p>',
-                tasting_notes = '<p>' +data.iloc[13] + '</p>',
-                abv = data.iloc[6],
-                image = img_file,
-                shop_link=webshop,
-                consumer_shop_link = consumer_webshop,
-                website_link = website,
-                tech_nom = nom,
-                tech_source_material = source_material,
-                tech_region = region,
-                tech_cooking = cooking,
-                tech_extraction = extraction,
-                tech_mash = mash,
-                tech_botanicals = botanicals,
-                tech_water_source = water_source,
-                tech_fermentation = fermentation,
-                tech_distillation = distillation,
-                tech_filtration = filtration,
-                tech_still = still,
-                tech_batch_size = batch_size,
-                tech_blend = blend,
-                tech_aging = aging,
-                tech_aging_barrels = aging_barrels,
-                tech_other = other
-            )
+            try:
+                object = Bottle.objects.create(
+                    name = data.iloc[3].capitalize(),
+                    category = category_name,
+                    sorting = 2,
+                    brand = brand_name,
+                    bottle_size = data.iloc[8],
+                    info = '<p>' + data.iloc[12] + '</p>',
+                    tasting_notes = '<p>' +data.iloc[13] + '</p>',
+                    abv = data.iloc[6],
+                    image = img_file,
+                    shop_link=webshop,
+                    consumer_shop_link = consumer_webshop,
+                    website_link = website,
+                    tech_nom = nom,
+                    tech_source_material = source_material,
+                    tech_region = region,
+                    tech_cooking = cooking,
+                    tech_extraction = extraction,
+                    tech_mash = mash,
+                    tech_botanicals = botanicals,
+                    tech_water_source = water_source,
+                    tech_fermentation = fermentation,
+                    tech_distillation = distillation,
+                    tech_filtration = filtration,
+                    tech_still = still,
+                    tech_batch_size = batch_size,
+                    tech_blend = blend,
+                    tech_aging = aging,
+                    tech_aging_barrels = aging_barrels,
+                    tech_other = other
+                )
 
-            object.save()
-            return redirect(object.get_absolute_url())
+                object.save()
+                return redirect(object.get_absolute_url())
+            except:
+                return HtmxHttpRequest('Something went wrong. Please doublecheck the excel-template')
         
     context = {
         'brands' : brands

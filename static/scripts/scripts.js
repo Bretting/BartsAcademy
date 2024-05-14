@@ -1,23 +1,5 @@
 //Select2
 $(document).ready(function() {
-  $('#id_category').select2({ 
-      theme:'bootstrap-5'   
-      });
-      
-  $('#id_brand').select2({
-      theme:'bootstrap-5'                 
-  });
-
-  $('#id_category_tag').select2({
-    theme:'bootstrap-5'                 
-  });
-  $('#id_brand_tag').select2({
-    theme:'bootstrap-5'                 
-  });
-  $('#id_bottle_tag').select2({
-    theme:'bootstrap-5'                 
-  });
-
   $(".owl-carousel").owlCarousel({
     center: true,
     items:5,

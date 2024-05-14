@@ -10,7 +10,6 @@
 
 {% block scripts %}
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
 
@@ -22,18 +21,11 @@
     <div class='row form-text'>
         <h1 class='text-center my-5'>Add & Update</h1>
         <h3 class='text-center my-2'>Blog</h3>
-       {% if message %}
-            <div> 
-                <div><h2>{{message}}</h2></div>
-                <div class='d-flex justify-content-center'><a href="{{object.get_absolute_url}}"><h2 class='button'>Check {% if object.subcategory %}{{object.subcategory}}{% elif object.brand %}{{object.brand}} - {{object.name}} {% else %}{{object.name}}{% endif %}</h2></a></div>
-            </div>
-        
-       {% endif %}
 
        <form enctype="multipart/form-data">
         {% csrf_token %}
         {{ formset.management_form | crispy }}
-        {% crispy blog_form %}
+        {{ blog_form | crispy }}
         
 
           <div class="formset corner mt-5" id='formset'>
@@ -47,7 +39,7 @@
               {{ hidden }}
             {% endfor %}
             <div class='image-form'>
-              {% crispy form %}
+              {{ form | crispy }}
             </div>
             {% endfor %}
   
