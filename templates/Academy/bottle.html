@@ -19,7 +19,7 @@
         <div class='col-md-6'>
             <h1 class='mb-3'>{{bottle.brand | upper}} {{bottle.name | upper}}</h1>
             <article class='col-md-12 col-lg-6 short-info'><i>
-                <div class='d-flex justify-content-between'><p>Learn about <a href="{% url 'Academy:brand_overview' brandname=bottle.brand %}">{{bottle.brand}}</a></p></div>
+                <div class='d-flex justify-content-between'><p>Learn more about <a href="{% url 'Academy:brand_overview' brandname=bottle.brand %}">{{bottle.brand}}</a></p></div>
                 <div class='d-flex justify-content-between'><p>Category:</p><p> {{bottle.category}}</p></div>
                 <div class='d-flex justify-content-between'><p>ABV:</p><p> {{bottle.abv}}%</p></div>
                 <div class='d-flex justify-content-between'><p>Country:</p><p> {{country}}</p></div>

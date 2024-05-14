@@ -42,7 +42,30 @@
 {% endfor %}
 
 <div class='container filters my-5 text-center'>
-    <h1>--- FILTERS HERE ---</h1>
+    <div class='d-flex justify-content-center mx-5 row'>
+        <div class="dropdown-center show">
+            <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <h4 class='age-button'>CATEGORY</h4>
+            </a>
+        
+            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
+                        <p  hx-get=hx-get="{% url 'Academy:bottle_filtered' filter=brand.name %}"
+                        hx-trigger='click'
+                        hx-target='#brands'
+                        hx-swap='outerhtml'                            
+                        >All categories</p>
+                    {% for category in brand.category.all  %}
+                        <p  hx-get="{% url 'Academy:bottle_filtered' filter=category %}"
+                            hx-trigger='click'
+                            hx-target='#brands'
+                            hx-swap='outerhtml'>
+                        {{category}}</p>
+                    {% endfor %}     
+            </div>
+        </div>
+    </div>
+    <div class='col-lg-3'></div>
+</div>
 </div>
 
 

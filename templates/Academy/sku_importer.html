@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class='container my-5'>
+    <h1>Import Bottle</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class='form-row my-3'>
+            <label for="brand" class='my-1'>Brand</label>
+            <select name="brand" class='form-group mx-2'>
+                {% for brand in brands  %}
+                
+                    <option value="{{brand}}">{{brand}}</option>
+                
+                {% endfor %}
+
+            </select>
+        </div>
+        <div class='form-row my-3'>
+            <label for="file" class='my-1'>Excel input</label>
+            <input type="file" class='form-control' name='file' accept='.xlsx' placeholder='Excel file'>
+        </div>
+        <div class='form-row my-3'>
+            <label for="img" class='my-1'>Image</label>
+            <input type="file" class='form-control' name='img' placeholder='Image'>
+        </div>
+        <div class='form-row my-3'>
+            <label for="webshop" class='my-1'>Webshop link</label>
+            <input type="url" class='form-control' name='webshop' placeholder='Use https://'>
+        </div>
+        <div class='form-row my-3'>
+            <label for="consumer_webshop" class='my-1'>Cane & Grain link</label>
+            <input type="url" class='form-control' name='consumer_webshop' placeholder='Use https://'>
+        </div>
+        <div class='form-row my-3'>
+            <label for="website" class='my-1'>Brand website</label>
+            <input type="url" class='form-control' name='website' placeholder='Use https://'>
+        </div>
+        <div class='form-row'>
+            <input type="submit" value='Upload' class='btn btn-secondary'>
+        </div>
+
+    </form>
+
+
+</div>
+
+
+{% endblock content %}
+

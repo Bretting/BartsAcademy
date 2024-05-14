@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'import_export',
 ]
 
 if DEBUG:
@@ -265,3 +266,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+
+#IMPORT EXPORT EXCEL
+from import_export.formats.base_formats import XLSX
+IMPORT_EXPORT_FORMATS = [XLSX]

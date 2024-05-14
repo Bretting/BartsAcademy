@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.forms import inlineformset_factory, modelformset_factory
+import pandas as pd
 from .models import (
     CoreImages,
     Category,
@@ -187,10 +188,10 @@ def bottles_list_view(request, brand=None):
 
     if brand=='All':
 
-        bottle_list = cache.get('bottles')
-        if not bottle_list:
-            bottle_list = Bottle.objects.all()
-            cache.set('bottles', bottle_list, 600)
+        # bottle_list = cache.get('bottles')
+        # if not bottle_list:
+        bottle_list = Bottle.objects.all()
+            # cache.set('bottles', bottle_list, 600)
 
         context = {
             'bottles' : bottle_list,
@@ -271,16 +272,6 @@ def dashboard_list_view(request, item):
     }
 
     return render(request,'Academy/partials/dashboard-items.html',context)
-
-@login_required
-def dashboard_analytics_view(request):
-
-    context = {
-
-    }
-
-    return render(request,'Academy/partials/dashboard-analytics.html', context)
-
 
 @login_required
 def dashboard_delete_view(request, id=None, item=None):
@@ -564,3 +555,104 @@ def test_view(request):
 
 def placeholder_view(request):
     return render(request,'Academy/placeholder.html')
+
+
+def SKU_importer(request):
+    brands = Brand.objects.all()
+
+
+    if request.method == 'POST' and request.FILES:
+        print('posted')
+        excel_file = pd.read_excel(request.FILES['file'])
+        img_file = request.FILES['img']
+        webshop = request.POST['webshop']
+        consumer_webshop = request.POST['consumer_webshop']
+        website = request.POST['website']
+        brand = request.POST['brand']
+       
+        #grab the correct column of info on the template excel file
+        data = excel_file.iloc[:,1]
+        data = data.fillna("")
+
+        if not data.iloc[17] == None:
+            nom = data.iloc[17].capitalize()
+        if not data.iloc[18] == None:
+            source_material = data.iloc[18].capitalize()
+        if not data.iloc[7] == None:
+            region = data.iloc[7]
+        if not data.iloc[19] == None:
+            cooking = data.iloc[19].capitalize()
+        if not data.iloc[20] == None:
+            extraction = data.iloc[20].capitalize()
+        if not data.iloc[21] == None:
+            mash = data.iloc[21].title()
+        if not data.iloc[22] == None:
+            botanicals = data.iloc[22].title()
+        if not data.iloc[23] == None:
+            water_source = data.iloc[23].capitalize()
+        if not data.iloc[24] == None:
+            fermentation = data.iloc[24].capitalize()
+        if not data.iloc[25] == None:
+            distillation = data.iloc[25].capitalize()
+        if not data.iloc[26] == None:
+            filtration = data.iloc[26].capitalize()
+        if not data.iloc[27] == None:
+            still = data.iloc[27].capitalize()
+        if not data.iloc[28] == None:
+            batch_size = data.iloc[28]
+        if not data.iloc[29] == None:
+            blend = data.iloc[29].capitalize()
+        if not data.iloc[30] == None:
+            aging = data.iloc[30].capitalize()
+        if not data.iloc[31] == None:
+            aging_barrels = data.iloc[31].capitalize()
+        if not data.iloc[32] == None:
+            other = data.iloc[32].capitalize()
+        
+
+        
+        #Check if the object already exists, if not: create.
+        bottle_object, created = Bottle.objects.get_or_create(
+            name = data.iloc[3].capitalize(),
+            category = Category.objects.get(subcategory=data.iloc[4].capitalize()),
+            sorting = 2,
+            brand = Brand.objects.get(name=brand),
+            bottle_size = data.iloc[8],
+            info = '<p>' + data.iloc[12] + '</p>',
+            tasting_notes = '<p>' +data.iloc[13] + '</p>',
+            abv = data.iloc[6],
+            image = img_file,
+            shop_link=webshop,
+            consumer_shop_link = consumer_webshop,
+            website_link = website,
+            tech_nom = nom,
+            tech_source_material = source_material,
+            tech_region = region,
+            tech_cooking = cooking,
+            tech_extraction = extraction,
+            tech_mash = mash,
+            tech_botanicals = botanicals,
+            tech_water_source = water_source,
+            tech_fermentation = fermentation,
+            tech_distillation = distillation,
+            tech_filtration = filtration,
+            tech_still = still,
+            tech_batch_size = batch_size,
+            tech_blend = blend,
+            tech_aging = aging,
+            tech_aging_barrels = aging_barrels,
+            tech_other = other
+        )
+
+        if not created:
+            print('exists')
+            return HttpResponse('Bottle already exists!')
+        else:
+            print('bottle made')
+            return redirect(bottle_object.get_absolute_url())
+        
+    context = {
+        'brands' : brands
+    }
+
+    return render(request,'Academy/sku_importer.html', context)

@@ -8,11 +8,15 @@
     <title>{% block title %}{% endblock title %}</title>
 
   <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script
+    data-category='analytics'
+    data-service='Google Analytics'>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-K8XZFRK');</script>
+    })(window,document,'script','dataLayer','GTM-K8XZFRK');
+  </script>
   <!-- End Google Tag Manager -->
   
 
@@ -23,20 +27,16 @@
     <!--CSS-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block page-css %}{% endblock page-css %}
-      <!--SELECT2 CSS-->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+   
 
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <!--COOKIE CONSENT-->
+    <link rel="stylesheet" href={% static 'scripts/cookie/cookieconsent.css' %}>
 
  
     <!--FONTS-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,wght@0,200;0,400;0,600;1,200;1,400;1,600&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-    <!--TinyMCE-->
-    {{form.media}}
 
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'logos/favicons/apple-touch-icon.png' %}">
@@ -114,21 +114,21 @@
 </div>
 
 <!--SCRIPTS-->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script src="https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-  <script src="{% static 'scripts/owl.carousel.js' %}"></script>
-
+  <script defer type='module' src="{% static 'scripts/cookie/cookieconsent.js' %}"></script>
+  <script defer type='module' src="{% static 'scripts/cookie/cookie-init.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous" data-category=''></script>
   <script src="{% static 'scripts/htmx.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'scripts/scripts.js' %}"></script>
+
+  {% block scripts %}{% endblock scripts %} 
 
   <script>
     document.body.addEventListener('htmx:configRequest', (event) => {
       event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
     })
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
   {% if debug %}
     if (typeof window.htmx !== "undefined") {

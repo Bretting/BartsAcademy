@@ -2,7 +2,10 @@
 {% load static %}
 {% load academy_tags %}
 {% block title %}Barts Academy{% endblock title %}
-{% block page-css %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock page-css %}
+{% block page-css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+{% endblock page-css %}
 
 {% block content %}
 
@@ -55,3 +58,12 @@
 </div>
 
 {% endblock content %}
+
+
+{% block scripts %}
+
+<script src="{% static 'scripts/owl.carousel.js' %}"></script>
+
+{% endblock scripts %}
+
+
