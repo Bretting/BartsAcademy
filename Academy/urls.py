@@ -17,11 +17,13 @@ from .views import (
     dashboard_delete_view,
     dashboard_edit_item,
     dashboard_create_item,
+    dashboard_analytics_view,
     age_gate_view,
     blog_detail_view,
     blog_list_view,
     blog_create_view,
     blog_edit_view,
+    blog_filtered_view,
     SKU_importer,
 )
 
@@ -52,10 +54,12 @@ urlpatterns = [
     #BLOG
     path('Inspiration/<str:slug>',blog_detail_view, name='blog_detail'),
     path('Inspiration',blog_list_view, name='blog_list'),
+    path('Inspiration-filtered/<str:filter>',blog_filtered_view,name='blogs_filtered'),
 
    ######################
     #DASHBOARD
     path('Dashboard',dashboard_view,name='dashboard'),
+    path('Dashboard-analytics', dashboard_analytics_view, name='analytics-dashboard'),
     path('Dashboard-list/<str:item>', dashboard_list_view,name='dashboard_list'),
     path('Dashboard-delete/<int:id>-<str:item>',dashboard_delete_view,name='dashboard_delete'),
     path('Dashboard-edit-item/<str:type>-<str:item>', dashboard_edit_item, name='dashboard_edit'),

@@ -196,6 +196,11 @@ button {
 }
 
 
+.dropdown-menu p:hover{
+    background-color: black;
+    color: white;
+}
+
 
 
 /* SLOW LOAD ANIMATION */

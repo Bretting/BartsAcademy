@@ -3,11 +3,6 @@
     object-fit: contain;
 }
 
-.dropdown-menu p:hover{
-    background-color: black;
-    color: white;
-}
-
 .btn {
     --bs-btn-border-width: none!important;
 }
