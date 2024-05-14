@@ -76,7 +76,7 @@ class BottleForm(forms.ModelForm):
                   'tech_blend','tech_aging','tech_aging_barrels','tech_other', 'tech_botanicals']
 
     bottle_size = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'in ML'}))    
-    abv = forms.IntegerField(label='ABV',widget=forms.NumberInput(attrs={'placeholder':'00.0%'}))    
+    abv = forms.DecimalField(label='ABV',widget=forms.NumberInput(attrs={'placeholder':'00.0%'}))    
     tech_source_material = forms.CharField(label='Source material',required=False,widget=forms.TextInput(attrs={'placeholder':'Agave, Cereals etc'}))
     tech_distillation = forms.CharField(label='Distillation',required=False,widget=forms.TextInput(attrs={'placeholder':'How often & other specifics'}))
     website_link = forms.URLField(required=False,widget=forms.TextInput(attrs={'placeholder':'please use http://'}))
