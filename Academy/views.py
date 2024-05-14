@@ -7,6 +7,7 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.forms import inlineformset_factory, modelformset_factory
 import pandas as pd
+import logging
 from .models import (
     CoreImages,
     Category,
@@ -562,7 +563,6 @@ def SKU_importer(request):
 
 
     if request.method == 'POST' and request.FILES:
-        print('posted')
         excel_file = pd.read_excel(request.FILES['file'])
         img_file = request.FILES['img']
         webshop = request.POST['webshop']
@@ -574,6 +574,7 @@ def SKU_importer(request):
         data = excel_file.iloc[:,1]
         data = data.fillna("")
 
+        #prepare data for use in Model
         if not data.iloc[17] == None:
             nom = data.iloc[17].capitalize()
         if not data.iloc[18] == None:
@@ -608,48 +609,105 @@ def SKU_importer(request):
             aging_barrels = data.iloc[31].capitalize()
         if not data.iloc[32] == None:
             other = data.iloc[32].capitalize()
-        
 
-        
+        #set up logger
+        logger = logging.getLogger(__name__)
+
+        #Check if the category exsists and if it is a main or a sub category. Print error is it doesn't.
+        try:
+            category_name = Category.objects.get(subcategory=data.iloc[4].capitalize())
+        except Category.DoesNotExist:
+            try:
+                category_name = Category.objects.get(name=data.iloc[4].capitalize())
+            except Category.DoesNotExist:
+                logger.error(f"Category not found with subcategory or name: {data.iloc[4].capitalize()}")
+                return HttpResponse(f"Category not found with subcategory or name: {data.iloc[4].capitalize()}")
+        except Exception as e:
+            logger.exception("An unexpected error occurred: %s", e)
+            return HttpResponse('There is something wrong with the template: ' + e )
+        brand_name= Brand.objects.get(name=brand)
+
         #Check if the object already exists, if not: create.
-        bottle_object, created = Bottle.objects.get_or_create(
-            name = data.iloc[3].capitalize(),
-            category = Category.objects.get(subcategory=data.iloc[4].capitalize()),
-            sorting = 2,
-            brand = Brand.objects.get(name=brand),
-            bottle_size = data.iloc[8],
-            info = '<p>' + data.iloc[12] + '</p>',
-            tasting_notes = '<p>' +data.iloc[13] + '</p>',
-            abv = data.iloc[6],
-            image = img_file,
-            shop_link=webshop,
-            consumer_shop_link = consumer_webshop,
-            website_link = website,
-            tech_nom = nom,
-            tech_source_material = source_material,
-            tech_region = region,
-            tech_cooking = cooking,
-            tech_extraction = extraction,
-            tech_mash = mash,
-            tech_botanicals = botanicals,
-            tech_water_source = water_source,
-            tech_fermentation = fermentation,
-            tech_distillation = distillation,
-            tech_filtration = filtration,
-            tech_still = still,
-            tech_batch_size = batch_size,
-            tech_blend = blend,
-            tech_aging = aging,
-            tech_aging_barrels = aging_barrels,
-            tech_other = other
-        )
+        try:
+            object = Bottle.objects.get(name=data.iloc[3].capitalize(),category=category_name, brand=brand_name)
+            if object:
+                return HttpResponse('Bottle already exists!')
+        except:
+            object = Bottle.objects.create(
+                name = data.iloc[3].capitalize(),
+                category = category_name,
+                sorting = 2,
+                brand = brand_name,
+                bottle_size = data.iloc[8],
+                info = '<p>' + data.iloc[12] + '</p>',
+                tasting_notes = '<p>' +data.iloc[13] + '</p>',
+                abv = data.iloc[6],
+                image = img_file,
+                shop_link=webshop,
+                consumer_shop_link = consumer_webshop,
+                website_link = website,
+                tech_nom = nom,
+                tech_source_material = source_material,
+                tech_region = region,
+                tech_cooking = cooking,
+                tech_extraction = extraction,
+                tech_mash = mash,
+                tech_botanicals = botanicals,
+                tech_water_source = water_source,
+                tech_fermentation = fermentation,
+                tech_distillation = distillation,
+                tech_filtration = filtration,
+                tech_still = still,
+                tech_batch_size = batch_size,
+                tech_blend = blend,
+                tech_aging = aging,
+                tech_aging_barrels = aging_barrels,
+                tech_other = other
+            )
 
-        if not created:
-            print('exists')
-            return HttpResponse('Bottle already exists!')
-        else:
-            print('bottle made')
-            return redirect(bottle_object.get_absolute_url())
+            object.save()
+            return redirect(object.get_absolute_url())
+
+
+        # bottle_object, created = Bottle.objects.get_or_create(
+        #     name = data.iloc[3].capitalize(),
+        #     category = category_name,
+        #     sorting = 2,
+        #     brand = Brand.objects.get(name=brand),
+        #     bottle_size = data.iloc[8],
+        #     info = '<p>' + data.iloc[12] + '</p>',
+        #     tasting_notes = '<p>' +data.iloc[13] + '</p>',
+        #     abv = data.iloc[6],
+        #     image = img_file,
+        #     shop_link=webshop,
+        #     consumer_shop_link = consumer_webshop,
+        #     website_link = website,
+        #     tech_nom = nom,
+        #     tech_source_material = source_material,
+        #     tech_region = region,
+        #     tech_cooking = cooking,
+        #     tech_extraction = extraction,
+        #     tech_mash = mash,
+        #     tech_botanicals = botanicals,
+        #     tech_water_source = water_source,
+        #     tech_fermentation = fermentation,
+        #     tech_distillation = distillation,
+        #     tech_filtration = filtration,
+        #     tech_still = still,
+        #     tech_batch_size = batch_size,
+        #     tech_blend = blend,
+        #     tech_aging = aging,
+        #     tech_aging_barrels = aging_barrels,
+        #     tech_other = other
+        # )
+
+        # if not created:
+        #     print('exists')
+        #     return HttpResponse('Bottle already exists!')
+        # else:
+        #     print('bottle made')
+        #     return redirect(bottle_object.get_absolute_url())
+
         
     context = {
         'brands' : brands
