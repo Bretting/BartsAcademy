@@ -668,7 +668,7 @@ def SKU_importer(request):
             return HttpResponse('There is something wrong with the template: ' + e )
         
         bottle_text = data.iloc[8]
-        if not bottle_text.isnumeric():
+        if not str(bottle_text).isnumeric():
             bottle_text_filter = filter(str.isdigit, bottle_text)
             bottle_size = "".join(bottle_text_filter)
         else:
