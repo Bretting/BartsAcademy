@@ -667,7 +667,10 @@ def SKU_importer(request):
         except Exception as e:
             return HttpResponse('There is something wrong with the template: ' + e )
         
-        bottle_size
+        bottle_text = data.iloc[8]
+        bottle_text_filter = filter(str.isdigit, bottle_text)
+        bottle_size = "".join(bottle_text_filter)
+
 
 
         #Check if the object already exists, if not: create.
@@ -682,7 +685,7 @@ def SKU_importer(request):
                     category = category_name,
                     sorting = 2,
                     brand = brand_name,
-                    bottle_size = data.iloc[8],
+                    bottle_size = bottle_size,
                     info = '<p>' + data.iloc[12] + '</p>',
                     tasting_notes = '<p>' +data.iloc[13] + '</p>',
                     abv = data.iloc[6],
