@@ -8,6 +8,13 @@
 
 {% endblock page-css %}
 
+{% block meta-seo %}
+
+<meta name='description' content="Learn about {{bottle.brand}} {{bottle.name}} and {{bottle.category}}">
+<meta name='keywords' content="{{bottle.brand}}, {{bottle.category}}, {{bottle.brand}} {{bottle.name}}, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
 {% block content %}
 
 <div class='container my-5'>
