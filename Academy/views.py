@@ -170,7 +170,7 @@ def brand_detailview(request, brandname):
         'bottles':bottles,
     }
 
-    return render(request,'Academy/brands-overview.html',context)
+    return render(request,'Academy/brand_detailview.html',context)
 
 
 ##############################################
