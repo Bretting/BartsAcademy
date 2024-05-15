@@ -46,8 +46,6 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    {% block scripts %}{% endblock scripts %} 
-
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -116,13 +114,14 @@
 </div>
 
 <!--SCRIPTS-->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous" data-category=''></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
   <script defer type='module' src="{% static 'scripts/cookie/cookieconsent.js' %}"></script>
   <script defer type='module' src="{% static 'scripts/cookie/cookie-init.js' %}"></script>
   <script src="{% static 'scripts/htmx.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'scripts/scripts.js' %}"></script>
+  
 
-  {% block script %}{% endblock script %}
+  {% block scripts %}{% endblock scripts %}
 
   <script>
     document.body.addEventListener('htmx:configRequest', (event) => {
