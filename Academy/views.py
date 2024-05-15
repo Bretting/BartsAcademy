@@ -34,7 +34,6 @@ class HtmxHttpRequest(HttpRequest):
 
 ##############################################
 # Create your views here.
-@login_required
 def main_view(request):
 
     random_category = Category.objects.order_by('?').first()
@@ -53,7 +52,6 @@ def main_view(request):
 #CATEGORIES
 
 #Main view
-@login_required
 def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
     random_picture = CoreImages.objects.order_by('?').first()
@@ -76,7 +74,6 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
 
 #Category detail view
-@login_required
 def category_select_view(request, category=None):
     try:
         obj = get_object_or_404(Category, subcategory=category)
@@ -95,7 +92,6 @@ def category_select_view(request, category=None):
     return render(request,'Academy/category-overview.html', context)
 
 #Filter by global categories
-@login_required
 def category_global_view(request):
 
     categories = cache.get('category')
@@ -110,7 +106,6 @@ def category_global_view(request):
     return render(request,'Academy/partials/global-categories.html', context)
 
 #Filter by subcategories
-@login_required
 def category_filtered_view(request, object = None):
     obj = Category.objects.filter(name=object)
     context = {
@@ -124,7 +119,6 @@ def category_filtered_view(request, object = None):
 #BRANDS
 
 #Main view
-@login_required
 def brand_view(request: HtmxHttpRequest) -> HttpResponse:
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
 
@@ -148,7 +142,6 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
         return render(request,'Academy/brands.html',context)
 
 #Filter Brands
-@login_required
 def brand_filtered_view(request, filter=None):
 
     if Brand.objects.filter(category__subcategory=filter):
@@ -166,7 +159,7 @@ def brand_filtered_view(request, filter=None):
 
     return render(request,'Academy/partials/brands.html', context)
 
-@login_required
+
 def brand_overview(request, brandname):
     brand = Brand.objects.get(name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
@@ -182,7 +175,6 @@ def brand_overview(request, brandname):
 
 ##############################################
 #BOTTLES
-@login_required
 def bottles_list_view(request, brand=None):
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
     category_list = Category.objects.exclude(brand__isnull=True)
@@ -208,7 +200,6 @@ def bottles_list_view(request, brand=None):
 
     return render(request,'Academy/bottles_list.html', context)
 
-@login_required
 def bottle_detail_view(request, item=None):
     obj = Bottle.objects.get(slug=item)
     country = obj.brand.country_of_origin
@@ -223,7 +214,6 @@ def bottle_detail_view(request, item=None):
 
     return render(request,'Academy/bottle.html', context)
 
-@login_required
 def bottle_filtered_view(request, filter=None):
 
     if Bottle.objects.filter(category__subcategory=filter):
@@ -411,7 +401,7 @@ def age_gate_view(request):
 # BLOG
 
 
-@login_required
+
 def blog_detail_view(request, slug=None):
 
     blog = get_object_or_404(Blog, slug=slug)
@@ -423,7 +413,6 @@ def blog_detail_view(request, slug=None):
 
     return render(request,'Academy/blog.html', context)    
 
-@login_required
 def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
         
     blogs = Blog.objects.all()
@@ -440,7 +429,7 @@ def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
 
     return render(request,'Academy/blog_list.html', context)
 
-
+@login_required
 def blog_create_view(request):
     # Create an instance of the BlogForm
     blog_form = BlogForm(request.POST and request.FILES or None)
@@ -522,7 +511,7 @@ def blog_edit_view(request, item=None):
 
     return render(request,'Academy/blog_crud.html',context)
 
-@login_required
+
 def blog_filtered_view(request, filter=None):
 
     if Blog.objects.filter(category_tag__subcategory=filter):
@@ -603,7 +592,7 @@ def test_view(request):
 def placeholder_view(request):
     return render(request,'Academy/placeholder.html')
 
-
+@login_required
 def SKU_importer(request):
     brands = Brand.objects.all()
 

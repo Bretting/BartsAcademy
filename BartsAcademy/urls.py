@@ -27,11 +27,10 @@ from Academy.views import placeholder_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('preview/',include('Academy.urls')),
+    path('',include('Academy.urls')),
     path('tinymce',include('tinymce.urls')),
     path('sign-in',login_view),
     path('sign-out',logout_view),
-    path('',placeholder_view),
     path("__debug__/", include("debug_toolbar.urls"))
 ]
 

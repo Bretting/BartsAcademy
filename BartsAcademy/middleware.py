@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 
 class AgeGateMiddleware:
-    EXCLUDED_URLS = ['/preview/agegate']
+    EXCLUDED_URLS = ['/agegate']
     IGNORED_PATHS = ['/favicon.ico']  # Add any other paths you want to ignore
 
     def __init__(self, get_response):
@@ -13,7 +13,7 @@ class AgeGateMiddleware:
             request.path not in self.IGNORED_PATHS and
             request.path is not None):
             request.session['next_url'] = request.path
-            return redirect('/preview/agegate')
+            return redirect('/agegate')
         
         if request.path in self.EXCLUDED_URLS:
             request.session['next_url'] = '/'
