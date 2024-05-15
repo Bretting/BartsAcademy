@@ -159,7 +159,7 @@ CookieConsent.run({
                         },
                         {
                             title: 'More information',
-                            description: 'For any queries in relation to my policy on cookies and your choices, please <a href="#contact-page">contact us</a>'
+                            description: 'For any queries in relation to my policy on cookies and your choices, please contact us.'
                         }
                     ]
                 }

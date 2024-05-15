@@ -159,8 +159,8 @@ def brand_filtered_view(request, filter=None):
 
     return render(request,'Academy/partials/brands.html', context)
 
-
-def brand_overview(request, brandname):
+#Detailview of a brand
+def brand_detailview(request, brandname):
     brand = Brand.objects.get(name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
     

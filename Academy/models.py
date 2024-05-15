@@ -119,10 +119,10 @@ class Brand(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('Academy:brand_overview',kwargs={'brandname':self.name})
+        return reverse('Academy:brand_detailview',kwargs={'brandname':self.name})
 
     def get_bottle_by_brand_link(self):
-        return reverse('Academy:brand_overview', kwargs={'brandname':self.name})
+        return reverse('Academy:brand_detailview', kwargs={'brandname':self.name})
     
     def get_brands_by_category_link(self):
         return reverse('Academy:brand_filtered', kwargs={'filter':self.category})

@@ -8,7 +8,7 @@ from .views import (
     category_filtered_view,
     brand_view,
     brand_filtered_view,
-    brand_overview,
+    brand_detailview,
     bottles_list_view,
     bottle_detail_view,
     bottle_filtered_view,
@@ -42,7 +42,7 @@ urlpatterns = [
     #BRANDS
     path('Brands',brand_view,name='brands'),
     path('Brands-filtered/<str:filter>',brand_filtered_view,name='brand_filtered'),
-    path('Brand/<str:brandname>',brand_overview,name='brand_overview'),
+    path('Brand/<str:brandname>',brand_detailview,name='brand_detailview'),
 
     ######################
     #BOTTLES

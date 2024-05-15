@@ -39,7 +39,7 @@ cc.run({
         'en': {
             consent_modal: {
                 title: 'We use cookies!',
-                description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
+                description: 'Hi! <br>Like everyone else we use cookies. If you, like us, are disappointed these are not real cookies you are welcome to pick one up at our shop: <b class="cc-link"><a href="https://www.caneandgrain.nl/" target="_blank">Cane and Grain</a></b>. <br><br>Now here is some mandatory stuff:<br><br>This website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
                 primary_btn: {
                     text: 'Accept all',
                     role: 'accept_all'              // 'accept_selected' or 'accept_all'
