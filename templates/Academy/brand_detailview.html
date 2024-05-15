@@ -3,6 +3,13 @@
 {% block title %}{{brand.name}} overview{% endblock title %}
 {% block page-css %}<link rel="stylesheet" href="{% static 'css/brands.css' %}">{% endblock page-css %}
 
+{% block meta-seo %}
+
+<meta name='description' content="Learn about {{brand.name}} and {% for category in brand.category.all%} {{category}}, {%endfor%}">
+<meta name='keywords' content="{{brand.name}}, {% for category in brand.category.all%} {{category}}, {%endfor%} bartending, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
 {% block content %}
 
 <div class='container my-2'>
