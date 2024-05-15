@@ -25,15 +25,3 @@ function addForm(e){
 }
 
 
-
-dselect(document.querySelector('#id_bottle_tag'), {
-    search: true
-});
-dselect(document.querySelector('#id_brand_tag'), {
-
-    search: true
-});
-dselect(document.querySelector('#id_category_tag'), {
-
-  search: true
-});

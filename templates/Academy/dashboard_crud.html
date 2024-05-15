@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css">
     <!--TinyMCE-->
-    {{form.media}}    
+    {{form.media}}   
 {% endblock page-css %}
 
 {% block content %}
@@ -30,26 +30,19 @@
 </div>
 
 
+<script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script> 
 <script>
-
     dselect(document.querySelector('#id_category'), {
-        search: true
-    });
-    dselect(document.querySelector('#id_brand'), {
 
         search: true
-    });
-
+      });
 </script>
-
-
 
 {% endblock content %} 
 
 {% block scripts %}
 
 <script src="https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
 <script src="{% static 'scripts/forms.js' %}"></script>
 
 {% endblock scripts %}
