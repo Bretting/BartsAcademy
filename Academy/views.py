@@ -212,7 +212,7 @@ def bottle_detail_view(request, item=None):
     }
     print(related_blogs)
 
-    return render(request,'Academy/bottle.html', context)
+    return render(request,'Academy/bottle_detailview.html', context)
 
 def bottle_filtered_view(request, filter=None):
 
