@@ -43,7 +43,7 @@ def main_view(request):
         'image' : random_picture,
         'category' : random_category,
         'bottles': Bottle.objects.filter(sorting="1"),
-        'blog' : Blog.objects.last()
+        'blog' : Blog.objects.order_by('pk').last()
     }
     return render(request,'Academy/home.html', context)
 
