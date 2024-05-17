@@ -43,7 +43,8 @@
 </div>
 
 
-<div class='container my-2'>
+<div class='container my-3'>
+    {% if brand.category.all|length > 1 %}
     <div class='text-center'>
         <h3>Filters</h3>
         <div class='d-flex justify-content-center mx-5 row'>
@@ -71,6 +72,7 @@
             <div class='col-lg-3'></div>
         </div>
     </div>
+    {% endif %}
 
     <div class='container' id='brands'>
         <div class='row d-flex justify-content-center'>
