@@ -22,7 +22,6 @@ from Accounts.views import (
     login_view,
     logout_view,
 )
-from Academy.views import placeholder_view
 
 
 urlpatterns = [

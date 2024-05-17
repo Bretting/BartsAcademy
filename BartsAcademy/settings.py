@@ -31,6 +31,10 @@ ALLOWED_HOSTS = ['127.0.0.1', '.ondigitalocean.app','.bartsacademy.nl','.bartsac
 if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('DJANGO_ALLOWED_HOST')]
 
+DOMAIN = 'bartsacademy.nl'
+SITE_NAME = 'Barts Academy'
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     #MyApps
     'Accounts',

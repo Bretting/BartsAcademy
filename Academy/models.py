@@ -66,6 +66,8 @@ class Category(models.Model):
     logo = ResizedImageField(size=[500,500], upload_to=logo_upload_handler)
     video = models.FileField(upload_to='image', blank=True, null=True)
     image_location = 'categories'
+    category_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
+    category_date_edit = models.DateField(auto_now=True, null=True, blank=True)
 
     class Meta:
         ordering = ['name','subcategory']
@@ -113,6 +115,8 @@ class Brand(models.Model):
     image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
     image_location = 'brands'
     video = models.FileField(upload_to=video_upload_handler, blank=True, null=True)
+    brand_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
+    brand_date_edit = models.DateField(auto_now=True, null=True, blank=True)
 
  
     def __str__(self):
@@ -174,6 +178,8 @@ class Bottle(models.Model):
     tech_aging_barrels = models.CharField(blank=True, null=True, max_length=255, verbose_name='Barrel(s)')
     tech_other = HTMLField(blank=True, null=True, verbose_name='Other')
     slug = models.SlugField(unique=True, blank=True)
+    bottle_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
+    bottle_date_edit = models.DateField(auto_now=True, null=True, blank=True)
     image_location = 'bottles'
 
     def save(self, *args, **kwargs):
