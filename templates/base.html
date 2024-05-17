@@ -13,9 +13,17 @@
     <title>{% block title %}{% endblock title %}</title>
 
     {% block meta-seo %}{% endblock meta-seo %}
+
+    {% if not debug %}
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C6DTTX03Z8"></script>
-    <script>
+    <script async 
+    data-category='analytics' 
+    data-service='Google Analytics' 
+    src="https://www.googletagmanager.com/gtag/js?id=G-C6DTTX03Z8"></script>
+    
+    <script
+    data-category='analytics'
+    data-service='Google Analytics'>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -34,6 +42,7 @@
     })(window,document,'script','dataLayer','GTM-K8XZFRK');
   </script>
   <!-- End Google Tag Manager -->
+  {% endif %}
   
 
     <!--BOOTSTRAP-->

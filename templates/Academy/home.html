@@ -4,8 +4,8 @@
 {% block title %}Barts Academy{% endblock title %}
 {% block meta-seo %}
 
-<meta name='description' content="at Barts Academy we care about providing you with all the spirits info, trends, trainings and recipes you could ever want">
-<meta name='keywords' content="Barts Academy, Bartending, Bar academy, free cocktails, learning cocktails, bar management, spirits, liqueurs">
+    <meta name='description' content="at Barts Academy we care about providing you with all the spirits info, trends, trainings and recipes you could ever want">
+    <meta name='keywords' content="Barts Academy, Bartending, Bar academy, free cocktails, learning cocktails, bar management, spirits, liqueurs">
 
 {% endblock meta-seo %}
 
@@ -13,6 +13,7 @@
 {% block page-css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock page-css %}
 
 {% block content %}
@@ -23,8 +24,10 @@
         <div class='col-lg-6 p-3 order-first order-md-2 text-center'>
             <article>
                 <h2 class='mb-3'>BARTS ACADEMY</h2>
-                <p>At Barts Academy we care about proving you with all the info, trends and recipes you could ever want.</p>
-                <p>With global information on all the different categories as well as deep, technical info on specific products we try and provide unbiased, clean info. Through our international network in the bar industry, we get the latest trends and techniques right to your doorstep.</p>    
+                <p>Always been curious about the difference between Agave spirits or what makes a London Dry gin stand out in the sea of gins? Together with Bart's Bottles and Cane&Grain we have a large network of bartenders, distillers and brand creators who love to tell you all about it!</p>
+                <p>With global information on all different spirit categories as well as a deep dive into specific bottles, brands and drinks we bring the latest trends and techniques right to your screen.</p>
+                <p>Whether you’re new to spirits or the all-knowing connoisseur we have something for everyone.</p> 
+                <p><b>Welcome to Bart's Academy</b></p>   
             </article>       
         </div>
     </div>
@@ -61,6 +64,41 @@
             </div>
         </div>
         <img class='main main-category col-lg-6 p-3' src="{{category.image.url}}" alt="{{category.name}}" title="{{category.name}}">
+    </div>
+
+</div>
+
+<div class='container my-5'>
+
+    <div class='container blog-hero my-5 slow-load'>
+        <a href="{{blog.get_absolute_url}}">
+        <div class='row'>
+            <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
+            <div class='col-md-6'>
+                <h1 class='text-center'>{{blog.name}}</h1>
+                <div class='d-flex justify-content-center mb-2'>
+                    <i>{{blog.blog_date_edit}}</i>
+                </div>
+                <p>{{blog.teaser | safe}}</p>
+    
+    
+    
+                <div class='d-flex justify-content-center'>
+                    {% for tag in blog.category_tag.all  %}
+                        {% if tag.subcategory %}
+                            <h3 class='button-blog'>{{tag.subcategory}}</h3>
+                        {% else %}
+                            <h3 class='button-blog'>{{tag.name}}</h3>
+                        {% endif %}
+                    {% endfor %}
+                    {% for tag in blog.brand_tag.all  %}
+                        <h3 class='button-blog'>{{ tag.name }}</h3>
+                    {% endfor %}
+    
+                </div>
+            </div>
+        </div>
+        </a>
     </div>
 
 </div>

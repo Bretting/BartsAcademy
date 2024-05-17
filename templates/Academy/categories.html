@@ -3,6 +3,13 @@
 {% block title %}Categories{% endblock title %}
 {% block page-css %}<link rel="stylesheet" href="{% static 'css/categories.css' %}">{% endblock page-css %}
 
+{% block meta-seo %}
+
+    <meta name='description' content="Spirit categories - Barts Academy">
+    <meta name='keywords' content="Barts Academy, {% for category in categories  %}{{category}}, {% endfor %}, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
 {% block content %}
 
 <div id='top'></div>
