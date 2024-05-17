@@ -3,6 +3,13 @@
 {% block title %}Brands{% endblock title %}
 {% block page-css %}<link rel="stylesheet" href="{% static 'css/brands.css' %}">{% endblock page-css %}
 
+{% block meta-seo %}
+
+<meta name='description' content="Find an overview of all brands and their background information on Barts Academy.">
+<meta name='keywords' content="Barts Academy,{% for brand in brands %}{{brand}} {% endfor %}, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
 {% block content %}
 <div class='container my-5'>
     <div id='top'></div>
