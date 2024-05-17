@@ -14,13 +14,14 @@
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
         <div class='col-md-6'>
-            <h1 class='mb-5 text-center'>{{blog.name}}</h1>
+            <h1 class='text-center'>{{blog.name}}</h1>
+            <div class='d-flex justify-content-center mb-2'>
+                <i>{{blog.blog_date_edit}}</i>
+            </div>
             <p>{{blog.teaser | safe}}</p>
 
 
-            <div class='d-flex justify-content-center'>
-                <i>{{blog.blog_date_edit}}</i>
-            </div>
+
             <div class='d-flex justify-content-center'>
                 {% for tag in blog.category_tag.all  %}
                     {% if tag.subcategory %}
