@@ -59,10 +59,10 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
 
     #add related blogposts
 
-    # categories = cache.get('category')
-    # if not categories:
-    categories = Category.objects.all()
-        # cache.set('category', categories, 600)
+    categories = cache.get('category')
+    if not categories:
+        categories = Category.objects.all()
+        cache.set('category', categories, 3600)
 
     context = {
         'categories' : categories.order_by('pk'),
@@ -95,10 +95,10 @@ def category_select_view(request, category=None):
 #Filter by global categories
 def category_global_view(request):
 
-    # categories = cache.get('category')
-    # if not categories:
-    categories = Category.objects.all()
-        # cache.set('category', categories, 600)
+    categories = cache.get('category')
+    if not categories:
+        categories = Category.objects.all()
+        cache.set('category', categories, 3600)
 
 
     context = {
@@ -125,10 +125,10 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
 
     category_list = Category.objects.exclude(brand__isnull=True)
 
-    # brand_list = cache.get('brands')
-    # if not brand_list:
-    brand_list = Brand.objects.all().order_by('sorting')
-        # cache.set('brands', brand_list, 600)
+    brand_list = cache.get('brands')
+    if not brand_list:
+        brand_list = Brand.objects.all().order_by('sorting')
+        cache.set('brands', brand_list, 3600)
     
 
     context = {
@@ -182,10 +182,10 @@ def bottles_list_view(request, brand=None):
 
     if brand=='All':
 
-        # bottle_list = cache.get('bottles')
-        # if not bottle_list:
-        bottle_list = Bottle.objects.all()
-            # cache.set('bottles', bottle_list, 600)
+        bottle_list = cache.get('bottles')
+        if not bottle_list:
+            bottle_list = Bottle.objects.all()
+            cache.set('bottles', bottle_list, 3600)
 
         context = {
             'bottles' : bottle_list,
