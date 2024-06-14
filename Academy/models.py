@@ -155,8 +155,8 @@ class Bottle(models.Model):
     info = HTMLField()
     tasting_notes = HTMLField()
     abv = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='Alcohol %')
-    image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
-    thumbnail = models.ImageField(upload_to='thumbnails')
+    image = models.URLField(max_length=255, verbose_name="Bart's Bottles image database url", help_text="Login to https://bartsbottles.nl/cp to search for the right image")
+    # thumbnail = models.ImageField(upload_to='thumbnails')
     shop_link = models.URLField()
     consumer_shop_link = models.URLField()
     website_link = models.URLField()
@@ -184,17 +184,17 @@ class Bottle(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(f"{self.brand}-{self.name}")
-        output_size = (300, 169)
-        output_thumb = BytesIO()
+        # output_size = (300, 169)
+        # output_thumb = BytesIO()
 
-        img = Image.open(self.image)
-        img_name = self.image.name.split('.')[0]
+        # img = Image.open(self.image)
+        # img_name = self.image.name.split('.')[0]
 
-        if img.height > 300 or img.width > 300:
-            img.thumbnail(output_size)
-            img.save(output_thumb,format='WEBP',quality=100)
+        # if img.height > 300 or img.width > 300:
+        #     img.thumbnail(output_size)
+        #     img.save(output_thumb,format='WEBP',quality=100)
 
-        self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/webp', sys.getsizeof(output_thumb), None)
+        # self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/webp', sys.getsizeof(output_thumb), None)
 
         super(Bottle, self).save()
 

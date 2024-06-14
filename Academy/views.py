@@ -365,6 +365,7 @@ def age_gate_view(request):
 
     #Load the original page after checking age gate.
     next_url = request.session['next_url']
+    # print(request.session['agegate'])
 
 
     #Register users IP for age gate.
