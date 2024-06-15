@@ -20,7 +20,7 @@
 {% for blog in blogs  %}
 {% if forloop.first %}
 <div class='container blog-hero my-5 slow-load'>
-    <a href="{{blog.get_absolute_url}}">
+    <a href="{{blog.get_absolute_url}}#top">
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
         <div class='col-md-6'>
@@ -93,7 +93,7 @@
             {% if not forloop.first %}
         
             <div class='col-md-4 col-lg-3 col-sm-4 m-2 blog-tile'>
-                <a href="{{blog.get_absolute_url}}">
+                <a href="{{blog.get_absolute_url}}#top">
                     <div class='mb-2 text-center'>
                         <img class='img-fluid blog-tile-image' src={{blog.hero_image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
                     </div>
