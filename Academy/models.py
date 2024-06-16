@@ -202,7 +202,7 @@ class Bottle(models.Model):
         return (f"{self.brand} - {self.name}")
     
     class Meta:
-        ordering = ['category','brand', 'name', 'sorting']
+        ordering = ['sorting','category','brand', 'name']
 
     def get_absolute_url(self):
         return reverse('Academy:bottle_detail', kwargs={'item':self.slug})
