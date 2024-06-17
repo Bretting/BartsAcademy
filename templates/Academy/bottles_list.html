@@ -33,7 +33,7 @@
                 
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
                                 <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
-                                <p  hx-get="{% url 'Academy:brands' %}"
+                                <p  hx-get="{% url 'Academy:bottle_filtered' filter=None %}"
                                 hx-trigger='click'
                                 hx-target='#brands'
                                 hx-swap='outerhtml'
@@ -58,7 +58,7 @@
                 
                     <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
                         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
-                        <p  hx-get="{% url 'Academy:brands' %}"
+                        <p  hx-get="{% url 'Academy:bottle_filtered' filter=None %}"
                             hx-trigger='click'
                             hx-target='#brands'
                             hx-swap='outerhtml'

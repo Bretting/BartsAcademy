@@ -180,6 +180,11 @@ def bottles_list_view(request, brand=None):
     country_list = Brand.objects.values_list('country_of_origin', flat=True).distinct()
     category_list = Category.objects.exclude(brand__isnull=True)
 
+    context = {
+            'country_list' : country_list,
+            'category_list' : category_list,
+        }
+
     if brand=='All':
 
         bottle_list = cache.get('bottles')
@@ -187,17 +192,13 @@ def bottles_list_view(request, brand=None):
             bottle_list = Bottle.objects.all()
             cache.set('bottles', bottle_list, 3600)
 
-        context = {
+        context.update({
             'bottles' : bottle_list,
-            'country_list' : country_list,
-            'category_list' : category_list,
-        }
+        })
     else:
-        context = {
+        context.update({
             'bottles' : Bottle.objects.filter(brand__name=brand),
-            'country_list' : country_list,
-            'category_list' : category_list,
-        }
+        })
 
     return render(request,'Academy/bottles_list.html', context)
 
@@ -217,12 +218,22 @@ def bottle_detail_view(request, item=None):
 
 def bottle_filtered_view(request, filter=None):
 
+    # if filter=='All':
+    #     context = {
+    #         'bottles' : Bottle.objects.all(),
+    #     }
+
+    #     return render(request,'Academy/partials/bottles.html',context)
+
+
     if Bottle.objects.filter(category__subcategory=filter):
         obj = Bottle.objects.filter(category__subcategory=filter)
     elif Bottle.objects.filter(category__name=filter):
         obj = Bottle.objects.filter(category__name=filter)
-    else:
+    elif Bottle.objects.filter(brand__country_of_origin=filter):
         obj = Bottle.objects.filter(brand__country_of_origin=filter)
+    else:
+        obj = Bottle.objects.all()
 
     context = {
         'bottles' : obj,
