@@ -65,7 +65,7 @@ def category_view(request: HtmxHttpRequest, tag=None) -> HttpResponse:
         cache.set('category', categories, 3600)
 
     context = {
-        'categories' : categories.order_by('pk'),
+        'categories' : categories,
         'image' : random_picture,
     }
     if request.htmx:
