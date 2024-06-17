@@ -97,7 +97,7 @@
             <a class="nav-link mx-auto" href="{% url 'Academy:bottles_list' brand='All' %}#top" title='BOTTLES'>BOTTLES</a>
             {% comment %} <a class="nav-link mx-auto" href="#" title='RECIPES'>RECIPES</a> {% endcomment %}
             <a class="nav-link mx-auto" href="{% url 'Academy:blog_list' %}#top" title='BLOG'>BLOG</a>
-            {% if user.is_authenticated %}<a class="nav-link mx-auto" href="{% url 'Academy:dashboard' %}" title='ADMIN'>ADMIN</a>{% endif %}
+            {% if user.is_authenticated %}<a class="nav-link mx-auto" href="{% url 'Academy:dashboard' %}#top" title='ADMIN'>ADMIN</a>{% endif %}
           </div>
         </div>
       </div>
