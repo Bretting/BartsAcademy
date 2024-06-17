@@ -15,8 +15,10 @@
 <div id='top'></div>
 <div class='container'>
 
-    <h1 class='my-5 text-center'>{{blog.name | upper}}</h1>
-    <i>{{blog.blog_date_edit}}</i>
+    <div class='my-5 text-center'> 
+        <h1>{{blog.name | upper}}</h1>
+        <i>{{blog.blog_date_edit}}</i>
+    </div>
     <article>
         {{blog.teaser | safe}}
     </article>
