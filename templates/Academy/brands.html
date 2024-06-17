@@ -28,8 +28,8 @@
                     <h4 class='button'>Category</h4>
                     </a>
                 
-                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
-                                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
+                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='categoryDropdown'>
+                                <input type="text" placeholder="Search.." id="myInputCategory" onkeyup="filterFunction('myInputCategory', 'categoryDropdown')" class='form-control my-3'>
                                 <p  hx-get="{% url 'Academy:brands' %}"
                                 hx-trigger='click'
                                 hx-target='#brands'
@@ -53,8 +53,8 @@
                     <h4 class='button'>Country</h4>
                     </a>
                 
-                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='myDropdown'>
-                        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" class='form-control my-3'>
+                    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='countryDropdown'>
+                        <input type="text" placeholder="Search.." id="myInputCountry" onkeyup="filterFunction('myInputCountry', 'countryDropdown')" class='form-control my-3'>
                         <p  hx-get="{% url 'Academy:brands' %}"
                             hx-trigger='click'
                             hx-target='#brands'

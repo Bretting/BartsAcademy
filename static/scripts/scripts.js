@@ -7,18 +7,19 @@ function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 
-function filterFunction() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("myInput");
+function filterFunction(inputId, dropdownId) {
+  var input, filter, div, p, i, txtValue;
+  input = document.getElementById(inputId);
   filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("p");
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
+  div = document.getElementById(dropdownId);
+  p = div.getElementsByTagName("p");
+
+  for (i = 0; i < p.length; i++) {
+      txtValue = p[i].textContent || p[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          p[i].style.display = "";
+      } else {
+          p[i].style.display = "none";
+      }
   }
 }
