@@ -8,9 +8,9 @@
         hx-swap='outerhtml'>
         <h2 class='button mx-2'>BACK</h2></a>
         {% if type == 'Blog' %}
-            <a href={% url 'Academy:blog_create' %}><h2 class='button mx-2'>CREATE NEW</h2></a> 
+            <a href="{% url 'Academy:blog_create' %}#top"><h2 class='button mx-2'>CREATE NEW</h2></a> 
         {% else %}
-            <a href={% url 'Academy:dashboard_create' type=type %}><h2 class='button mx-2'>CREATE NEW</h2></a> 
+            <a href="{% url 'Academy:dashboard_create' type=type %}#top"><h2 class='button mx-2'>CREATE NEW</h2></a> 
         {% endif %}
         
     </div>
