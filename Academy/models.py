@@ -58,6 +58,7 @@ def video_upload_handler(instance, filename):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     subcategory = models.CharField(max_length=255, unique = True, blank=True, null=True)
+    order = models.IntegerField()
     teaser = HTMLField()
     tagline = HTMLField()
     slug = models.SlugField(unique=True, blank=True)
@@ -70,7 +71,7 @@ class Category(models.Model):
     category_date_edit = models.DateField(auto_now=True, null=True, blank=True)
 
     class Meta:
-        ordering = ['name','subcategory']
+        ordering = ['name','order','subcategory']
 
     def save(self, *args, **kwargs):
         if self.subcategory:

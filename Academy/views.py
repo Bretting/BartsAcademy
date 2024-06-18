@@ -595,17 +595,6 @@ def test_view(request):
     return render(request, 'Academy/test.html', context)
 
 
-
-
-
-
-
-
-
-
-def placeholder_view(request):
-    return render(request,'Academy/placeholder.html')
-
 @login_required
 def SKU_importer(request):
     brands = Brand.objects.all()
