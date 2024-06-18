@@ -434,9 +434,12 @@ def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
 
         #Add categories to the dictionary
         for category in categories_list:
-            if category.name not in categories:
-                categories[category.name] = category
-
+            if category.subcategory:
+                if category.subcategory not in categories:
+                    categories[category.subcategory] = category
+            else:
+                if category.name not in categories:
+                    categories[category.name] = category
     
     context = {
         'blogs' : blogs,
@@ -553,8 +556,12 @@ def blog_filtered_view(request: HtmxHttpRequest, filter=None) -> HttpResponse:
 
         #Add categories to the dictionary
         for category in categories_list:
-            if category.name not in categories:
-                categories[category.name] = category
+            if category.subcategory:
+                if category.subcategory not in categories:
+                    categories[category.subcategory] = category
+            else:
+                if category.name not in categories:
+                    categories[category.name] = category
 
     context = {
         'blogs' : obj,
