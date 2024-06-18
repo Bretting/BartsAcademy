@@ -53,10 +53,10 @@
 </div>
 
 <!-- Random category "learn more"-->
-<div class='container my-5 test'>
+<div class='container my-5'>
 
     <div class='row my-3'>
-        <div class='col-lg-6 p-3 test'>
+        <div class='col-lg-6 p-3'>
             <div class='text-center'>
             <article>
                 <h2 class='mb-3'>LEARN MORE ABOUT {% if category.subcategory %}{{category.subcategory|upper}}{% else %}{{category.name|upper}}{% endif %}</h2>
@@ -65,18 +65,18 @@
             </article>       
             </div>
         </div>
-        <img class='main main-category col-lg-6 p-3 test' src="{{category.image.url}}" alt="{{category.name}}" title="{{category.name}}">
+        <img class='main main-category col-lg-6 p-3' src="{{category.image.url}}" alt="{{category.name}}" title="{{category.name}}">
     </div>
 
 </div>
 
 
 <!--Latest blogpost-->
-<div class='container blog-hero my-5 slow-load test'>
+<div class='container blog-hero my-5 slow-load'>
 
     <div class='row my-3'>
-        <img class='col-md-6 main main-category p-3 test' src={{blog.hero_image.url}} alt="Latest blog image">
-        <div class='col-md-6 text-center p-3 test'>
+        <img class='col-md-6 main main-category p-3' src={{blog.hero_image.url}} alt="Latest blog image">
+        <div class='col-md-6 text-center p-3'>
             <h2>{{blog.name | upper}}</h2>
             <div class='d-flex justify-content-center mb-2'>
                 <i>{{blog.blog_date_edit}}</i>
