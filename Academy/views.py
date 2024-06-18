@@ -218,14 +218,6 @@ def bottle_detail_view(request, item=None):
 
 def bottle_filtered_view(request, filter=None):
 
-    # if filter=='All':
-    #     context = {
-    #         'bottles' : Bottle.objects.all(),
-    #     }
-
-    #     return render(request,'Academy/partials/bottles.html',context)
-
-
     if Bottle.objects.filter(category__subcategory=filter):
         obj = Bottle.objects.filter(category__subcategory=filter)
     elif Bottle.objects.filter(category__name=filter):
@@ -431,7 +423,7 @@ def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
         
     blogs = Blog.objects.all()
     brands = Brand.objects.all()
-    categories = Category.objects.all()
+    categories = Category.objects.exclude(brand__isnull=True)
     
     context = {
         'blogs' : blogs,
@@ -526,7 +518,7 @@ def blog_edit_view(request, item=None):
     return render(request,'Academy/blog_crud.html',context)
 
 
-def blog_filtered_view(request, filter=None):
+def blog_filtered_view(request: HtmxHttpRequest, filter=None) -> HttpResponse:
 
     if Blog.objects.filter(category_tag__subcategory=filter):
         obj = Blog.objects.filter(category_tag__subcategory=filter)
@@ -537,12 +529,19 @@ def blog_filtered_view(request, filter=None):
     else:
         obj = None
 
+    brands = Brand.objects.all()
+    categories = Category.objects.exclude(brand__isnull=True)
+
     context = {
         'blogs' : obj,
+        'brands' : brands,
+        'categories' : categories
     }
 
-
-    return render(request,'Academy/partials/blogs.html', context)
+    if request.htmx:
+        return render(request,'Academy/partials/blogs.html', context)
+    else:
+        return render(request,'Academy/blog_list.html', context)
 
 
 

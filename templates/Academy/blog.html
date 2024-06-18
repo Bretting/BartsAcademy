@@ -18,6 +18,19 @@
     <div class='my-5 text-center'> 
         <h1>{{blog.name | upper}}</h1>
         <i>{{blog.blog_date_edit}}</i>
+        <div>
+        {% for tag in blog.category_tag.all  %}
+            {% if tag.subcategory %}
+            <a href={% url "Academy:blogs_filtered" filter=tag.subcategory %}>
+                <h3 class='button-small'>{{tag.subcategory}}</h3>
+            </a>
+            {% else %}
+            <a href={% url "Academy:blogs_filtered" filter=tag.name %}>
+                <h3 class='button-small'>{{tag.name}}</h3>
+            </a>
+            {% endif %}
+        {% endfor %}
+        </div>
     </div>
     <article>
         {{blog.teaser | safe}}
