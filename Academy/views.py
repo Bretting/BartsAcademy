@@ -423,7 +423,20 @@ def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
         
     blogs = Blog.objects.all()
     brands = Brand.objects.all()
-    categories = Category.objects.exclude(brand__isnull=True)
+
+    #create dictionary for categories dropdown in template.
+    categories = {}
+
+    #Loop through each blog entry
+    for blog in blogs:
+        #Fetch categories associated with the blog
+        categories_list = blog.category_tag.all()
+
+        #Add categories to the dictionary
+        for category in categories_list:
+            if category.name not in categories:
+                categories[category.name] = category
+
     
     context = {
         'blogs' : blogs,
@@ -530,7 +543,18 @@ def blog_filtered_view(request: HtmxHttpRequest, filter=None) -> HttpResponse:
         obj = None
 
     brands = Brand.objects.all()
-    categories = Category.objects.exclude(brand__isnull=True)
+    #create dictionary for categories dropdown in template.
+    categories = {}
+
+    #Loop through each blog entry
+    for blog in obj:
+        #Fetch categories associated with the blog
+        categories_list = blog.category_tag.all()
+
+        #Add categories to the dictionary
+        for category in categories_list:
+            if category.name not in categories:
+                categories[category.name] = category
 
     context = {
         'blogs' : obj,
