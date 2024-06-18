@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}Barts Academy: {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}{% endblock title %}
 {% block page-css %}
-    <link rel="stylesheet" href="{% static 'css/categories.css' %}">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/categories.css' %}">
 {% endblock page-css %}
 
 {% block meta-seo %}
@@ -44,7 +44,7 @@
                 </div>  
             </div>
         </div>
-        <img class='main col-lg-6 img-fluid' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
+        <img class='main col-lg-6 img-fluid order-first order-md-1' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
     </div>
 
     <!--COLLAPSE FOR CATEGORY TEXT-->
@@ -54,7 +54,7 @@
 {% if related_blogs %}
 {% for blog in related_blogs  %}
 {% if forloop.first %}
-<div class='container blog-hero my-5 slow-load'>
+<div class='container blog-hero category-blog my-5 slow-load'>
     <a href="{{blog.get_absolute_url}}#top">
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">

@@ -45,6 +45,10 @@
         border-radius: 0;
     }
 
+    .category-blog img {
+        border-radius: 30px;
+    }
+
     .blog-tile-image {
         height: 320px;
     }

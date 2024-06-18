@@ -34,7 +34,7 @@
 </div>
 
 <!--Bottle carousel-->
-<div class='container my-3 g-0'>
+<div class='container mt-5 g-0'>
     <div class='owl-carousel'>
         {% for bottle in bottles|shuffle %}
             <div class="sku mb-5">
@@ -53,9 +53,9 @@
 </div>
 
 <!-- Random category "learn more"-->
-<div class='container my-5'>
+<div class='container mb-5'>
 
-    <div class='row my-3'>
+    <div class='row mb-3'>
         <div class='col-lg-6 p-3'>
             <div class='text-center'>
             <article>
@@ -76,7 +76,7 @@
 
     <div class='row my-3'>
         <img class='col-md-6 main main-category p-3' src={{blog.hero_image.url}} alt="Latest blog image">
-        <div class='col-md-6 text-center p-3'>
+        <div class='col-md-6 text-center p-3 order-first order-md-1'>
             <h2>{{blog.name | upper}}</h2>
             <div class='d-flex justify-content-center mb-2'>
                 <i>{{blog.blog_date_edit}}</i>
