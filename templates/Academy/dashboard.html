@@ -8,14 +8,6 @@
 <div id="top"></div>
 <div class='container my-5'>
     <div class='row'>
-<!--TODO: add HTMX links 
-    also needs the following:
-    - back button to return to dashboard
-    - edit buttons for all items
-    - thumbnail images when images are included
-    - search bar for bottles and brands
-
--->
         <div class='col-md-3 dashboard-menu my-2'>
             <h2 hx-get= "{% url 'Academy:dashboard_list' item='Category' %}"
                 hx-trigger= 'click'
@@ -32,8 +24,8 @@
                 <h2 hx-get= "{% url 'Academy:dashboard_list' item='Blog' %}"
                 hx-trigger= 'click'
                 hx-target= '#main'
-                hx-swap='outerhtml'>INSPIRATION</h2>
-            <a href="{% url "Academy:sku_importer" %}"><h2>IMPORT</h2></a>
+                hx-swap='outerhtml'>BLOGS</h2>
+            {% comment %} <a href="{% url "Academy:sku_importer" %}"><h2>IMPORT</h2></a> {% endcomment %}
         </div>
 
         <div class='col-md-9 my-2' id='main'>
@@ -44,12 +36,3 @@
 
 
 {% endblock content %}
-
-
-
-<a  hx-get='{% url "rhumSite:img_dashboard" %}'
-hx-trigger='click'
-hx-target='#main'
-hx-swap='outerhtml'>
-<h2 class='dash-item'>Main page Images</h2>
-</a>

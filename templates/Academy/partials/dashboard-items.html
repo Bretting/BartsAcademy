@@ -35,9 +35,9 @@
                     {% endif %}
                 </td>
 
-                {% if item.thumbnail or item.logo %}
+                {% if item.image or item.logo %}
                     <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}><img 
-                        {% if item.thumbnail %}src="{{item.thumbnail.url}}" {% else %}src="{{item.logo.url}}"{% endif %}
+                        {% if item.image %}src="{{item.image}}" {% else %}src="{{item.logo.url}}"{% endif %}
                         alt="Thumbnail of {{item.name}}"></a></td>
                 {% endif %}
 

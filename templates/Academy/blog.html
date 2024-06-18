@@ -21,11 +21,11 @@
         <div>
         {% for tag in blog.category_tag.all  %}
             {% if tag.subcategory %}
-            <a href={% url "Academy:blogs_filtered" filter=tag.subcategory %}>
+            <a href="{% url 'Academy:blogs_filtered' filter=tag.subcategory %}#top">
                 <h3 class='button-small'>{{tag.subcategory}}</h3>
             </a>
             {% else %}
-            <a href={% url "Academy:blogs_filtered" filter=tag.name %}>
+            <a href="{% url 'Academy:blogs_filtered' filter=tag.name %}#top">
                 <h3 class='button-small'>{{tag.name}}</h3>
             </a>
             {% endif %}
