@@ -21,7 +21,7 @@
 {% if forloop.first %}
 <div class='container blog-hero my-5 slow-load grey round'>
     <a href="{{blog.get_absolute_url}}#top">
-    <div class='row pb-2'>
+    <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
         <div class='col-md-6'>
             <h1 class='text-center mt-3'>{{blog.name | upper}}</h1>
