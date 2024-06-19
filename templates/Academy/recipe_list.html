@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Recipes{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/recipes.css' %}">{% endblock page-css %}
+
+
+{% block meta-seo %}
+
+    <meta name='description' content="Find an overview of all recipes and their background information on Barts Academy.">
+    <meta name='keywords' content="Recipes, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
+
+{% block content %}
+<div class='top'></div>
+<div class='container slow-load'>
+    <div class='row'>
+
+        <div class='col-md-6 text-center'>
+            <h2>Recipe of the day</h2>
+
+            {% for recipe in recipes  %}
+            
+                <h4>{{recipe.name}}<h4>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+{% endblock content %}

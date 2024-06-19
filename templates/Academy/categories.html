@@ -17,7 +17,7 @@
     <div class='row my-5'>
         <h2 class='text-center bold'>LEARN MORE</h2> 
         <h4 class='text-center mb-5'><i>Read all you ever wanted to know about each category</i></h4>
-        <div class='col-lg-6 p-3'>
+        <div class='col-lg-6'>
             <article>
                 <h4 class='mb-3 text-center'>SPIRIT CATEGORIES</h4>
                 <p>
@@ -30,28 +30,30 @@
                 </p>
             </article>    
         </div>
-        <img class='main col-lg-6 p-3' src="{{image.image.url}}" alt="{{image.name}}" title="{{image.name}}" loading='lazy'>
+        <img class='main col-lg-6 g-0' src="{{image.image.url}}" alt="{{image.name}}" title="{{image.name}}" loading='lazy'>
     </div>
-    <div class='container my-5'>
-        <div    class='d-flex flex-column text-center'
+
+    <div class='container my-3 p-3 grey round'>
+        <div    class='d-flex flex-sm-row flex-column justify-content-center text-center'
                 hx-boost="true">
             <a  hx-get='{% url "Academy:category_global" %}'
             hx-trigger='click'
             hx-target='#categories'
             hx-swap='outerhtml'
             hx-push-url="true">
-            <h2 class='button'>GLOBAL CATEGORIES</h2>
+            <h2 class='grey-button'>GLOBAL CATEGORIES</h2>
             </a>
             <a  hx-get='{% url "Academy:categories" %}'
             hx-trigger='click'
             hx-target='#categories'
             hx-swap='outerhtml'
             hx-push-url="true">
-            <h2 class='button'>SUB CATEGORIES</h2>
+            <h2 class='grey-button'>SUB CATEGORIES</h2>
             </a>
         </div>
     </div>
 </div>
+
 <div class='container my-5 categories' id='categories'>
     <div class='row d-flex justify-content-center slow-load' hx-boost="true">
         {% for category in categories  %}

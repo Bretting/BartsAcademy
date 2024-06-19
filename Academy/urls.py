@@ -27,6 +27,7 @@ from .views import (
     blog_edit_view,
     blog_filtered_view,
     SKU_importer,
+    recipe_view,
 )
 
 app_name = 'Academy'
@@ -71,17 +72,15 @@ urlpatterns = [
     path('Dashboard-import',SKU_importer, name='sku_importer'),
 
 
+   ######################
+    #RECIPES
+    path('Recipes', recipe_view, name='recipes_list'),
+
 
    ######################
     #AGEGATE
     path('agegate',age_gate_view,name='agegate'),
 
-
-
-
-    ####################
-    #TEST
-    path('test',test_view,name='test'),
 
     ######################
     #Sitemap

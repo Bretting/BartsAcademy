@@ -279,3 +279,37 @@ class AgeGate(models.Model):
         return f"Age gate checked from {self.ip}, at {self.date_time}"
     
 
+class Recipe(models.Model):
+    name = models.CharField(max_length=255)
+    image = ResizedImageField(size=[1000,600],upload_to='recipe')
+
+    def __str__(self):
+        return self.name
+
+
+class RecipeIngredient(models.Model):
+
+    class typeSorting(models.IntegerChoices):
+        ML = 1
+        Piece = 2
+        Gram = 3
+
+    related_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    related_product = models.ForeignKey(Bottle,on_delete=models.CASCADE, blank = True, null= True)
+    unrelated_product = models.CharField(max_length=255, blank = True, null = True)
+    amount = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='Amount')
+    type = models.IntegerField(choices = typeSorting.choices,verbose_name='Type')
+
+    def __str__(self):
+        if self.related_product:
+            return self.related_product.name
+        else:
+            return self.unrelated_product
+            
+
+
+
+
+            # return f" {self.related_recipe} - " ', '.join([str(product) for product in self.related_product.all()])
+
+

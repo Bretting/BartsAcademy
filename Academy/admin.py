@@ -24,6 +24,13 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ['name', 'category_tag__name', 'category_tag__subcategory']
     list_display = ['name', 'blog_date_create', 'blog_date_edit']
 
+class RecipeAdmin(admin.ModelAdmin):
+     search_fields = ['name']
+
+class RecipeIngredientAdmin(admin.ModelAdmin):
+     search_fields = ['related_recipe', 'related_product', 'unrelated_product']
+     list_display = ['related_recipe', 'related_product', 'unrelated_product', 'amount', 'type']
+
 
 
 admin.site.register(Category, CategoryAdmin)
@@ -34,3 +41,5 @@ admin.site.register(CoreImages)
 admin.site.register(AgeGate)
 admin.site.register(BlogImage)
 admin.site.register(BlogType)
+admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(RecipeIngredient, RecipeIngredientAdmin)

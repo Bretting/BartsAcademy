@@ -15,6 +15,7 @@ from .models import (
     Brand,
     Blog,
     BlogImage,
+    Recipe,
 )
 
 from .forms import (
@@ -140,7 +141,7 @@ def brand_view(request: HtmxHttpRequest) -> HttpResponse:
     if request.htmx:
         return render(request,'Academy/partials/brands.html', context)
     else:
-        return render(request,'Academy/brands.html',context)
+        return render(request,'Academy/brands-list.html',context)
 
 #Filter Brands
 def brand_filtered_view(request, filter=None):
@@ -577,6 +578,20 @@ def blog_filtered_view(request: HtmxHttpRequest, filter=None) -> HttpResponse:
         return render(request,'Academy/blog_list.html', context)
 
 
+###################################################
+#RECIPES
+
+
+def recipe_view(request):
+
+    recipes = Recipe.objects.all()
+
+    context = {
+        'recipes' : recipes
+
+    }
+
+    return render(request, 'Academy/recipe_list.html', context)
 
 
 
