@@ -160,11 +160,13 @@
 
 
             <div class='mx-3 row my-5'>
+                {% if bottle.website_link %}
                 <div class='col-lg d-flex justify-content-center'>
                     <a href="{{bottle.website_link}}" target='_blank'>
                         <p class="button">BRAND WEBSITE</p> 
                     </a>
                 </div>
+                {% endif %}
 
                 <div class='col-lg d-flex justify-content-center'>
                     <a role='button' data-bs-toggle="modal" data-bs-target="#shopModal">

@@ -37,7 +37,7 @@
 
                 {% if item.image or item.logo %}
                     <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}><img 
-                        {% if item.image %}src="{{item.image}}" {% else %}src="{{item.logo.url}}"{% endif %}
+                        {% if item.logo %}src="{{item.logo.url}}" {% else %}src="{{item.image}}" {% endif %}
                         alt="Thumbnail of {{item.name}}"></a></td>
                 {% endif %}
 

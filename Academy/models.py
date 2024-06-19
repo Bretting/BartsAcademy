@@ -160,7 +160,7 @@ class Bottle(models.Model):
     # thumbnail = models.ImageField(upload_to='thumbnails')
     shop_link = models.URLField()
     consumer_shop_link = models.URLField()
-    website_link = models.URLField()
+    website_link = models.URLField(blank= True, null = True)
     tech_nom = models.CharField(max_length=7,blank=True, null=True,verbose_name='NOM')
     tech_source_material = models.CharField(blank=True, null=True, max_length=255, verbose_name='Source material')
     tech_region = models.CharField(blank=True, null=True, max_length=255, verbose_name='Region')
