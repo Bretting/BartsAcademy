@@ -17,14 +17,16 @@
 {% for recipe in recipes  %}
 {% if forloop.first %}
 <div class='container my-5 slow-load grey round hero-image'>
-    <a href="#top">
+    <a href="{{recipe.get_absolute_url}}#top">
 
         <div class='row'>
             <img class="col-md-6 img-fluid g-0" src="{{recipe.image.url}}" alt="Picture of {{recipe.name}}">
             <div class='col-md-6'>
                 <h1 class='text-center my-3'>{{recipe.name | upper}}</h1>
                 <p>{{recipe.description | safe}}</p>
-    {% comment %} 
+    
+    
+                {% comment %} 
                 <div class='d-flex justify-content-center'>
                     {% for tag in recipe.category_tag.all  %}
                         {% if tag.subcategory %}
@@ -42,5 +44,41 @@
 </div>
 {% endif %}
 {% endfor %}
+
+<div class='container g-0'>
+    <div class='text-center grey py-2 round'>
+        <h4>FILTERS</h4>
+
+        <div class='row'>
+
+            <div class='d-flex flex-sm-row flex-column justify-content-center text-center'>
+                <input type="text" placeholder="Search.." id="myInputBrands" onkeyup="searchFunction('myInputBrands', 'tile')" class='form-control my-3 w-50'>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class='container my-5 slow-load' id='recipes'>
+    <div class='row d-flex justify-content-center g-0'>
+
+        {% for recipe in recipes  %}
+            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile'>
+                <a href="{{recipe.get_absolute_url}}#top">
+                    <div class='mb-2 text-center tile-image'>
+                        <img class='img-fluid tile-image' src={{recipe.image.url}} class='img-fluid' alt="Picture of {{recipe.name}}">
+                    </div>
+                    
+                    <div class="text-center">
+                        <h2>{{recipe.name | upper}}</h2>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+       
+    </div>
+</div>
 
 {% endblock content %}

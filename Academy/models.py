@@ -283,6 +283,15 @@ class Recipe(models.Model):
     name = models.CharField(max_length=255)
     image = ResizedImageField(size=[1000,600],upload_to='recipe')
     description = HTMLField()
+    recipe_steps = HTMLField()
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Recipe,self).save()
+
+    def get_absolute_url(self):
+        return reverse("Academy:recipe_detailview", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.name
@@ -291,15 +300,17 @@ class Recipe(models.Model):
 class RecipeIngredient(models.Model):
 
     class typeSorting(models.IntegerChoices):
-        ML = 1
-        Piece = 2
-        Gram = 3
+        ML = 1, 'ML'
+        Piece = 2, 'Piece'
+        Gram = 3 , 'Gram'
+        Dash = 4, 'Dash'
 
     related_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     related_product = models.ForeignKey(Bottle,on_delete=models.CASCADE, blank = True, null= True)
     unrelated_product = models.CharField(max_length=255, blank = True, null = True)
     amount = models.DecimalField(max_digits=3, decimal_places=1, verbose_name='Amount')
     type = models.IntegerField(choices = typeSorting.choices,verbose_name='Type')
+    order = models.IntegerField(default=1)
 
     def __str__(self):
         if self.related_product:

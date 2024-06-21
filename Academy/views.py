@@ -16,6 +16,7 @@ from .models import (
     Blog,
     BlogImage,
     Recipe,
+    RecipeIngredient,
 )
 
 from .forms import (
@@ -593,6 +594,19 @@ def recipe_view(request):
 
     return render(request, 'Academy/recipe_list.html', context)
 
+def recipe_detailview(request, slug=None):
+
+    recipe = get_object_or_404(Recipe, slug=slug)
+    ingredients = RecipeIngredient.objects.filter(related_recipe=recipe)
+    bottles = Bottle.objects.filter(id__in=ingredients.values_list('related_product_id', flat=True))
+
+    context = {
+        'recipe' : recipe,
+        'ingredients' : ingredients,
+        'bottles' : bottles
+    }
+
+    return render (request, 'Academy/recipe_detailview.html', context)
 
 
 ###################################################

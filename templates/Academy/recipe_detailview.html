@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{recipe.name}} Recipe{% endblock title %}
+{% block page-css %}<link rel="stylesheet" href="{% static 'css/recipes.css' %}">{% endblock page-css %}
+
+
+{% block meta-seo %}
+
+    <meta name='description' content="Recipe for {{recipe.name}}.">
+    <meta name='keywords' content="{{recipe.name}}, Recipes, Spirits, Liqueurs">
+
+{% endblock meta-seo %}
+
+
+{% block content %}
+<div class='top'></div>
+<div class='container my-5'>
+
+    <div class='row'>
+        <div class='col-md-6'>
+            <img class='img-fluid round' src="{{recipe.image.url}}" alt="Picture of {{recipe.name}}" title="Picture of {{recipe.name}}" loading='lazy'>
+        </div>
+
+        <div class='col-md-6'>
+            <h1 class='mb-3 text-center'>{{recipe.name | upper}}</h1>
+            <article>
+                {{recipe.description | safe}}
+            </article>
+        </div>
+    </div>
+
+    <div class='row'>
+
+        <div class='col-md-6'>
+            <div class='grey p-3 my-3 round'>
+                <h3 class='my-3 text-center'>RECIPE</h3>
+                <div class='input-group my-2'>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="servings">Servings</span>
+                    </div>
+                    <input class='form-control mx-auto' type="number" value='1' min='0'step='.1' aria-describedby="servings" id='servings-amount'>
+                </div>
+
+                <table class='table'>
+                    <tr>
+                        <th scope='col'>INGREDIENT</th>
+                        <th scope='col'>AMOUNT</th>
+                    </tr>
+                    {% for ingredient in ingredients %}
+                    <tr>
+                        {% if ingredient.related_product %}
+                        <td><a class='bottle_link' href="{{ingredient.related_product.get_absolute_url}}">{{ingredient.related_product}}</a></td>
+                        {% else %}
+                            <td>{{ingredient.unrelated_product}}</td>
+                        {% endif %}
+                        <td data-amount="{{ingredient.amount}}">{{ingredient.amount}}</td>
+                        <td>{{ingredient.get_type_display}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class='col-md-6'>
+            <div class='p-3 my-3'>
+                <h3 class='my-2 text-center'>STEPS</h3>
+                <article>
+                    {{recipe.recipe_steps | safe}}
+                </article>
+            </div>
+        </div>
+
+    </div>
+
+    <div class='container' id='brands'>
+        <div class='row d-flex justify-content-center'>
+            {% for bottle in bottles  %}
+            <div class="col-md-3 m-3 tile slow-load" id="{{bottle.brand | upper}} {{bottle.name | upper}}"> 
+                <a href="{{bottle.get_absolute_url}}">
+                <div class='my-4 brand-img text-center'>
+                    <img class='img-fluid' src={{bottle.image}} class='img-fluid' alt="Picture of {{bottle.name}}">
+                </div>
+                
+                <div class="text-center">
+                    <i><h4>{{bottle.brand}}</h4></i>
+                    <h2>{{bottle.name | upper}}</h2>
+                </div>
+            </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>   
+
+
+
+</div>
+
+<script>
+
+    //Function to set the amount of servings in a cocktail
+document.addEventListener('DOMContentLoaded', function() {
+    const servingsInput = document.getElementById('servings-amount');
+    const ingredientAmountCells = document.querySelectorAll('td[ingredient-data]');
+  
+    function updateIngredientAmounts() {
+        const multiplier = parseFloat(servingsInput.value);
+        ingredientAmountCells.forEach(cell => {
+            const originalAmount = parseFloat(cell.getAttribute('data-amount'));
+            const newAmount = (originalAmount * multiplier).toFixed(2);
+            cell.textContent = newAmount;
+        });
+    }
+  
+    // Initial update when the page loads
+    updateIngredientAmounts();
+  
+    // Update amounts whenever the input value changes
+    servingsInput.addEventListener('input', updateIngredientAmounts);
+  });
+</script>
+
+{% endblock content %}
