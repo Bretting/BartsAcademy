@@ -101,6 +101,8 @@ a {
     font-weight: bold;
 }
 
+/* MAIN */
+
 button {
     background-color: transparent;
     border: transparent;
@@ -187,6 +189,19 @@ button {
     object-fit: cover;
 }
 
+.hero-image img{
+    height: 450px;
+    object-fit: cover;
+}
+
+.hero-image:hover {
+    box-shadow: 5px 5px 5px #e3e5e5;
+}
+
+.hero-image img {
+    border-radius: 30px;
+}
+
 .hero-video {
     height: 500px;
     object-fit: contain;
@@ -255,6 +270,10 @@ button {
     .main {
         height: 275px;
         border-radius: 0;
+    }
+
+    .hero-image {
+        border-radius: 0px;
     }
 
     .button {

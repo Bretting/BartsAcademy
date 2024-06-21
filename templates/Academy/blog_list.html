@@ -19,7 +19,7 @@
 <div id='top'></div>
 {% for blog in blogs  %}
 {% if forloop.first %}
-<div class='container blog-hero my-5 slow-load grey round'>
+<div class='container blog-hero hero-image my-5 slow-load grey round'>
     <a href="{{blog.get_absolute_url}}#top">
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
@@ -90,7 +90,7 @@
 </div>
 </div>
 
-
+<!-- BLOG TILES -->
 
 <div class='container my-5 slow-load' id='blogs'>
     <div class='row d-flex justify-content-center g-0'>

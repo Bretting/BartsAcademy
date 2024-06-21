@@ -282,6 +282,7 @@ class AgeGate(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     image = ResizedImageField(size=[1000,600],upload_to='recipe')
+    description = HTMLField()
 
     def __str__(self):
         return self.name
