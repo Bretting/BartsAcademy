@@ -52,13 +52,16 @@ function searchFunction(inputId, targetClass) {
 //Function to set the amount of servings in a cocktail
 document.addEventListener('DOMContentLoaded', function() {
   const servingsInput = document.getElementById('servings-amount');
-  const ingredientAmountCells = document.querySelectorAll('td[ingredient-data]');
+  const ingredientAmountCells = document.querySelectorAll('td[data-amount]');
 
   function updateIngredientAmounts() {
       const multiplier = parseFloat(servingsInput.value);
       ingredientAmountCells.forEach(cell => {
           const originalAmount = parseFloat(cell.getAttribute('data-amount'));
-          const newAmount = (originalAmount * multiplier).toFixed(2);
+          let newAmount = (originalAmount * multiplier).toFixed(2);
+          if (isNaN(newAmount)) {
+              newAmount = originalAmount.toFixed(2);
+          }
           cell.textContent = newAmount;
       });
   }
@@ -69,3 +72,4 @@ document.addEventListener('DOMContentLoaded', function() {
   // Update amounts whenever the input value changes
   servingsInput.addEventListener('input', updateIngredientAmounts);
 });
+

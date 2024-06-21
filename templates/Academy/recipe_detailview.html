@@ -38,13 +38,14 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="servings">Servings</span>
                     </div>
-                    <input class='form-control mx-auto' type="number" value='1' min='0'step='.1' aria-describedby="servings" id='servings-amount'>
+                    <input class='form-control mx-auto' type="number" value='1' min='0' step='.1' aria-describedby="servings" id='servings-amount'>
                 </div>
-
+        
                 <table class='table'>
                     <tr>
                         <th scope='col'>INGREDIENT</th>
                         <th scope='col'>AMOUNT</th>
+                        <th scope='col'>TYPE</th>
                     </tr>
                     {% for ingredient in ingredients %}
                     <tr>
@@ -60,6 +61,7 @@
                 </table>
             </div>
         </div>
+        
 
         <div class='col-md-6'>
             <div class='p-3 my-3'>
@@ -95,28 +97,10 @@
 
 </div>
 
-<script>
-
-    //Function to set the amount of servings in a cocktail
-document.addEventListener('DOMContentLoaded', function() {
-    const servingsInput = document.getElementById('servings-amount');
-    const ingredientAmountCells = document.querySelectorAll('td[ingredient-data]');
-  
-    function updateIngredientAmounts() {
-        const multiplier = parseFloat(servingsInput.value);
-        ingredientAmountCells.forEach(cell => {
-            const originalAmount = parseFloat(cell.getAttribute('data-amount'));
-            const newAmount = (originalAmount * multiplier).toFixed(2);
-            cell.textContent = newAmount;
-        });
-    }
-  
-    // Initial update when the page loads
-    updateIngredientAmounts();
-  
-    // Update amounts whenever the input value changes
-    servingsInput.addEventListener('input', updateIngredientAmounts);
-  });
-</script>
-
 {% endblock content %}
+
+{% block scripts %}
+
+<script type="text/javascript" src="{% static 'scripts/scripts.js' %}"></script>
+
+{% endblock scripts %}
