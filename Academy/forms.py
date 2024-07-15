@@ -10,7 +10,9 @@ from .models import (
     Brand,
     AgeGate,
     Blog,
-    BlogImage
+    BlogImage,
+    Recipe,
+    RecipeIngredient,
 )
 
 
@@ -187,13 +189,52 @@ class BlogImageForm(forms.ModelForm):
         model = BlogImage
         fields = ['image', 'image_text']
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.helper = FormHelper()
-            self.helper.form_tag = False
-            self.helper.render_hidden_fields = True
-            self.helper.layout = Layout(
-                Div(
-                Row('image', css_class='form-control-file form-row my-1'),
-                Row('image_text', css_class='form-control, my-1'),
-                css_class='corner px-3 py-2'))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.render_hidden_fields = True
+        self.helper.layout = Layout(
+            Div(
+            Row('image', css_class='form-control-file form-row my-1'),
+            Row('image_text', css_class='form-control, my-1'),
+            css_class='corner px-3 py-2'))
+            
+
+class RecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['name', 'image', 'description', 'recipe_steps']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.render_hidden_fields = True
+        self.helper.layout = Layout(
+            Div(
+            Row('name', css_class='form-control, my-1'),
+            Row('image', css_class='form-control-file form-row my-1'),
+            Row('description', css_class='form-control, my-1'),
+            Row('recipe_steps', css_class='form-control, my-1'),)
+            # Submit('submit', 'Save', css_class='my-3 btn btn-secondary'))
+        )
+        
+
+class RecipeIngredientForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredient
+        fields = ['related_product', 'unrelated_product', 'amount']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.render_hidden_fields = True
+        self.helper.layout = Layout(
+            Div(
+            Row(
+                Column('related_product', css_class='form-control, my-1'),
+                Column('unrelated_product', css_class='form-control, my-1'),),
+            Row('amount', css_class='form-control, my-1'),
+            css_class='corner px-3 py-2'))

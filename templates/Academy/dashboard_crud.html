@@ -26,9 +26,54 @@
 
        <form enctype='multipart/form-data' method='POST' class='my-3'>
         {% crispy form %}
+
+        {% if type == 'Recipe' %}
+        <input type="submit" name='recipe_form' value='Save' class='my-3 btn btn-secondary'>
+        {% endif %}
         </form>
     </div>
 </div>
+
+{% if type == 'Recipe' %}
+{% block ingredient_form %}
+
+<div class='container' id='ingredients'>
+    <div>
+        <table class='table'>
+            <tr>
+                <th>INGREDIENT</th>
+                <th>AMOUNT</th>
+            </tr>
+            {% block ingredients %}
+                {% for ingredient in ingredients %}
+                <tr>
+                    {% if ingredient.related_product %}
+                    <td><a class='bottle_link' href="{{ingredient.related_product.get_absolute_url}}">{{ingredient.related_product}}</a></td>
+                    {% else %}
+                        <td>{{ingredient.unrelated_product}}</td>
+                    {% endif %}
+                    <td data-amount="{{ingredient.amount}}">{{ingredient.amount}}</td>
+                    <td>{{ingredient.get_type_display}}</td>
+                </tr>
+                {% endfor %}
+            {% endblock ingredients %}
+        </table>
+    </div>
+
+  
+    
+    <div class='container'>
+        <form enctype='multipart/form-data' method='POST' class='my-3' hx-post="{% url 'Academy:add_ingredient' %}" hx-target="#ingredients" hx-swap='outerHTML'>
+            {% crispy ingredient_form %}
+
+            <input type="submit" name='recipe_ingredient' value='Save' class='my-3 btn btn-secondary'>
+        </form>
+    </div>
+    
+</div>
+
+{% endblock ingredient_form %}
+{% endif %}
 
 
 <script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script> 

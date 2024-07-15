@@ -29,6 +29,7 @@ from .views import (
     SKU_importer,
     recipe_view,
     recipe_detailview,
+    add_ingredient_view,
 )
 
 app_name = 'Academy'
@@ -77,6 +78,7 @@ urlpatterns = [
     #RECIPES
     path('Recipes', recipe_view, name='recipes_list'),
     path('Recipes/<str:slug>', recipe_detailview, name='recipe_detailview'),
+    path('Recipes/add', add_ingredient_view, name='add_ingredient'),
 
 
    ######################

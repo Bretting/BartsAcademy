@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.forms import inlineformset_factory, modelformset_factory
 import pandas as pd
-import logging
+from render_block import render_block_to_string
 from .models import (
     CoreImages,
     Category,
@@ -26,6 +26,8 @@ from .forms import (
     AgeGateForm,
     BlogForm,
     BlogImageForm,
+    RecipeForm,
+    RecipeIngredientForm,
 )
 ##############################################
 
@@ -257,6 +259,7 @@ def dashboard_list_view(request, item):
     'Bottle': Bottle,
     'Brand' : Brand,
     'Blog' : Blog,
+    'Recipe' : Recipe
     }
     
     obj_item = name_to_model_class[item]
@@ -278,6 +281,7 @@ def dashboard_delete_view(request, id=None, item=None):
         'Category': Category,
         'Brand':Brand,
         'Blog': Blog,
+        'Recipe' : Recipe
     }
 
     obj_item = name_to_model_class[item]
@@ -301,6 +305,7 @@ def dashboard_edit_item(request, type=None, item=None):
         'Bottle': Bottle,
         'Brand' : Brand,
         'Blog' : Blog,
+        'Recipe' : Recipe
         }
     
     name_to_form_class = {
@@ -308,6 +313,7 @@ def dashboard_edit_item(request, type=None, item=None):
         'Bottle': BottleForm,
         'Brand' : BrandForm,
         'Blog' : BlogForm,
+        'Recipe' : RecipeForm,
     }
 
     object_model = name_to_model_class[type]
@@ -334,6 +340,7 @@ def dashboard_create_item(request, type=None):
         'Bottle': BottleForm,
         'Brand' : BrandForm,
         'Blog' : BlogForm,
+        'Recipe' : RecipeForm
     }
 
     if request.method == 'POST':
@@ -347,6 +354,7 @@ def dashboard_create_item(request, type=None):
     context = {
         'form' : form,
         'type' : type,
+        "ingredient_form" : RecipeIngredientForm            
     }
 
     return render(request, 'Academy/dashboard_crud.html', context)
@@ -607,6 +615,30 @@ def recipe_detailview(request, slug=None):
     }
 
     return render (request, 'Academy/recipe_detailview.html', context)
+
+def add_ingredient_view(request):
+
+    if request.method == 'POST':
+        form = RecipeIngredientForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            context = {
+                'form' : form
+            }
+        else:
+            context = {
+                'form' : form
+            }
+        html= render_block_to_string('Academy/dashboard_crud.html', 'ingredient_form', context)
+        return HttpResponse(html)
+    
+    context = {
+        'form' : form
+    }
+    return render(request, 'Academy/dashboard_crud.html', context)
+
+
 
 
 ###################################################

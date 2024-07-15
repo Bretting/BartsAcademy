@@ -21,11 +21,14 @@
                 hx-trigger= 'click'
                 hx-target= '#main'
                 hx-swap='outerhtml'>BRANDS</h2>
-                <h2 hx-get= "{% url 'Academy:dashboard_list' item='Blog' %}"
+            <h2 hx-get= "{% url 'Academy:dashboard_list' item='Blog' %}"
                 hx-trigger= 'click'
                 hx-target= '#main'
                 hx-swap='outerhtml'>BLOGS</h2>
-            {% comment %} <a href="{% url "Academy:sku_importer" %}"><h2>IMPORT</h2></a> {% endcomment %}
+            <h2 hx-get= "{% url 'Academy:dashboard_list' item='Recipe' %}"
+                hx-trigger= 'click'
+                hx-target= '#main'
+                hx-swap='outerhtml'>RECIPES</h2>
         </div>
 
         <div class='col-md-9 my-2' id='main'>

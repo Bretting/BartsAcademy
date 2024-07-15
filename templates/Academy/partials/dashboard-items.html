@@ -36,9 +36,17 @@
                 </td>
 
                 {% if item.image or item.logo %}
-                    <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}><img 
-                        {% if item.logo %}src="{{item.logo.url}}" {% else %}src="{{item.image}}" {% endif %}
-                        alt="Thumbnail of {{item.name}}"></a></td>
+                    <td class='thumbnail d-flex justify-content-center'><a href={{item.get_absolute_url}}>
+                        <img 
+                        {% if item.logo %}
+                            src="{{item.logo.url}}" 
+                        {% elif type == 'Brand' %}
+                            src="{{item.image.url}}"
+                        {% else %}
+                            src="{{item.image}}" 
+                        {% endif %}
+                        alt="Thumbnail of {{item.name}}">
+                    </a></td>
                 {% endif %}
 
                 {% if item.blog_date_edit %}

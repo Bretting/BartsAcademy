@@ -125,6 +125,10 @@ button {
     background-color: white;
 }
 
+.age-button{
+    color: black;
+}
+
 .grey-button,
 .grey-button-blog {
     font-size: 16px;
