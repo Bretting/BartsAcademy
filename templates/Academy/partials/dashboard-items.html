@@ -55,8 +55,10 @@
                         <td>{{item.blog_date_edit}}</td>
                 {% endif %}
 
-                {% if item.blog_date_edit %}
+                {% if type == 'Blog' %}
                     <td ><a href="{% url 'Academy:blog_edit' item=item.id %}"class='edit-delete'>Edit</td>
+                {% elif type == 'Recipe' %}
+                    <td ><a href="{% url 'Academy:recipe_edit' item=item.id %}"class='edit-delete'>Edit</td>
                 {% else %}
                     <td ><a href="{% url 'Academy:dashboard_edit' type=type item=item.id %}"class='edit-delete'>Edit</td>                
                 {% endif %}

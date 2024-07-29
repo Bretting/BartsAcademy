@@ -655,6 +655,49 @@ def recipe_create_view(request):
     # Render the template with both forms
     return render(request, 'Academy/recipe_crud.html', context)
 
+@login_required
+def recipe_edit_view(request, item=None):
+    object = get_object_or_404(Recipe, id=item)
+    recipe_form = RecipeForm(request.POST  or None, request.FILES  or None, instance=object)
+    IngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=0)
+    formset = IngredientFormSet(request.POST  or None, request.FILES  or None, instance=object)
+
+
+    if request.method == 'POST':
+        # Populate the forms with incoming data
+        recipe_form = RecipeForm(request.POST, request.FILES, instance=object)
+        formset = IngredientFormSet(request.POST, request.FILES, instance=object)
+
+        if recipe_form.is_valid() and formset.is_valid():
+
+            # Save the BlogForm instance
+            recipe_instance = recipe_form.save()
+
+            for form in formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()
+
+
+            # Save the formset instances
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.related_recipe = recipe_instance
+                instance.save()
+
+            return redirect(recipe_instance.get_absolute_url())
+        else:
+            print(recipe_form.errors)
+            print(formset.errors)
+
+
+    context = {
+    'recipe_form':recipe_form,
+    'formset':formset
+    }
+
+    # Render the template with both forms
+    return render(request, 'Academy/recipe_crud.html', context)
+
 
 ###################################################
 #test

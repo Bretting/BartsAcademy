@@ -301,6 +301,9 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse("Academy:recipe_detailview", kwargs={"slug": self.slug})
+    
+    def get_delete_link(self):
+        return reverse('Academy:dashboard_delete',kwargs={'id':self.id, 'item':'Recipe'})
 
     def __str__(self):
         return self.name

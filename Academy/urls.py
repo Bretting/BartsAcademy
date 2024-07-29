@@ -30,6 +30,7 @@ from .views import (
     recipe_view,
     recipe_detailview,
     recipe_create_view,
+    recipe_edit_view,
 )
 
 app_name = 'Academy'
@@ -71,6 +72,7 @@ urlpatterns = [
     path('Dashboard-create-item/<str:type>', dashboard_create_item, name='dashboard_create'),
     path('Dashboard-create-blog', blog_create_view, name='blog_create'),
     path('Dashboard-edit-blog/<str:item>',blog_edit_view, name='blog_edit'),
+    path('Dashboard-edit-recipe/<str:item>',recipe_edit_view, name='recipe_edit' ),
     path('Dashboard-import',SKU_importer, name='sku_importer'),
 
 

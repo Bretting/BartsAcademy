@@ -61,18 +61,3 @@ if (addIngredientButton) {
 }
 
 
-// Add select search to related products in Add Ingredient function
-
-// let testButton = document.querySelector("#testButton");
-
-// testButton.addEventListener('click', testIngredientForm);
-// let ingredientCounter = 0;
-
-// function testIngredientForm() {
-//     ingredientCounter++;
-//     console.group('test ' + ingredientCounter);
-//     console.log(document.querySelectorAll('input[type="text"][id*="related_product"]'));
-// }
-
-
-

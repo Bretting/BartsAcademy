@@ -15,21 +15,15 @@
     {% block meta-seo %}{% endblock meta-seo %}
 
     {% if not debug %}
-    <!-- Google tag (gtag.js) -->
-    <script async 
-    data-category='analytics' 
-    data-service='Google Analytics' 
-    src="https://www.googletagmanager.com/gtag/js?id=G-C6DTTX03Z8"></script>
-    
-    <script
-    data-category='analytics'
-    data-service='Google Analytics'>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C6DTTX03Z8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-C6DTTX03Z8');
-    </script>
+  gtag('config', 'G-C6DTTX03Z8');
+</script>
 
   <!-- Google Tag Manager -->
     <script
