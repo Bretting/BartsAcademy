@@ -616,29 +616,44 @@ def recipe_detailview(request, slug=None):
 
     return render (request, 'Academy/recipe_detailview.html', context)
 
-def add_ingredient_view(request):
+@login_required
+def recipe_create_view(request):
+    # Create an instance of the BlogForm
+    recipe_form = RecipeForm(request.POST and request.FILES or None)
+    IngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=2)
 
     if request.method == 'POST':
-        form = RecipeIngredientForm(request.POST)
+        recipe_form = RecipeForm(request.POST, request.FILES)
+        formset = IngredientFormSet(request.POST, request.FILES)
 
-        if form.is_valid():
-            form.save()
-            context = {
-                'form' : form
-            }
-        else:
-            context = {
-                'form' : form
-            }
-        html= render_block_to_string('Academy/dashboard_crud.html', 'ingredient_form', context)
-        return HttpResponse(html)
-    
+        if recipe_form.is_valid() and formset.is_valid():
+
+            # Save the BlogForm instance
+            recipe_instance = recipe_form.save()
+
+            for form in formset.deleted_forms:
+                if form.instance.pk:
+                    form.instance.delete()            
+
+            # Save the formset instances
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.related_recipe = recipe_instance
+                instance.save()
+
+            return redirect(recipe_instance.get_absolute_url())
+
+    else:
+        recipe_form = RecipeForm()
+        formset = IngredientFormSet()
+
     context = {
-        'form' : form
+    'recipe_form':recipe_form,
+    'formset':formset
     }
-    return render(request, 'Academy/dashboard_crud.html', context)
 
-
+    # Render the template with both forms
+    return render(request, 'Academy/recipe_crud.html', context)
 
 
 ###################################################

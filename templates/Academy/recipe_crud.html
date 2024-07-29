@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Barts Academy - CRUD admin{% endblock title %}
+{% block page-css %}
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css"> 
+  {{blog_form.media}} 
+{% endblock page-css %}
+
+{% block content %}
+
+<div class='container'> 
+    <div class='row form-text'>
+        <h1 class='text-center my-5'>Add & Update</h1>
+        <h3 class='text-center my-2'>Drink</h3>
+
+       <form method='post' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form | crispy }}
+        {% crispy recipe_form %}
+        
+
+          <div class="formset corner mt-5" id='formset'>
+            <div class='text-center'>
+              <h2>Add Ingredients</h2>
+              <i>Select a related product or write down something of your own</i>
+            </div>
+            
+  
+            {% for form in formset %}
+            {% for hidden in form.hidden_fields %}
+              {{ hidden }}
+            {% endfor %}
+            <div class='ingredient-form my-3'>
+              {% crispy form %}
+            </div>
+            {% endfor %}
+  
+  
+            <button id='add-ingredient-form' class='my-5 btn btn-secondary text-center' type="button">Add</button>        
+          </div>
+  
+          <div class='text-center mt-5'>
+            <button class='my-5 btn btn-secondary' type="submit">Save</button>        
+          </div>
+
+      </form>
+
+      
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@jarstone/dselect/dist/js/dselect.js"></script>
+<script>
+// Add select search to related products in Add Ingredient function
+
+count = document.querySelectorAll('input[type="text"][id*="related_product"]').length
+
+for (var i = 0; i < count; i++) {
+  dselect(document.querySelector('#id_recipeingredient_set-'+i+'-related_product'), {
+    search: true
+  });
+  console.log('#id_recipeingredient_set-'+i+'-related_product')
+  console.log(i)
+
+}
+
+console.log('total: '+count);
+
+</script>
+
+
+{% endblock content %} 
+
+
+{% block scripts %}
+
+<script src="https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="{% static 'scripts/forms.js' %}"></script>
+
+{% endblock scripts %}

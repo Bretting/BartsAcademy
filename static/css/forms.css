@@ -16,3 +16,7 @@
 .mini {
     font-size: 5;
 }
+
+#submit-id-submit {
+    display: none;
+}

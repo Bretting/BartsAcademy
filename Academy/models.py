@@ -277,13 +277,22 @@ class AgeGate(models.Model):
 
     def __str__(self):
         return f"Age gate checked from {self.ip}, at {self.date_time}"
-    
+       
 
 class Recipe(models.Model):
+
+    class typeSorting(models.IntegerChoices):
+        SOUR = 1, 'Sour'
+        MARTINI = 2, 'Martini'
+        OLD_FASHIONED = 3 , 'Old Fashioned'
+        HIGHBALL = 4, 'Highball'
+        PUNCH = 5, 'Punch'
+
     name = models.CharField(max_length=255)
     image = ResizedImageField(size=[1000,600],upload_to='recipe')
     description = HTMLField()
     recipe_steps = HTMLField()
+    type = models.IntegerField(choices = typeSorting.choices,verbose_name='Type')
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
