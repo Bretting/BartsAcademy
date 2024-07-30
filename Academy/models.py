@@ -287,12 +287,28 @@ class Recipe(models.Model):
         OLD_FASHIONED = 3 , 'Old Fashioned'
         HIGHBALL = 4, 'Highball'
         PUNCH = 5, 'Punch'
+    
+    class occasionSorting(models.IntegerChoices):
+        APERITIF = 1, 'Aperitif'
+        AFTER_DINNER = 2, 'After Dinner'
+        NIGHT_OUT = 3, 'Night Out'
+        EASY_AT_HOME = 4, ' Easy At Home'
+        FESTIVE = 5, 'Festive'
+
+    class tasteSorting(models.IntegerChoices):
+        BITTER = 1, 'Bitter'
+        SWEET = 2, 'Sweet'
+        SOUR = 3, 'Sour'
+        HEAVY = 4, 'Heavy'
+        LIGHT = 5, 'Light`'
 
     name = models.CharField(max_length=255)
     image = ResizedImageField(size=[1000,600],upload_to='recipe')
     description = HTMLField()
     recipe_steps = HTMLField()
     type = models.IntegerField(choices = typeSorting.choices,verbose_name='Type')
+    occasion = models.IntegerField(choices = occasionSorting.choices, verbose_name='Occasion')
+    taste = models.IntegerField(choices = tasteSorting.choices, verbose_name='Taste')
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -331,9 +347,5 @@ class RecipeIngredient(models.Model):
             return self.unrelated_product
             
 
-
-
-
-            # return f" {self.related_recipe} - " ', '.join([str(product) for product in self.related_product.all()])
 
 

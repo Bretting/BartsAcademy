@@ -224,11 +224,6 @@ button {
     border-radius: 30px;
 }
 
-.hero-video {
-    height: 500px;
-    object-fit: contain;
-}
-
 .round,
 .round-filter {
     border-radius: 30px;

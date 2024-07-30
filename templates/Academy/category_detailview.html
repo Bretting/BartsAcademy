@@ -44,7 +44,13 @@
                 </div>  
             </div>
         </div>
-        <img class='main col-lg-6 img-fluid order-first order-md-1' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
+        {% if category.video %}
+            <video controls class='embed-responsive embed-responsive-16by9 col-lg-6 round'> 
+                <source src="{{category.video.url}}">
+            </video>
+        {% else %}
+            <img class='main col-lg-6 img-fluid order-first order-md-1' src="{{category.image.url}}" alt="Picture" title="{% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
+        {% endif %}
     </div>
 
     <!--COLLAPSE FOR CATEGORY TEXT-->
@@ -54,7 +60,7 @@
 {% if related_blogs %}
 {% for blog in related_blogs  %}
 {% if forloop.first %}
-<div class='container blog-hero category-blog my-5 slow-load'>
+<div class='container blog-hero blog-tile category-blog my-5 slow-load'>
     <a href="{{blog.get_absolute_url}}#top">
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">
@@ -89,7 +95,7 @@
     <div class='row d-flex justify-content-center my-5'>
         <h1 class='my-4 text-center'>GREAT BOTTLES OF {% if category.subcategory %}{{category.subcategory | upper}}{% else %}{{category.name |upper}}{% endif %}</h1>
         {% for bottle in bottles  %}
-        <div class="col-md-3 m-3 brand-tile"> 
+        <div class="col-md-3 m-3 tile"> 
             <a href="{{bottle.get_absolute_url}}">
             <div class='my-4 brand-img text-center'>
                 <img class='img-fluid' src={{bottle.image}} class='img-fluid' alt="Picture of {{bottle.name}}">

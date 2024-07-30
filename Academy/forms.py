@@ -204,7 +204,7 @@ class BlogImageForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['name', 'type', 'image', 'description', 'recipe_steps'] 
+        fields = ['name', 'type', 'occasion','taste', 'image', 'description', 'recipe_steps'] 
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -213,13 +213,15 @@ class RecipeForm(forms.ModelForm):
         self.helper.render_hidden_fields = True
         self.helper.layout = Layout(
             Div(
+            Row('name', css_class='form-control, my-1'),
             Row(
-                Column('name', css_class='form-control, my-1'),
-                Column('type', css_class='form-control, my-1'),),
+                Column('taste', css_class='form-control, my-1'),
+                Column('type', css_class='form-control, my-1'),
+                Column('occasion', css_class='form-control, my-1'),),
             Row('image', css_class='form-control-file form-row my-1'),
             Row('description', css_class='form-control, my-1'),
-            Row('recipe_steps', css_class='form-control, my-1'),),
-            Submit('submit', 'Save', css_class='my-3 btn btn-secondary hide'))
+            Row('recipe_steps', css_class='form-control, my-1'),),)
+            # Submit('submit', 'Save', css_class='my-3 btn btn-secondary hide'))
         
 
 class RecipeIngredientForm(forms.ModelForm):
@@ -241,4 +243,5 @@ class RecipeIngredientForm(forms.ModelForm):
                 Column('amount', css_class='form-control, my-1'),
                 Column('type', css_class='form-control, my-1'),
                 ),
+            Row('DELETE', css_class='input-small'),
             css_class='corner px-3 py-2'))

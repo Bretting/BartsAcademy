@@ -94,7 +94,7 @@ def category_select_view(request, category=None):
         'bottles' : bottle,
         'related_blogs' : related_blogs
     }
-    return render(request,'Academy/category-overview.html', context)
+    return render(request,'Academy/category_detailview.html', context)
 
 #Filter by global categories
 def category_global_view(request):
@@ -657,9 +657,10 @@ def recipe_create_view(request):
 
 @login_required
 def recipe_edit_view(request, item=None):
+    
     object = get_object_or_404(Recipe, id=item)
     recipe_form = RecipeForm(request.POST  or None, request.FILES  or None, instance=object)
-    IngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=0)
+    IngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=0, can_delete=True)
     formset = IngredientFormSet(request.POST  or None, request.FILES  or None, instance=object)
 
 

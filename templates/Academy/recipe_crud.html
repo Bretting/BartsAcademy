@@ -56,18 +56,31 @@
 <script>
 // Add select search to related products in Add Ingredient function
 
-count = document.querySelectorAll('input[type="text"][id*="related_product"]').length
+count = document.querySelectorAll('input[type="text"][id*="related_product"]').length;
 
 for (var i = 0; i < count; i++) {
-  dselect(document.querySelector('#id_recipeingredient_set-'+i+'-related_product'), {
+  // Initialize dselect for each related product input field
+  dselect(document.querySelector('#id_recipeingredient_set-' + i + '-related_product'), {
     search: true
   });
-  console.log('#id_recipeingredient_set-'+i+'-related_product')
-  console.log(i)
-
 }
 
-console.log('total: '+count);
+// Get all the div elements with ids that match the pattern
+{% comment %} let relatedProductDivs = document.querySelectorAll("div[id^='div_id_recipeingredient_set-'][id$='-related_product']");
+
+// Loop through each div and extract the data-dselect-text value
+relatedProductDivs.forEach(div => {
+    // Get the button inside the div
+    let button = div.querySelector("button[data-dselect-text]");
+    if (button) {
+        // Get the value of the data-dselect-text attribute
+        let dselectTextValue = button.getAttribute("data-dselect-text");
+        console.log(dselectTextValue)
+        if (dselectTextValue == "") {
+          document.querySelector('#id_recipeingredient_set-' + i + '-unrelated_product').disable = true
+        }
+    }
+}); {% endcomment %}
 
 </script>
 

@@ -54,10 +54,26 @@ if (addIngredientButton) {
         newForm.innerHTML = newForm.innerHTML.replace(formAmountRegex, `recipeingredient_set-${formNumber}-amount`);
         newForm.innerHTML = newForm.innerHTML.replace(formTypeRegex, `recipeingredient_set-${formNumber}-type`);
 
+        // Reset the data-dselect-text attribute to an empty string
+        let dselectButtons = newForm.querySelectorAll('button[data-dselect-text]');
+        dselectButtons.forEach(button => {
+            button.setAttribute('data-dselect-text', '');
+            button.textContent = '---------'; // Reset button text as well
+        });
+
         ingredientContainer.insertBefore(newForm, addIngredientButton);
 
         ingredientTotalForms.setAttribute('value', `${formNumber + 1}`);
+
+        for (var i = 0; i < formNumber + 1; i++) {
+        // Initialize dselect for each related product input field
+        dselect(document.querySelector('#id_recipeingredient_set-' + i + '-related_product'), {
+            search: true
+        });
+        }
     }
 }
+
+
 
 
