@@ -546,14 +546,20 @@ def blog_edit_view(request, item=None):
     return render(request,'Academy/blog_crud.html',context)
 
 
-def blog_filtered_view(request: HtmxHttpRequest, filter=None) -> HttpResponse:
+def blog_filtered_view(request: HtmxHttpRequest, type=None, filter=None) -> HttpResponse:
 
-    if Blog.objects.filter(category_tag__subcategory=filter):
-        obj = Blog.objects.filter(category_tag__subcategory=filter)
-        print('subcategory')
-    elif Blog.objects.filter(category_tag__name=filter):
-        obj = Blog.objects.filter(category_tag__name=filter)
-        print('Main category')
+    if type == 'category':
+        if Blog.objects.filter(category_tag__subcategory=filter):
+            obj = Blog.objects.filter(category_tag__subcategory=filter)
+        elif Blog.objects.filter(category_tag__name=filter):
+            obj = Blog.objects.filter(category_tag__name=filter)
+        else:
+            obj = None
+    elif type == 'type':
+        if Blog.objects.filter(type_tag__name=filter):
+            obj = Blog.objects.filter(type_tag__name=filter)
+        else:
+            obj = None
     else:
         obj = None
 

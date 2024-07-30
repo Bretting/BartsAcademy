@@ -50,26 +50,29 @@ function searchFunction(inputId, targetClass) {
 
 
 //Function to set the amount of servings in a cocktail
-document.addEventListener('DOMContentLoaded', function() {
-  const servingsInput = document.getElementById('servings-amount');
-  const ingredientAmountCells = document.querySelectorAll('td[data-amount]');
+let recipes = servingsInput = document.getElementById('servings-amount')
 
-  function updateIngredientAmounts() {
-      const multiplier = parseFloat(servingsInput.value);
-      ingredientAmountCells.forEach(cell => {
-          const originalAmount = parseFloat(cell.getAttribute('data-amount'));
-          let newAmount = (originalAmount * multiplier).toFixed(2);
-          if (isNaN(newAmount)) {
-              newAmount = originalAmount.toFixed(2);
-          }
-          cell.textContent = newAmount;
-      });
-  }
+if (recipes) {
+    document.addEventListener('DOMContentLoaded', function() {
+    const servingsInput = document.getElementById('servings-amount');
+    const ingredientAmountCells = document.querySelectorAll('td[data-amount]');
 
-  // Initial update when the page loads
-  updateIngredientAmounts();
+    function updateIngredientAmounts() {
+        const multiplier = parseFloat(servingsInput.value);
+        ingredientAmountCells.forEach(cell => {
+            const originalAmount = parseFloat(cell.getAttribute('data-amount'));
+            let newAmount = (originalAmount * multiplier).toFixed(2);
+            if (isNaN(newAmount)) {
+                newAmount = originalAmount.toFixed(2);
+            }
+            cell.textContent = newAmount;
+        });
+    }
 
-  // Update amounts whenever the input value changes
-  servingsInput.addEventListener('input', updateIngredientAmounts);
-});
+    // Initial update when the page loads
+    updateIngredientAmounts();
 
+    // Update amounts whenever the input value changes
+    servingsInput.addEventListener('input', updateIngredientAmounts);
+    });
+};

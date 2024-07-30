@@ -35,6 +35,26 @@
     padding: 5px;
 }
 
+.tag-small,
+.grey-tag-small {
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    border: 2px solid black;
+    padding: 10px 5px;
+    text-align: center;
+    display: inline-block;
+    margin: 2px 1px;
+    cursor: pointer;
+    width: 100px;
+    background-color: white;
+}
+
+.grey-tag-small {
+    background-color: #f0f3f3;
+}
+
+
 @media only screen and (max-width: 991px){
 
     .blog-hero img {

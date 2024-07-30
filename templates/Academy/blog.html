@@ -21,7 +21,7 @@
         <div>
         {% for tag in blog.category_tag.all  %}
             {% if tag.subcategory %}
-            <a href="{% url 'Academy:blogs_filtered' filter=tag.subcategory %}#top">
+            <a href="{% url 'Academy:blogs_filtered' type="category" filter=tag.subcategory %}#top">
                 <h3 class='button-small'>{{tag.subcategory}}</h3>
             </a>
             {% else %}
@@ -30,6 +30,9 @@
             </a>
             {% endif %}
         {% endfor %}
+        <a href="{% url 'Academy:blogs_filtered' type="type" filter=blog.type_tag %}#top">
+            <h3 class='button-small'>{{blog.type_tag}}</h3>
+        </a>
         </div>
     </div>
     <article>

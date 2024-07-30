@@ -35,13 +35,13 @@
             <div class='d-flex justify-content-center'>
                 {% for tag in blog.category_tag.all  %}
                     {% if tag.subcategory %}
-                        <h3 class='grey-button-blog'>{{tag.subcategory}}</h3>
+                        <h3 class='grey-tag-small'>{{tag.subcategory}}</h3>
                     {% else %}
-                        <h3 class='grey-button-blog'>{{tag.name}}</h3>
+                        <h3 class='grey-tag-small'>{{tag.name}}</h3>
                     {% endif %}
                 {% endfor %}
                 
-                <h3 class='grey-button-blog'>{{blog.type_tag}}</h3>
+                <h3 class='grey-tag-small'>{{blog.type_tag}}</h3>
 
             </div>
         </div>
@@ -70,7 +70,7 @@
                         hx-push-url='true'                             
                         >All categories</p>
                     {% for category in categories  %}
-                        <p  hx-get="{% url 'Academy:blogs_filtered' filter=category %}"
+                        <p  hx-get="{% url 'Academy:blogs_filtered' type="category" filter=category %}"
                             hx-trigger='click'
                             hx-target='#blogs'
                             hx-swap='outerhtml'
@@ -90,7 +90,7 @@
     <div class='row d-flex justify-content-center g-0'>
 
         {% for blog in blogs  %}
-            <div class='col-md-4 col-lg-3 col-sm-4 m-2 blog-tile'>
+            <div class='col-md-4 col-lg-3 col-sm-4 mx-2 my-3 pb-3 blog-tile'>
                 <a href="{{blog.get_absolute_url}}#top">
                     <div class='mb-2 text-center'>
                         <img class='img-fluid blog-tile-image' src={{blog.hero_image.url}} class='img-fluid' alt="Picture of {{blog.name}}">
@@ -99,14 +99,16 @@
                     <div class="text-center">
                         <h2>{{blog.name | upper}}</h2>
                         <i>{{blog.blog_date_edit}}</i>
-                        <div>
+
+                        <div class='mt-5'>
                         {% for tag in blog.category_tag.all  %}
                             {% if tag.subcategory %}
-                            <h3 class='button-small'>{{tag.subcategory}}</h3>
+                            <h3 class='tag-small'>{{tag.subcategory}}</h3>
                             {% else %}
-                            <h3 class='button-small'>{{tag.name}}</h3>
+                            <h3 class='tag-small'>{{tag.name}}</h3>
                             {% endif %}
                         {% endfor %}
+                        <h3 class='tag-small'>{{blog.type_tag}}</h3>
                         </div>
                     </div>
                 </a>

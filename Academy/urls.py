@@ -60,7 +60,7 @@ urlpatterns = [
     #BLOG
     path('Blog/<str:slug>',blog_detail_view, name='blog_detail'),
     path('Blog',blog_list_view, name='blog_list'),
-    path('Blog-filtered/<str:filter>',blog_filtered_view,name='blogs_filtered'),
+    path('Blog-filtered/<str:type>-<str:filter>',blog_filtered_view,name='blogs_filtered'),
 
    ######################
     #DASHBOARD
