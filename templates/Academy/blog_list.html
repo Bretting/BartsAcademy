@@ -28,11 +28,11 @@
             <div class='d-flex justify-content-center mb-2'>
                 <i>{{blog.blog_date_edit}}</i>
             </div>
-            <p>{{blog.teaser | safe}}</p>
+            <article class='px-2'>{{blog.teaser | safe}}</article>
 
 
 
-            <div class='d-flex justify-content-center'>
+            <div class='d-flex justify-content-center mb-2'>
                 {% for tag in blog.category_tag.all  %}
                     {% if tag.subcategory %}
                         <h3 class='grey-tag-small'>{{tag.subcategory}}</h3>
@@ -97,10 +97,10 @@
                     </div>
                     
                     <div class="text-center">
-                        <h2>{{blog.name | upper}}</h2>
-                        <i>{{blog.blog_date_edit}}</i>
+                        <h2 class='blog-title'>{{blog.name | upper}}</h2>
+                        <i class='mt-2'>{{blog.blog_date_edit}}</i>
 
-                        <div class='mt-5'>
+                        <div>
                         {% for tag in blog.category_tag.all  %}
                             {% if tag.subcategory %}
                             <h3 class='tag-small'>{{tag.subcategory}}</h3>
