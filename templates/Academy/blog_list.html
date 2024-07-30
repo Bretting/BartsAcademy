@@ -40,9 +40,8 @@
                         <h3 class='grey-button-blog'>{{tag.name}}</h3>
                     {% endif %}
                 {% endfor %}
-                {% comment %} {% for tag in blog.brand_tag.all  %}
-                    <h3 class='button-blog'>{{ tag.name }}</h3>
-                {% endfor %} {% endcomment %}
+                
+                <h3 class='grey-button-blog'>{{blog.type_tag}}</h3>
 
             </div>
         </div>

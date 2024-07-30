@@ -168,11 +168,13 @@ def brand_filtered_view(request, filter=None):
 def brand_detailview(request, brandname):
     brand = Brand.objects.get(name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
+    related_blogs = Blog.objects.filter(brand_tag=brand)
     
 
     context = {
         'brand': brand,
         'bottles':bottles,
+        'related_blogs' : related_blogs,
     }
 
     return render(request,'Academy/brand_detailview.html',context)
