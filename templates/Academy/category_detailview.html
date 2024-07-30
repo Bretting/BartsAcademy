@@ -10,6 +10,9 @@
 
     <meta name='description' content="{% if category.subcategory %}{{category.subcategory }}{% else %}{{category.name }}{% endif %} - Barts Academy">
     <meta name='keywords' content="Barts Academy, {% if category.subcategory %}{{category.subcategory }}{% else %}{{category.name }}{% endif %}, bartender training, cocktail recipes, cocktail cocktails, Spirits, Liqueurs">
+    <meta property='og:title' content ="Barts Academy: {% if category.subcategory %}{{category.subcategory}}{% else %}{{category.name}}{% endif %}">
+    <meta property='og:type' content='article'>
+    <meta property='og:image' content ="{{category.image.url}}">
 
 {% endblock meta-seo %}
 
@@ -60,7 +63,7 @@
 {% if related_blogs %}
 {% for blog in related_blogs  %}
 {% if forloop.first %}
-<div class='container blog-hero blog-tile category-blog my-5 slow-load'>
+<div class='container blog-hero category-blog my-5 slow-load'>
     <a href="{{blog.get_absolute_url}}#top">
     <div class='row'>
         <img class='col-md-6 img-fluid g-0' src={{blog.hero_image.url}} alt="Latest blog image">

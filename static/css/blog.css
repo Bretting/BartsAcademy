@@ -19,7 +19,8 @@
 }
 
 .blog-tile-image,
-.blog-hero img {
+.blog-hero img,
+.blog-hero {
     border-radius: 30px;
 }
 
