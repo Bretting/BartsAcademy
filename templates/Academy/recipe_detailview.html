@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{recipe.name}} Recipe{% endblock title %}
-{% block page-css %}{% endblock page-css %}
+{% block page-css %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock page-css %}
 
 
 {% block meta-seo %}
@@ -23,6 +25,17 @@
 
         <div class='col-md-6'>
             <h1 class='mb-3 text-center'>{{recipe.name | upper}}</h1>
+            <div class='d-flex justify-content-center'>
+                <a href="{% url "Academy:recipes_filtered_list" sort='type' filter=recipe.get_type_display %}">
+                    <h3 class='button-small'>{{recipe.get_type_display}}</h3>
+                </a>
+                <a href="{% url "Academy:recipes_filtered_list" sort='taste' filter=recipe.get_taste_display %}">
+                    <h3 class='button-small'>{{recipe.get_taste_display}}</h3>
+                </a>
+                <a href="{% url "Academy:recipes_filtered_list" sort='occasion' filter=recipe.get_occasion_display %}">
+                    <h3 class='button-small'>{{recipe.get_occasion_display}}</h3>
+                </a>
+            </div>
             <article>
                 {{recipe.description | safe}}
             </article>

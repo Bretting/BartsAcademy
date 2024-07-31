@@ -1,0 +1,28 @@
+{% load static %}
+
+
+    <div class='row d-flex justify-content-center g-0'>
+
+        {% for recipe in recipes  %}
+            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile slow-load'>
+                <a href="{{recipe.get_absolute_url}}#top">
+                    <div class='mb-2 text-center tile-image'>
+                        <img class='img-fluid tile-image' src={{recipe.image.url}} class='img-fluid' alt="Picture of {{recipe.name}}">
+                    </div>
+
+                    <div class='d-flex justify-content-center mb-4'>
+                        <h3 class='tag-small'>{{recipe.get_type_display}}</h3>
+                        <h3 class='tag-small'>{{recipe.get_taste_display}}</h3>
+                        <h3 class='tag-small'>{{recipe.get_occasion_display}}</h3>
+                    </div>
+                    
+                    <div class="text-center">
+                        <h2>{{recipe.name | upper}}</h2>
+                    </div>
+
+
+                </a>
+            </div>
+        {% endfor %}
+       
+    </div>

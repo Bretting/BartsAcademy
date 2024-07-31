@@ -31,6 +31,7 @@ from .views import (
     recipe_detailview,
     recipe_create_view,
     recipe_edit_view,
+    recipe_filtered_view,
 )
 
 app_name = 'Academy'
@@ -79,6 +80,7 @@ urlpatterns = [
    ######################
     #RECIPES
     path('Recipes', recipe_view, name='recipes_list'),
+    path('Recipes/<str:sort>-<str:filter>', recipe_filtered_view, name='recipes_filtered_list'),
     path('Recipes/Drink/<str:slug>', recipe_detailview, name='recipe_detailview'),
     path('Recipes/add', recipe_create_view, name='recipe_create'),
 
@@ -91,4 +93,5 @@ urlpatterns = [
     ######################
     #Sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('test',test_view) 
 ]

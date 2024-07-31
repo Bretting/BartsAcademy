@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Recipes{% endblock title %}
-{% block page-css %}<link rel="stylesheet" href="{% static 'css/recipes.css' %}">{% endblock page-css %}
+{% block page-css %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock page-css %}
 
 
 {% block meta-seo %}
@@ -26,17 +28,11 @@
                 <p>{{recipe.description | safe}}</p>
     
     
-                {% comment %} 
                 <div class='d-flex justify-content-center'>
-                    {% for tag in recipe.category_tag.all  %}
-                        {% if tag.subcategory %}
-                            <h3 class='grey-button-blog'>{{tag.subcategory}}</h3>
-                        {% else %}
-                            <h3 class='grey-button-blog'>{{tag.name}}</h3>
-                        {% endif %}
-                    {% endfor %}
-                </div> {% endcomment %}
-
+                    <h3 class='grey-tag-small'>{{recipe.get_type_display}}</h3>
+                    <h3 class='grey-tag-small'>{{recipe.get_taste_display}}</h3>
+                    <h3 class='grey-tag-small'>{{recipe.get_occasion_display}}</h3>
+                </div>
             </div>
         </div>
 
@@ -49,10 +45,86 @@
     <div class='text-center grey py-2 round'>
         <h4>FILTERS</h4>
 
+
+        <div class='d-flex flex-sm-row flex-column justify-content-center text-center'>
+            <div class="dropdown-center show">
+                <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <h4 class='grey-button'>TYPE</h4>
+                </a>
+            
+                <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='categoryDropdown'>
+                            <input type="text" placeholder="Search.." id="myInputType" onkeyup="filterFunction('myInputType', 'categoryDropdown')" class='form-control my-3 w-75 mx-auto'>
+                            <p  hx-get="{% url 'Academy:recipes_list' %}"
+                            hx-trigger='click'
+                            hx-target='#recipes'
+                            hx-swap='outerhtml'
+                            hx-push-url='true'                            
+                            >All Types</p>
+                        {% for value, type in type_options  %}
+                            <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='type' filter=type %}"
+                                hx-trigger='click'
+                                hx-target='#recipes'
+                                hx-swap='outerhtml'
+                                hx-push-url='true'>
+                            {{type}}</p>
+                        {% endfor %}     
+                </div>
+            </div>
+
+
+            <div class="dropdown-center show">
+                <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false my-1">
+                <h4 class='grey-button'>TASTE</h4>
+                </a>
+            
+                <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='countryDropdown'>
+                    <input type="text" placeholder="Search.." id="myInputTaste" onkeyup="filterFunction('myInputTaste', 'countryDropdown')" class='form-control my-3 w-75 mx-auto'>
+                    <p  hx-get="{% url 'Academy:recipes_list' %}"
+                        hx-trigger='click'
+                        hx-target='#recipes'
+                        hx-swap='outerhtml'
+                        hx-push-url='true'                            
+                        >All Flavours</p>
+                    {% for value, taste in taste_options  %}
+                        <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='taste' filter=taste %}"
+                        hx-trigger='click'
+                        hx-target='#recipes'
+                        hx-swap='outerhtml'
+                        hx-push-url='true'>
+                        {{taste}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="dropdown-center show">
+                <a class="btn" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false my-1">
+                <h4 class='grey-button'>OCCASION</h4>
+                </a>
+            
+                <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink" id='countryDropdown'>
+                    <input type="text" placeholder="Search.." id="myInputOccasion" onkeyup="filterFunction('myInputOccasion', 'countryDropdown')" class='form-control my-3 w-75 mx-auto'>
+                    <p  hx-get="{% url 'Academy:brands' %}"
+                        hx-trigger='click'
+                        hx-target='#brands'
+                        hx-swap='outerhtml'
+                        hx-push-url='true'                            
+                        >All Occasions</p>
+                        {% for value, occasion in occasion_options %}
+                            <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='occasion' filter=occasion %}"
+                            hx-trigger='click'
+                            hx-target='#recipes'
+                            hx-swap='outerhtml'
+                            hx-push-url='true'>
+                            {{occasion}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
         <div class='row'>
 
             <div class='d-flex flex-sm-row flex-column justify-content-center text-center'>
-                <input type="text" placeholder="Search.." id="myInputBrands" onkeyup="searchFunction('myInputBrands', 'tile')" class='form-control my-3 w-50'>
+                <input type="text" placeholder="Search.." id="myInputRecipes" onkeyup="searchFunction('myInputRecipes', 'tile')" class='form-control my-3 w-50'>
             </div>
 
         </div>
@@ -65,15 +137,23 @@
     <div class='row d-flex justify-content-center g-0'>
 
         {% for recipe in recipes  %}
-            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile'>
+            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile slow-load'>
                 <a href="{{recipe.get_absolute_url}}#top">
                     <div class='mb-2 text-center tile-image'>
                         <img class='img-fluid tile-image' src={{recipe.image.url}} class='img-fluid' alt="Picture of {{recipe.name}}">
+                    </div>
+
+                    <div class='d-flex justify-content-center mb-4'>
+                        <h3 class='tag-small'>{{recipe.get_type_display}}</h3>
+                        <h3 class='tag-small'>{{recipe.get_taste_display}}</h3>
+                        <h3 class='tag-small'>{{recipe.get_occasion_display}}</h3>
                     </div>
                     
                     <div class="text-center">
                         <h2>{{recipe.name | upper}}</h2>
                     </div>
+
+
                 </a>
             </div>
         {% endfor %}
@@ -81,4 +161,8 @@
     </div>
 </div>
 
+
 {% endblock content %}
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'scripts/scripts.js' %}"></script>
+{% endblock scripts %}

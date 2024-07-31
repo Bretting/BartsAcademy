@@ -602,16 +602,24 @@ def blog_filtered_view(request: HtmxHttpRequest, type=None, filter=None) -> Http
 #RECIPES
 
 
-def recipe_view(request):
+def recipe_view(request:HtmxHttpRequest) -> HttpResponse:
 
     recipes = Recipe.objects.all()
+    type = Recipe.typeSorting.choices
+    taste = Recipe.tasteSorting.choices
+    occasion = Recipe.occasionSorting.choices
 
     context = {
-        'recipes' : recipes
-
+        'recipes' : recipes,
+        'type_options' : type,
+        'taste_options' : taste,
+        'occasion_options' : occasion,
     }
 
-    return render(request, 'Academy/recipe_list.html', context)
+    if request.htmx:
+        return render(request,'Academy/partials/recipe_list.html', context)
+    else:
+        return render(request, 'Academy/recipe_list.html', context)
 
 def recipe_detailview(request, slug=None):
 
@@ -626,6 +634,44 @@ def recipe_detailview(request, slug=None):
     }
 
     return render (request, 'Academy/recipe_detailview.html', context)
+
+
+def recipe_filtered_view(request: HtmxHttpRequest, sort=None, filter=None) -> HttpResponse:
+
+    type_lookup = {label: value for value, label in Recipe.typeSorting.choices}
+    occasion_lookup = {label: value for value, label in Recipe.occasionSorting.choices}
+    taste_lookup = {label: value for value, label in Recipe.tasteSorting.choices}
+
+    # Filter the recipes based on the type and corresponding option number
+    if sort == 'taste':
+        option_number = taste_lookup.get(filter)
+        if option_number is not None:
+            recipes = Recipe.objects.filter(taste=option_number)
+    elif sort == 'occasion':
+        option_number = occasion_lookup.get(filter)
+        if option_number is not None:
+            recipes = Recipe.objects.filter(occasion=option_number)
+    elif sort == 'type':
+        option_number = type_lookup.get(filter)
+        if option_number is not None:
+            recipes = Recipe.objects.filter(type=option_number)
+
+
+    type = Recipe.typeSorting.choices 
+    taste = Recipe.tasteSorting.choices
+    occasion = Recipe.occasionSorting.choices
+
+    context = {
+        'recipes' : recipes,
+        'type_options' : type,
+        'taste_options' : taste,
+        'occasion_options' : occasion,
+    }
+
+    if request.htmx:
+        return render(request,'Academy/partials/recipe_list.html', context)
+    else:
+        return render(request, 'Academy/recipe_list.html', context)
 
 @login_required
 def recipe_create_view(request):
@@ -715,42 +761,19 @@ def recipe_edit_view(request, item=None):
 #test
 @login_required
 def test_view(request):
-    # Create an instance of the BlogForm
-    blog_form = BlogForm(request.POST and request.FILES or None)
-    BlogImageFormSet = inlineformset_factory(Blog, BlogImage, form=BlogImageForm, extra=2)
 
-    if request.method == 'POST':
-        print('posted')
-        blog_form = BlogForm(request.POST, request.FILES)
-        formset = BlogImageFormSet(request.POST, request.FILES)
-
-        if blog_form.is_valid() and formset.is_valid():
-            print('valided')
-            # Save the BlogForm instance
-            blog_instance = blog_form.save()
-
-            for form in formset.deleted_forms:
-                if form.instance.pk:
-                    form.instance.delete()            
-
-            # Save the formset instances
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.related_blog = blog_instance
-                instance.save()
-
-            return redirect(blog_instance.get_absolute_url())
-
-    else:
-        blog_form = BlogForm()
-        formset = BlogImageFormSet()
+    recipes = Recipe.objects.all()
+    type = Recipe.typeSorting.choices
+    taste = Recipe.tasteSorting.choices
+    occasion = Recipe.occasionSorting.choices
 
     context = {
-        'blog_form':blog_form,
-        'formset':formset
+        'recipes' : recipes,
+        'type_options' : type,
+        'taste_options' : taste,
+        'occasion_options' : occasion,
     }
-
-
+ 
     return render(request, 'Academy/test.html', context)
 
 
