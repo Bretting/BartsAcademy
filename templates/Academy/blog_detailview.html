@@ -96,5 +96,25 @@
     </article>
 </div>
 
+<div class='container'>
+    <div class='row d-flex justify-content-center'>
+    <h1 class='text-center'>RELATED BOTTLES</h1>
+    {% for bottle in related_bottles  %}
+    <div class="col-md-3 m-3 tile"> 
+        <a href="{{bottle.get_absolute_url}}">
+        <div class='my-4 brand-img text-center'>
+            <img class='img-fluid' src={{bottle.image}} class='img-fluid' alt="Picture of {{bottle.name}}">
+        </div>
+        
+        <div class="text-center">
+            <i><h4>{{bottle.brand}}</h4></i>
+            <h2>{{bottle.name | upper}}</h2>
+        </div>
+    </a>
+    </div>
+    {% endfor %}
+</div>
+</div>
+
 
 {% endblock content %}

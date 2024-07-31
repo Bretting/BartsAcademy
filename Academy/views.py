@@ -2,12 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpRequest
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
-from django.forms import inlineformset_factory, modelformset_factory
+from django.db.models import Q
+from django.forms import inlineformset_factory
 import pandas as pd
-from render_block import render_block_to_string
 from .models import (
     CoreImages,
     Category,
@@ -46,7 +45,7 @@ def main_view(request):
     context = {
         'image' : random_picture,
         'category' : random_category,
-        'bottles': Bottle.objects.filter(sorting="1"),
+        'bottles': Bottle.objects.filter(sorting="1").prefetch_related('brand'),
         'blog' : Blog.objects.order_by('pk').last()
     }
     return render(request,'Academy/home.html', context)
@@ -166,7 +165,7 @@ def brand_filtered_view(request, filter=None):
 
 #Detailview of a brand
 def brand_detailview(request, brandname):
-    brand = Brand.objects.get(name=brandname)
+    brand = get_object_or_404(Brand.objects.prefetch_related('category'), name=brandname)
     bottles = Bottle.objects.filter(brand__name=brandname)
     related_blogs = Blog.objects.filter(brand_tag=brand)
     
@@ -195,7 +194,7 @@ def bottles_list_view(request, brand=None):
 
         bottle_list = cache.get('bottles')
         if not bottle_list:
-            bottle_list = Bottle.objects.all()
+            bottle_list = Bottle.objects.all().prefetch_related('brand')
             cache.set('bottles', bottle_list, 3600)
 
         context.update({
@@ -422,29 +421,34 @@ def age_gate_view(request):
 
 def blog_detail_view(request, slug=None):
 
-    blog = get_object_or_404(Blog, slug=slug)
+    blog = get_object_or_404(Blog.objects.prefetch_related('brand_tag', 'category_tag'), slug=slug)
     gallery = BlogImage.objects.filter(related_blog=blog)
+    related_brand = blog.brand_tag.all()
+    related_bottles = blog.bottle_tag.all()
+
+    bottles = Bottle.objects.filter(Q(brand__in=related_brand) | Q(id__in=related_bottles)).select_related('brand').distinct()
+
     context = {
         'blog' : blog,
-        'gallery' : gallery
+        'gallery' : gallery,
+        'related_bottles' : bottles
     }
 
-    return render(request,'Academy/blog.html', context)    
+    return render(request,'Academy/blog_detailview.html', context)    
 
 def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
-        
-    blogs = Blog.objects.all()
-    brands = Brand.objects.all()
+    # Use prefetch_related to fetch related Category objects
+    blogs = Blog.objects.all().select_related('type_tag').prefetch_related('category_tag', 'brand_tag', 'bottle_tag')
 
-    #create dictionary for categories dropdown in template.
+    # Create a dictionary for categories dropdown in the template
     categories = {}
 
-    #Loop through each blog entry
+    # Loop through each blog entry
     for blog in blogs:
-        #Fetch categories associated with the blog
+        # Fetch categories associated with the blog
         categories_list = blog.category_tag.all()
 
-        #Add categories to the dictionary
+        # Add categories to the dictionary
         for category in categories_list:
             if category.subcategory:
                 if category.subcategory not in categories:
@@ -454,14 +458,13 @@ def blog_list_view(request: HtmxHttpRequest) -> HttpResponse:
                     categories[category.name] = category
     
     context = {
-        'blogs' : blogs,
-        'brands' : brands,
-        'categories' : categories
+        'blogs': blogs,
+        'categories': categories
     }
     if request.htmx:
-        return render(request,'Academy/partials/blogs.html', context)
+        return render(request, 'Academy/partials/blogs.html', context)
 
-    return render(request,'Academy/blog_list.html', context)
+    return render(request, 'Academy/blog_list.html', context)
 
 @login_required
 def blog_create_view(request):
