@@ -48,7 +48,7 @@
                         <img 
                         {% if item.logo %}
                             src="{{item.logo.url}}" 
-                        {% elif type == 'Brand' or 'Recipe' %}
+                        {% elif type == 'Brand' or type == 'Recipe' %}
                             src="{{item.image.url}}"
                         {% else %}
                             src="{{item.image}}" 
