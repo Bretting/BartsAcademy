@@ -58,6 +58,12 @@
                             <td><p>{{bottle.tech_nom}}</p></td>
                         </tr>
                         {% endif %}
+                        {% if bottle.tech_mezcal_type %}
+                        <tr>
+                            <td>Mezcal type:</td>
+                            <td><p>{{bottle.tech_mezcal_type}}</p></td>
+                        </tr>
+                        {% endif %}
                         <tr>
                             {% if bottle.tech_source_material %}
                                 {% if bottle.tech_nom %}

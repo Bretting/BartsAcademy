@@ -76,7 +76,7 @@ class BottleForm(forms.ModelForm):
         fields = ['name','category','sorting','brand','bottle_size','abv','info','tasting_notes','image','shop_link',
                   'consumer_shop_link','website_link','tech_nom','tech_region','tech_source_material','tech_cooking','tech_extraction',
                   'tech_mash','tech_water_source','tech_fermentation','tech_distillation','tech_filtration','tech_still','tech_batch_size',
-                  'tech_blend','tech_aging','tech_aging_barrels','tech_other', 'tech_botanicals', 'tech_fruits']
+                  'tech_blend','tech_aging','tech_aging_barrels','tech_other', 'tech_botanicals', 'tech_fruits', 'tech_mezcal_type']
 
     bottle_size = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder':'in ML'}))    
     abv = forms.DecimalField(label='ABV',widget=forms.NumberInput(attrs={'placeholder':'00.0%'}))    
@@ -120,10 +120,14 @@ class BottleForm(forms.ModelForm):
             HTML("""<h2>Add technical product info</h2>"""),
             Div(
             Row(
+            Column('tech_source_material',css_class='form-group col-md-4'),
+            Column('tech_cooking',css_class='form-group col-md-4'),
+            Column('tech_extraction',css_class='form-group col-md-4'),
+            css_class='form-row my-1'
+            ),
+            Row(
             Column('tech_nom',css_class='form-group col-md-3'),
-            Column('tech_source_material',css_class='form-group col-md-3'),
-            Column('tech_cooking',css_class='form-group col-md-3'),
-            Column('tech_extraction',css_class='form-group col-md-3'),
+            Column('tech_mezcal_type',css_class='form-group col-md-3'),
             css_class='form-row my-1'
             ),
             Row(

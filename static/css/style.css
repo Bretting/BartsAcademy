@@ -198,6 +198,11 @@ button {
     margin-top: 50px;
 }
 
+.copy {
+    font-size: 11px;
+    text-align: center;
+}
+
 .logo{
     width: 100px;
     height: 100px;

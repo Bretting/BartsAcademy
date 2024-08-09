@@ -162,6 +162,7 @@ class Bottle(models.Model):
     consumer_shop_link = models.URLField()
     website_link = models.URLField(blank= True, null = True)
     tech_nom = models.CharField(max_length=255,blank=True, null=True,verbose_name='NOM')
+    tech_mezcal_type = models.CharField(max_length=255,blank=True, null=True,verbose_name='Mezcal type')
     tech_source_material = models.CharField(blank=True, null=True, max_length=255, verbose_name='Source material')
     tech_region = models.CharField(blank=True, null=True, max_length=255, verbose_name='Region')
     tech_cooking = models.CharField(blank=True, null=True, max_length=255, verbose_name='Cooking method')
