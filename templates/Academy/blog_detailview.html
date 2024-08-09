@@ -99,7 +99,7 @@
 <div class='container'>
     <div class='row d-flex justify-content-center'>
     <h1 class='text-center'>RELATED BOTTLES</h1>
-    {% for bottle in related_bottles  %}
+    {% for bottle in related_bottles|slice:"0:3"  %}
     <div class="col-md-3 m-3 tile"> 
         <a href="{{bottle.get_absolute_url}}">
         <div class='my-4 brand-img text-center'>

@@ -41,12 +41,14 @@ def main_view(request):
 
     random_category = Category.objects.order_by('?').first()
     random_picture = CoreImages.objects.order_by('?').first()
+    random_recipes = Recipe.objects.all().order_by('?')[:3]
 
     context = {
         'image' : random_picture,
         'category' : random_category,
         'bottles': Bottle.objects.filter(sorting="1").prefetch_related('brand'),
-        'blog' : Blog.objects.order_by('pk').last()
+        'blog' : Blog.objects.order_by('pk').last(),
+        'recipes' : random_recipes
     }
     return render(request,'Academy/home.html', context)
 
@@ -426,7 +428,7 @@ def blog_detail_view(request, slug=None):
     related_brand = blog.brand_tag.all()
     related_bottles = blog.bottle_tag.all()
 
-    bottles = Bottle.objects.filter(Q(brand__in=related_brand) | Q(id__in=related_bottles)).select_related('brand').distinct()
+    bottles = Bottle.objects.filter(Q(brand__in=related_brand) | Q(id__in=related_bottles)).select_related('brand').distinct().order_by('?')
 
     context = {
         'blog' : blog,

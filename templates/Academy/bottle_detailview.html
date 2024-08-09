@@ -59,12 +59,14 @@
                         </tr>
                         {% endif %}
                         <tr>
-                            {% if bottle.tech_nom %}
-                            <td>Agave:</td>
-                            {% else %}
-                            <td>Source:</td>
+                            {% if bottle.tech_source_material %}
+                                {% if bottle.tech_nom %}
+                                <td>Agave:</td>
+                                {% else %}
+                                <td>Source:</td>
+                                {% endif %}
+                                <td><p>{{bottle.tech_source_material}}</p></td>
                             {% endif %}
-                            <td><p>{{bottle.tech_source_material}}</p></td>
                         </tr>
                         {% if bottle.tech_cooking %}
                         <tr>

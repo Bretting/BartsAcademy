@@ -18,7 +18,7 @@
 <div class='top'></div>
 {% for recipe in recipes  %}
 {% if forloop.first %}
-<div class='container my-5 slow-load grey round hero-image'>
+<div class='container blog-hero hero-image my-5 slow-load grey round'>
     <a href="{{recipe.get_absolute_url}}#top">
 
         <div class='row'>
@@ -28,7 +28,7 @@
                 <p>{{recipe.description | safe}}</p>
     
     
-                <div class='d-flex justify-content-center'>
+                <div class='d-flex justify-content-center mb-2'>
                     <h3 class='grey-tag-small'>{{recipe.get_type_display}}</h3>
                     <h3 class='grey-tag-small'>{{recipe.get_taste_display}}</h3>
                     <h3 class='grey-tag-small'>{{recipe.get_occasion_display}}</h3>
@@ -137,10 +137,10 @@
     <div class='row d-flex justify-content-center g-0'>
 
         {% for recipe in recipes  %}
-            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile slow-load'>
+            <div class='col-md-4 col-lg-3 col-sm-4 m-2 tile slow-load'> 
                 <a href="{{recipe.get_absolute_url}}#top">
-                    <div class='mb-2 text-center tile-image'>
-                        <img class='img-fluid tile-image' src={{recipe.image.url}} class='img-fluid' alt="Picture of {{recipe.name}}">
+                    <div class='mb-2 text-center'>
+                        <img class='img-fluid blog-tile-image' src={{recipe.image.url}} class='img-fluid' alt="Picture of {{recipe.name}}">
                     </div>
 
                     <div class='d-flex justify-content-center mb-4'>

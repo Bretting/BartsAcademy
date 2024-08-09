@@ -7,10 +7,6 @@
     --bs-btn-border-width: none!important;
 }
 
-.rounded-corner {
-    border-radius: 30px;
-}
-
 .brand-hero {
     height: 500px;
     border-radius: 30px;

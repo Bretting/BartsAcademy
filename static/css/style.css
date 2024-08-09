@@ -9,12 +9,6 @@ Backgrounds: #f0f3f3
 
 
 
-
-
-/* CSS FOR BASE.HTML
-
-
-
 /* MAIN CSS */
 
 .test{
@@ -30,24 +24,12 @@ Backgrounds: #f0f3f3
     padding-top: 1px;
 }
 
-
-.ql-font-roboto {
-    font-family: 'Roboto', sans-serif;
-  }
-
-.ql-font-robotoserif {
-    font-family: 'Roboto Serif', serif;
-}
-
-h1, h2, h3, h4 {
+h1, h2, h3, h4, .ql-font-roboto, .nav-link {
     font-family: 'Roboto', sans-serif;
 }
 
-h5 {
-    font-family: 'Roboto Serif', serif;
-}
 
-p, li, a, td, i {
+p, li, a, td, i, h5, .ql-font-robotoserif  {
     font-family: 'Roboto Serif', serif;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -73,19 +55,9 @@ a {
     object-fit: fill;
 }
 
-.band {
-    background-color: #f0f3f3;
-}
-
-
 /* NAVIGATION */
 .logo-big {
     width: 350px;
-}
-
-
-.nav-link {
-    font-family:'Roboto', sans-serif ;
 }
 
 .nav-link::before{
@@ -110,7 +82,6 @@ button {
 
 .button, 
 .age-button,
-.button-small,
 .button-blog {
     font-size: 16px;
     font-family: 'Roboto';
@@ -144,20 +115,6 @@ button {
     background-color: #f0f3f3;
 }
 
-.button-small {
-    font-size: 12px;
-    font-family: 'Roboto';
-    font-weight: 600;
-    border: 2px solid black;
-    padding: 10px 5px;
-    text-align: center;
-    display: inline-block;
-    margin: 2px 1px;
-    cursor: pointer;
-    width: 100px;
-    background-color: white;
-}
-
 .button-blog {
     font-size: 12px;
     padding: 10px 20px;
@@ -179,10 +136,6 @@ button {
     border: 2px solid black;
     background-color: black;
     color: white;
-}
-
-.tile:hover {
-    box-shadow: 5px 5px 5px #e3e5e5;
 }
 
 .tile-image {
@@ -222,14 +175,11 @@ button {
 .hero-image img{
     height: 450px;
     object-fit: cover;
+    border-radius: 30px;
 }
 
 .hero-image:hover {
     box-shadow: 5px 5px 5px #e3e5e5;
-}
-
-.hero-image img {
-    border-radius: 30px;
 }
 
 .round,
@@ -248,25 +198,34 @@ button {
     margin-top: 50px;
 }
 
-.copy {
-    font-size: 12px;
-    text-align: center;
-}
-
 .logo{
     width: 100px;
     height: 100px;
 }
 
-.plaatje {
-    max-height: 85vh;
-    object-fit: contain;
-}
-
-
 .dropdown-menu p:hover{
     background-color: black;
     color: white;
+}
+
+.tag-small,
+.grey-tag-small,
+.button-small {
+    font-size: 12px;
+    font-family: 'Roboto';
+    font-weight: 600;
+    border: 2px solid black;
+    padding: 10px 5px;
+    text-align: center;
+    display: inline-block;
+    margin: 2px 1px;
+    cursor: pointer;
+    width: 100px;
+    background-color: white;
+}
+
+.grey-tag-small {
+    background-color: #f0f3f3;
 }
 
 
@@ -321,5 +280,19 @@ button {
 
     .footer {
         margin-top: 0;
+    }
+
+    .tag-small,
+    .grey-tag-small {
+        font-size: 11px;
+        font-family: 'Roboto';
+        font-weight: 600;
+        border: 2px solid black;
+        padding: 8px 4px;
+        text-align: center;
+        display: inline-block;
+        margin: 2px 1px;
+        cursor: pointer;
+        width: 80px;
     }
 }
