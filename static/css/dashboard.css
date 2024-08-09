@@ -33,7 +33,6 @@
 }
 
 .item-table tr:hover {
-    background-color: black;
-    color: white;
+    background-color: #cecece;
     cursor: pointer;
 }
