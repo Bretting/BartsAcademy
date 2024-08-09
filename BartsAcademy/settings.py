@@ -231,6 +231,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # TinyMCE
+#api key registered on @bartsbottles.nl account
 TINYMCE_DEFAULT_CONFIG = {
 'theme': "silver", # default value
 'relative_urls': False, # default value
