@@ -248,7 +248,7 @@ TINYMCE_DEFAULT_CONFIG = {
 'content_style':"@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital@0;1&family=Roboto:ital@0;1&display=swap');"}
 TINYMCE_SPELLCHECKER = True
 TINYMCE_COMPRESSOR = False
-TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/i7tg69zsj8xu2h7jinf65cpdznto148y1qexevwopnv9m9ng/tinymce/6/tinymce.min.js?referrerpolicy=origin"
+TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/tjb4uy2qbsfhfdn78gplv4se3wb8ubtl4ofrb4y59wgi7pm9/tinymce/6/tinymce.min.js?referrerpolicy=origin"
 
 
 # Django-Resized
