@@ -2,9 +2,13 @@
     padding: 5px 10px;
 }
 
-.item-table td:nth-child(1),
-.item-table td:nth-child(2) {
-    width: 250px;
+.item-table td:nth-child(1) {
+    width: 150px;
+}
+
+.item-table td:nth-child(2),
+.item-table td:nth-child(3) {
+    width: 200px;
 }
 
 
@@ -28,6 +32,8 @@
     color: white;
 }
 
-.item-table tr{
-    transition: ease-in-out 2s;
+.item-table tr:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
 }

@@ -25,6 +25,12 @@
 
             {% for item in objects  %}
             <tr>
+                {% if type == 'Bottle' %}
+
+                    <td>{{item.category}}</td>
+
+                {% endif %}
+
                 {% if item.brand %}
                     <td>{{item.brand}}</td>
                 {% endif %}
@@ -42,7 +48,7 @@
                         <img 
                         {% if item.logo %}
                             src="{{item.logo.url}}" 
-                        {% elif type == 'Brand' %}
+                        {% elif type == 'Brand' or 'Recipe' %}
                             src="{{item.image.url}}"
                         {% else %}
                             src="{{item.image}}" 
