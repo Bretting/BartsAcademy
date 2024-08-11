@@ -33,6 +33,7 @@ class RecipeIngredientAdmin(admin.ModelAdmin):
 
 
 
+admin.site.register(BlogVideo)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Bottle, BottleAdmin)

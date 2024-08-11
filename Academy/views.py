@@ -912,40 +912,40 @@ def SKU_importer(request):
 
 
 # View to render the upload form with the list of blogs
-method_decorator(login_required)
-class UploadView(generic.CreateView):
-    template_name = "Academy/upload.html"
-    model = BlogVideo
-    fields = ['file']
+# method_decorator(login_required)
+# class UploadView(generic.CreateView):
+#     template_name = "Academy/upload.html"
+#     model = BlogVideo
+#     fields = ['file']
  
-    def get_success_url(self):
-        return reverse("Academy:upload")
+#     def get_success_url(self):
+#         return reverse("Academy:upload")
  
-    def get_context_data(self, **kwargs):
-        context = super(UploadView, self).get_context_data(**kwargs)
-        context.update({
-            "uploads": BlogVideo.objects.all()
-        })
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super(UploadView, self).get_context_data(**kwargs)
+#         context.update({
+#             "uploads": BlogVideo.objects.all()
+#         })
+#         return context
 
-method_decorator(login_required)
-class SignedURLView(generic.View):
-    def post(self, request, *args, **kwargs):
-        session = boto3.session.Session()
-        client = session.client(
-            "s3",
-            region_name='ams3',
-            endpoint_url=os.environ.get('AWS_ENDPOINT_URL'),
-            aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
-        )
+# method_decorator(login_required)
+# class SignedURLView(generic.View):
+#     def post(self, request, *args, **kwargs):
+#         session = boto3.session.Session()
+#         client = session.client(
+#             "s3",
+#             region_name='ams3',
+#             endpoint_url=os.environ.get('AWS_ENDPOINT_URL'),
+#             aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+#             aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+#         )
  
-        url = client.generate_presigned_url(
-            ClientMethod="put_object",
-            Params={
-                "Bucket": "barts-academy",
-                "Key": f"uploads/{json.loads(request.body)['fileName']}",
-            },
-            ExpiresIn=300,
-        )
-        return JsonResponse({"url": url})
+#         url = client.generate_presigned_url(
+#             ClientMethod="put_object",
+#             Params={
+#                 "Bucket": "barts-academy",
+#                 "Key": f"uploads/{json.loads(request.body)['fileName']}",
+#             },
+#             ExpiresIn=300,
+#         )
+#         return JsonResponse({"url": url})

@@ -271,7 +271,7 @@ class BlogVideo(models.Model):
     video_upload_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.related_blog.name} - Video"
+        return f"{self.file.name} - Video"
 
 
 class CoreImages(models.Model):
