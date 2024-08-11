@@ -265,6 +265,14 @@ class BlogImage(models.Model):
         return str(self.related_blog)
     
 
+class BlogVideo(models.Model):
+    # related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    file = models.FileField()
+    video_upload_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.related_blog.name} - Video"
+
 
 class CoreImages(models.Model):
     image = ResizedImageField(size=[1000,1000],upload_to='core_images')
