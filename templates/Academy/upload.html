@@ -43,104 +43,116 @@
 
  
 <script>
-    let submitting = false;
-    let file = null;
-     
-    function setIsSubmitting(val) {
-      submitting = val;
-    }
-     
-    function setFile(val) {
-      file = val;
-    }
-     
-    _("id_file").addEventListener("change", (event) => {
-      setFile(event.target.files[0]);
-    });
-     
-    _("submitBtn").addEventListener("click", (event) => {
-      handleSubmit(event);
-      _("submitBtn").disabled = true;
-    });
-     
-    const handleSubmit = async (event) => {
-      setIsSubmitting(true);
-     
-      const signedUrl = await getSignedUrl();
-     
-      try {
-        uploadFile(signedUrl);
-      } catch (err) {
+  let submitting = false;
+let file = null;
+let chunkSize = 10 * 1024 * 1024; // 10MB per chunk
+let currentChunkIndex = 0;
+let totalChunks = 0;
+let signedUrls = [];
+
+function setIsSubmitting(val) {
+    submitting = val;
+}
+
+function setFile(val) {
+    file = val;
+    totalChunks = Math.ceil(file.size / chunkSize);
+    currentChunkIndex = 0;
+}
+
+_("id_file").addEventListener("change", (event) => {
+    setFile(event.target.files[0]);
+});
+
+_("submitBtn").addEventListener("click", (event) => {
+    handleSubmit(event);
+    _("submitBtn").disabled = true;
+});
+
+const handleSubmit = async (event) => {
+    setIsSubmitting(true);
+    signedUrls = await getSignedUrls(); // Get all signed URLs for each chunk
+
+    try {
+        uploadChunk(); // Start uploading chunks
+    } catch (err) {
         setIsSubmitting(false);
         console.log(err);
         alert("There was an error uploading your file.");
         throw err;
-      }
-     
-      setIsSubmitting(false);
-    };
-     
-    const getSignedUrl = async () => {
-      const body = {
-        fileName: file.name,
-        fileType: file.type
-      };
-     
-      const response = await fetch("{% url 'Academy:signed-url' %}", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: { "Content-Type": "application/json", "X-CSRFToken": {% csrf_token %} }
-      });
-      const { url } = await response.json();
-      return url;
-    };
-     
-    function _(el) {
-      return document.getElementById(el);
     }
-     
-    function uploadFile(signedUrl) {
-      var formdata = new FormData();
-      formdata.append("file", file);
-      var ajax = new XMLHttpRequest();
-      ajax.upload.addEventListener("progress", progressHandler, false);
-      ajax.addEventListener("load", completeHandler, false);
-      ajax.addEventListener("error", errorHandler, false);
-      ajax.addEventListener("abort", abortHandler, false);
-      ajax.addEventListener("loadend", loadendHandler, false);
-      ajax.open("PUT", signedUrl);
-      ajax.setRequestHeader("Content-Type", file.type);
-      ajax.setRequestHeader("x-amz-acl", "public-read");
-      ajax.send(formdata);
+};
+
+const getSignedUrls = async () => {
+    let urls = [];
+    for (let i = 0; i < totalChunks; i++) {
+        const chunkStart = i * chunkSize;
+        const chunkEnd = Math.min(chunkStart + chunkSize, file.size);
+        const chunk = file.slice(chunkStart, chunkEnd);
+
+        const body = {
+            fileName: `${file.name}.part${i}`,
+            fileType: file.type
+        };
+
+        const response = await fetch("{% url 'Academy:signed-url' %}", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: { "Content-Type": "application/json", "X-CSRFToken": {% csrf_token %} }
+        });
+        const { url } = await response.json();
+        urls.push(url);
     }
-     
-    async function submitForm() {
-      _("fileForm").submit();
+    return urls;
+};
+
+function uploadChunk() {
+    if (currentChunkIndex >= totalChunks) {
+        setIsSubmitting(false);
+        submitForm();
+        return;
     }
-     
-    async function loadendHandler(event) {
-      _("submitBtn").disabled = false;
-      await submitForm();
-    }
-     
-    function progressHandler(event) {
-      var percent = Math.round((event.loaded / event.total) * 100);
-      _("progressBar").style.width = `${percent}%`;
-      _("progressBar").innerText = `${percent}%`;
-      _("status").innerHTML = percent + "% uploaded... please wait";
-    }
-     
-    function completeHandler(event) {
-      _("status").innerHTML = event.target.responseText;
-      _("progressBar").style.width = 0;
-      _("progressBar").innerText = "0%";
-    }
-     
-    function errorHandler(event) {
-      _("status").innerHTML = "Upload Failed";
-    }
-     
-    function abortHandler(event) {
-      _("status").innerHTML = "Upload Aborted";
-    }
+
+    const chunkStart = currentChunkIndex * chunkSize;
+    const chunkEnd = Math.min(chunkStart + chunkSize, file.size);
+    const chunk = file.slice(chunkStart, chunkEnd);
+    const signedUrl = signedUrls[currentChunkIndex];
+
+    var ajax = new XMLHttpRequest();
+    ajax.upload.addEventListener("progress", (event) => progressHandler(event, currentChunkIndex), false);
+    ajax.addEventListener("load", (event) => completeChunkHandler(event), false);
+    ajax.addEventListener("error", errorHandler, false);
+    ajax.addEventListener("abort", abortHandler, false);
+    ajax.open("PUT", signedUrl);
+    ajax.setRequestHeader("Content-Type", file.type);
+    ajax.setRequestHeader("x-amz-acl", "public-read");
+    ajax.send(chunk);
+}
+
+function progressHandler(event, chunkIndex) {
+    var percent = Math.round((event.loaded / event.total) * 100);
+    _("progressBar").style.width = `${percent}%`;
+    _("progressBar").innerText = `Chunk ${chunkIndex + 1} of ${totalChunks}: ${percent}%`;
+    _("status").innerHTML = `Chunk ${chunkIndex + 1} of ${totalChunks}: ${percent}% uploaded... please wait`;
+}
+
+function completeChunkHandler(event) {
+    currentChunkIndex++;
+    uploadChunk(); // Start uploading the next chunk
+}
+
+function errorHandler(event) {
+    _("status").innerHTML = "Upload Failed";
+    _("submitBtn").disabled = false;
+}
+
+function abortHandler(event) {
+    _("status").innerHTML = "Upload Aborted";
+    _("submitBtn").disabled = false;
+}
+
+async function submitForm() {
+    _("fileForm").submit();
+}
+
 </script>
