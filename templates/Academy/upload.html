@@ -61,13 +61,13 @@ function setFile(val) {
     console.log('chunk amount: '+totalChunks)
 }
 
-("id_file").addEventListener("change", (event) => {
+_("id_file").addEventListener("change", (event) => {
     setFile(event.target.files[0]);
 });
 
-("submitBtn").addEventListener("click", (event) => {
+_("submitBtn").addEventListener("click", (event) => {
     handleSubmit(event);
-    ("submitBtn").disabled = true;
+    _("submitBtn").disabled = true;
 });
 
 const handleSubmit = async (event) => {
