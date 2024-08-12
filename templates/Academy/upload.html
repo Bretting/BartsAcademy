@@ -34,7 +34,7 @@
     <h3 class="text-lg text-gray-800 mb-3">Upload History</h3>
     {% for upload in uploads %}
     <div class="py-5 px-3 border border-gray-200 bg-gray-50">{{ upload.file.name }}</div>
-    <div><video src="{{upload.file.url}}"></video></div>
+    <div><video controls src="{{upload.file.url}}"></video></div>
     {% empty %}
     <p class="text-gray-800">No uploads</p>
     {% endfor %}
