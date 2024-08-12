@@ -944,7 +944,7 @@ class SignedURLView(LoginRequiredMixin ,generic.View):
                 "Bucket": "media",
                 "Key": f"chunks/{json.loads(request.body)['fileName']}",
             },
-            ExpiresIn=300,
+            ExpiresIn=3000,
         )
         return JsonResponse({"url": url})
     
@@ -988,20 +988,55 @@ class MergeChunksView(View):
 
 
 from django.http import JsonResponse
+import json
+from django.conf import settings
+
 @login_required
 def uploadVideoView(request):
     if request.method == 'POST':
-        # Extract data from the request if necessary
-        print('success on the POST!')
-        data = json.loads(request.body)
-        print('Received data:', data)
-        
-        chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks')
-        print(chunk_folder)
+        try:
+            # Extract and parse the JSON data from the request body
+            data = json.loads(request.body)
+            print('Received data:', data)
 
+            file_name = data.get('fileName')
+            total_chunks = data.get('totalChunks')
+            signed_urls = data.get('signedUrls')  # Get the list of presigned URLs
+            
+            # Define the folder to store chunks
+            chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks')
+            if not os.path.exists(chunk_folder):
+                os.makedirs(chunk_folder)
+            
+            # Path to the final merged file
+            final_file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', file_name)
 
-        return JsonResponse({'message': 'Video uploaded successfully!', 'location':chunk_folder})
+            # Merge chunks into the final file
+            with open(final_file_path, 'wb') as final_file:
+                for i in range(total_chunks):
+                    chunk_file_path = os.path.join(chunk_folder, f'{file_name}.part{i}')
+                    if os.path.exists(chunk_file_path):
+                        with open(chunk_file_path, 'rb') as chunk_file:
+                            final_file.write(chunk_file.read())
+                    else:
+                        return JsonResponse({'message': f'Chunk {i} not found.'}, status=404)
+            
+            # Optionally, delete chunk files after merging
+            for i in range(total_chunks):
+                chunk_file_path = os.path.join(chunk_folder, f'{file_name}.part{i}')
+                if os.path.exists(chunk_file_path):
+                    os.remove(chunk_file_path)
+            
+            # Response indicating success
+            return JsonResponse({'message': 'Video uploaded and merged successfully!', 'location': final_file_path})
 
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON data.'}, status=400)
+        except Exception as e:
+            print(f'Error: {e}')
+            return JsonResponse({'message': str(e)}, status=500)
+
+    # If GET request, render the upload page
     context = {
         'blogs': Blog.objects.all()
     }

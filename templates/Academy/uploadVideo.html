@@ -184,7 +184,8 @@ async function sendFinalPostRequest() {
     try {
         const data = {
             fileName: newFileName,
-            totalChunks: totalChunks
+            totalChunks: totalChunks,
+            signedUrls: signedUrls  // Add the signed URLs to the data
         };
 
         // Send the POST request
@@ -219,6 +220,7 @@ async function sendFinalPostRequest() {
         _("submitBtn").disabled = false;
     }
 }
+
 
 
 
