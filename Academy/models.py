@@ -65,7 +65,7 @@ class Category(models.Model):
     info = HTMLField()
     image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
     logo = ResizedImageField(size=[500,500], upload_to=logo_upload_handler)
-    video = models.FileField(upload_to='image', blank=True, null=True)
+    video = models.FileField(upload_to='categories', blank=True, null=True)
     image_location = 'categories'
     category_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     category_date_edit = models.DateField(auto_now=True, null=True, blank=True)

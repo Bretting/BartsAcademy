@@ -44,11 +44,11 @@
  
 <script>
   let submitting = false;
-let file = null;
-let chunkSize = 10 * 1024 * 1024; // 10MB per chunk
-let currentChunkIndex = 0;
-let totalChunks = 0;
-let signedUrls = [];
+  let file = null;
+  let chunkSize = 50 * 1024 * 1024; // 50MB per chunk
+  let currentChunkIndex = 0;
+  let totalChunks = 0;
+  let signedUrls = [];
 
 function setIsSubmitting(val) {
     submitting = val;
@@ -58,6 +58,7 @@ function setFile(val) {
     file = val;
     totalChunks = Math.ceil(file.size / chunkSize);
     currentChunkIndex = 0;
+    console.log('chunk amount: '+totalChunks)
 }
 
 _("id_file").addEventListener("change", (event) => {
@@ -72,6 +73,7 @@ _("submitBtn").addEventListener("click", (event) => {
 const handleSubmit = async (event) => {
     setIsSubmitting(true);
     signedUrls = await getSignedUrls(); // Get all signed URLs for each chunk
+    console.log('urls: ' + signedUrls)
 
     try {
         uploadChunk(); // Start uploading chunks
@@ -96,13 +98,14 @@ const getSignedUrls = async () => {
         };
 
         const response = await fetch("{% url 'Academy:signed-url' %}", {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: { "Content-Type": "application/json", "X-CSRFToken": {% csrf_token %} }
-        });
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}"}
+      });
+        console.log('got signed url');
         const { url } = await response.json();
         urls.push(url);
-    }
+    };
     return urls;
 };
 
@@ -111,7 +114,7 @@ function uploadChunk() {
         setIsSubmitting(false);
         submitForm();
         return;
-    }
+    };
 
     const chunkStart = currentChunkIndex * chunkSize;
     const chunkEnd = Math.min(chunkStart + chunkSize, file.size);

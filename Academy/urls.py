@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import sitemaps
+from Academy import views
 from .views import (
     test_view,
     main_view,
@@ -94,4 +95,6 @@ urlpatterns = [
     #Sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('test',test_view),
+    path('Upload_video', views.UploadView.as_view(), name='upload'),
+    path('signed-url/', views.SignedURLView.as_view(), name='signed-url'), 
 ]
