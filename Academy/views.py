@@ -941,7 +941,6 @@ class SignedURLView(LoginRequiredMixin ,generic.View):
         url = client.generate_presigned_url(
             ClientMethod="put_object",
             Params={
-                "Bucket": "barts-academy",
                 "Key": f"media/videos/{json.loads(request.body)['fileName']}",
             },
             ExpiresIn=300,
