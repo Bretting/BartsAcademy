@@ -116,9 +116,11 @@ const getSignedUrls = async () => {
 
 function uploadChunk() {
     if (currentChunkIndex >= totalChunks) {
-        setIsSubmitting(false);
-        submitForm();
-        return;
+      setIsSubmitting(false);
+      // submitForm(); // Comment out or remove this line
+      _("status").innerHTML = "All chunks uploaded successfully!";
+      _("submitBtn").disabled = false;
+      return;
     };
 
     const chunkStart = currentChunkIndex * chunkSize;
