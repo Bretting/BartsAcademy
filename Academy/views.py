@@ -942,7 +942,7 @@ class SignedURLView(LoginRequiredMixin ,generic.View):
             ClientMethod="put_object",
             Params={
                 "Bucket": "barts-academy",
-                "Key": f"uploads/{json.loads(request.body)['fileName']}",
+                "Key": f"media/videos/{json.loads(request.body)['fileName']}",
             },
             ExpiresIn=300,
         )

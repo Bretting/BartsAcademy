@@ -45,7 +45,7 @@
 <script>
   let submitting = false;
   let file = null;
-  let chunkSize = 50 * 1024 * 1024; // 50MB per chunk
+  let chunkSize = 10 * 1024 * 1024; // 10MB per chunk
   let currentChunkIndex = 0;
   let totalChunks = 0;
   let signedUrls = [];
@@ -81,6 +81,7 @@ const handleSubmit = async (event) => {
 
     try {
         uploadChunk(); // Start uploading chunks
+        console.log('starting upload')
     } catch (err) {
         setIsSubmitting(false);
         console.log(err);
@@ -134,6 +135,7 @@ function uploadChunk() {
     ajax.setRequestHeader("Content-Type", file.type);
     ajax.setRequestHeader("x-amz-acl", "public-read");
     ajax.send(chunk);
+    console.log('signedURL: '+signedUrl)
 }
 
 function progressHandler(event, chunkIndex) {

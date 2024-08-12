@@ -192,6 +192,10 @@ button {
     color: white;
 }
 
+video img {
+    height: 350px;
+}
+
 /* FOOTER */
 .footer {
     border-top: 1px #cecece;
