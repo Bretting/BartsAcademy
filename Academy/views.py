@@ -912,7 +912,7 @@ def SKU_importer(request):
 
 
 # View to render the upload form with the list of blogs
-class UploadView(generic.CreateView):
+class UploadView(LoginRequiredMixin,generic.CreateView):
     template_name = "Academy/upload.html"
     model = BlogVideo
     fields = ['file']
@@ -927,7 +927,7 @@ class UploadView(generic.CreateView):
         })
         return context
 
-class SignedURLView(generic.View):
+class SignedURLView(LoginRequiredMixin ,generic.View):
     def post(self, request, *args, **kwargs):
         session = boto3.session.Session()
         client = session.client(

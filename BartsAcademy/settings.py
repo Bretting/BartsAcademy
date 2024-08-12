@@ -78,7 +78,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
 
     #custom middleware
-    # 'BartsAcademy.middleware.AgeGateMiddleware',
+    'BartsAcademy.middleware.AgeGateMiddleware',
 ]
 
 if DEBUG:
