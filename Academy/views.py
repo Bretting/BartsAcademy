@@ -1000,7 +1000,7 @@ def uploadVideoView(request):
         print(chunk_folder)
 
 
-        return JsonResponse({'message': 'Video uploaded successfully!'})
+        return JsonResponse({'message': 'Video uploaded successfully!', 'location':chunk_folder})
 
     context = {
         'blogs': Blog.objects.all()

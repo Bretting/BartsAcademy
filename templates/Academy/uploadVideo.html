@@ -194,7 +194,11 @@ async function sendFinalPostRequest() {
                 "Content-Type": "application/json",
                 "X-CSRFToken": "{{ csrf_token }}"
             }
+            
         });
+
+        const { text } = await response.json();
+        console.log(text);
 
         const responseText = await response.text();  // Read response as text first
         console.log('Response Text:', responseText);
