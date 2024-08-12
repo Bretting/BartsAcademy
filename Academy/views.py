@@ -942,8 +942,69 @@ class SignedURLView(LoginRequiredMixin ,generic.View):
             ClientMethod="put_object",
             Params={
                 "Bucket": "media",
-                "Key": f"videos/{json.loads(request.body)['fileName']}",
+                "Key": f"chunks/{json.loads(request.body)['fileName']}",
             },
             ExpiresIn=300,
         )
         return JsonResponse({"url": url})
+    
+
+
+import os
+from django.conf import settings
+from django.http import JsonResponse
+from django.views import View
+from .models import BlogVideo
+
+class MergeChunksView(View):
+    def post(self, request):
+        file_name = request.POST.get('fileName')
+        related_blog_id = request.POST.get('related_blog_id')
+        
+        # Assuming chunks are saved in the MEDIA_ROOT directory
+        chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks', file_name)
+        final_file_path = os.path.join(settings.MEDIA_ROOT, 'videos', file_name)
+
+        with open(final_file_path, 'wb') as final_file:
+            # Sort chunks to ensure they are merged in the correct order
+            for chunk_file in sorted(os.listdir(chunk_folder)):
+                chunk_file_path = os.path.join(chunk_folder, chunk_file)
+                with open(chunk_file_path, 'rb') as chunk:
+                    final_file.write(chunk.read())
+        
+        # Clean up chunks
+        for chunk_file in os.listdir(chunk_folder):
+            os.remove(os.path.join(chunk_folder, chunk_file))
+        os.rmdir(chunk_folder)
+        
+        # Save final video URL to the model
+        final_file_url = os.path.join('videos', file_name)
+        BlogVideo.objects.create(
+            related_blog_id=related_blog_id,
+            file=final_file_url
+        )
+
+        return JsonResponse({'success': True, 'url': final_file_url})
+
+
+from django.http import JsonResponse
+@login_required
+def uploadVideoView(request):
+    if request.method == 'POST':
+        # Extract data from the request if necessary
+        print('success on the POST!')
+        data = json.loads(request.body)
+        print('Received data:', data)
+        
+        chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks')
+        print(chunk_folder)
+
+
+        return JsonResponse({'message': 'Video uploaded successfully!'})
+
+    context = {
+        'blogs': Blog.objects.all()
+    }
+
+    return render(request, 'Academy/uploadVideo.html', context)
+

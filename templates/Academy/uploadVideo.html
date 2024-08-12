@@ -1,4 +1,15 @@
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Barts Academy - Upload Video{% endblock title %}
+{% block page-css %}
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/@jarstone/dselect/dist/css/dselect.css"> 
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+  {{blog_form.media}} 
+{% endblock page-css %}
+
+
+{% block content %}
  
 <div class="max-w-4xl mx-auto py-5">
   <h1 class="text-2xl text-gray-800 mb-3">Upload a Large File</h1>
@@ -119,8 +130,9 @@
         headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" }
       });
 
-      console.log('got signed url');
+      console.log('grabbing url...');
       const { url } = await response.json();
+      console.log('got signed url');
       urls.push(url);
     }
     return urls;
@@ -161,8 +173,50 @@
 
   function completeChunkHandler(event) {
     currentChunkIndex++;
-    uploadChunk(); // Start uploading the next chunk
-  }
+    if (currentChunkIndex >= totalChunks) {
+        sendFinalPostRequest(); // Send the POST request after all chunks are uploaded
+    } else {
+        uploadChunk(); // Start uploading the next chunk
+    }
+}
+
+async function sendFinalPostRequest() {
+    try {
+        const data = {
+            fileName: newFileName,
+            totalChunks: totalChunks
+        };
+
+        const response = await fetch("{% url 'Academy:upload-video' %}", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        });
+
+        const responseText = await response.text();  // Read response as text first
+        console.log('Response Text:', responseText);
+
+        try {
+            const result = JSON.parse(responseText);  // Parse JSON manually
+            _("status").innerHTML = "Upload completed and POST request sent successfully!";
+            console.log('POST request was successful', result);
+        } catch (err) {
+            _("status").innerHTML = "Upload completed, but JSON parsing failed.";
+            console.error('JSON parsing failed', err);
+        }
+
+        _("submitBtn").disabled = false;
+
+    } catch (err) {
+        _("status").innerHTML = "Error during final POST request.";
+        console.error('Error during POST request', err);
+        _("submitBtn").disabled = false;
+    }
+}
+
 
   function errorHandler(event) {
     _("status").innerHTML = "Upload Failed";
@@ -179,3 +233,7 @@
   }
 
 </script>
+
+
+
+{% endblock content %} 

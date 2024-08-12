@@ -33,6 +33,7 @@ from .views import (
     recipe_create_view,
     recipe_edit_view,
     recipe_filtered_view,
+    uploadVideoView,
 )
 
 app_name = 'Academy'
@@ -97,4 +98,6 @@ urlpatterns = [
     path('test',test_view),
     path('Upload_video', views.UploadView.as_view(), name='upload'),
     path('signed-url/', views.SignedURLView.as_view(), name='signed-url'), 
+    path('merge-chunks/', views.MergeChunksView.as_view(), name='merge-chunks'),
+    path('Upload', uploadVideoView, name='upload-video'),
 ]

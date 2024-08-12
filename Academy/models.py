@@ -266,8 +266,8 @@ class BlogImage(models.Model):
     
 
 class BlogVideo(models.Model):
-    # related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    file = models.FileField()
+    related_blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    file = models.URLField()
     video_upload_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
