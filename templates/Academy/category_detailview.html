@@ -48,7 +48,7 @@
             </div>
         </div>
         {% if category.video %}
-            <video controls class='embed-responsive embed-responsive-16by9 col-lg-6 round' poster="{% static 'logos/logo-big.png' %}"> 
+            <video controls class='embed-responsive embed-responsive-16by9 col-lg-6 round' poster="{% static 'logos/poster-logo.png' %}"> 
                 <source src="{{category.video.url}}">
             </video>
         {% else %}
