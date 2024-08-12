@@ -998,6 +998,8 @@ def uploadVideoView(request):
         try:
             # Extract and parse the JSON data from the request body
             data = json.loads(request.body)
+            print('Received data:', data)
+
             file_name = data.get('fileName')
             total_chunks = data.get('totalChunks')
 
@@ -1007,7 +1009,6 @@ def uploadVideoView(request):
 
             # Path where the final video will be saved
             final_video_path = os.path.join(video_directory, 'video.mp4')
-            print(final_video_path)
 
             # Open the final video file in binary write mode
             with open(final_video_path, 'wb') as final_video:
@@ -1017,12 +1018,20 @@ def uploadVideoView(request):
                     response = requests.get(chunk_url)
                     response.raise_for_status()  # Ensure the request was successful
                     
+                    # Save the chunk temporarily to disk
+                    chunk_file_path = os.path.join(video_directory, f'chunk_{chunk_number}.mp4.part')
+                    with open(chunk_file_path, 'wb') as chunk_file:
+                        chunk_file.write(response.content)
+                    
                     # Write the chunk data to the final video
-                    final_video.write(response.content)
+                    with open(chunk_file_path, 'rb') as chunk_file:
+                        final_video.write(chunk_file.read())
+
+                    # Delete the chunk file after it has been appended
+                    os.remove(chunk_file_path)
 
             # Construct the final URL for the video
             video_url = os.path.join(settings.MEDIA_URL, 'videos', 'video.mp4')
-            print(video_url)
 
             return JsonResponse({'message': 'Video uploaded successfully.', 'video_url': video_url})
 
