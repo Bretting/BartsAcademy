@@ -990,6 +990,7 @@ class MergeChunksView(View):
 from django.http import JsonResponse
 import json
 from django.conf import settings
+import requests
 
 @login_required
 def uploadVideoView(request):
@@ -1001,37 +1002,36 @@ def uploadVideoView(request):
 
             file_name = data.get('fileName')
             total_chunks = data.get('totalChunks')
-            signed_urls = data.get('signedUrls')  # Get the list of presigned URLs
-            
-            # Define the folder to store chunks
-            chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks')
-            if not os.path.exists(chunk_folder):
-                os.makedirs(chunk_folder)
-            
-            # Path to the final merged file
-            final_file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', file_name)
 
-            # Merge chunks into the final file
-            with open(final_file_path, 'wb') as final_file:
-                for i in range(total_chunks):
-                    chunk_file_path = os.path.join(chunk_folder, f'{file_name}.part{i}')
-                    if os.path.exists(chunk_file_path):
-                        with open(chunk_file_path, 'rb') as chunk_file:
-                            final_file.write(chunk_file.read())
-                    else:
-                        return JsonResponse({'message': f'Chunk {i} not found.'}, status=404)
-            
-            # Optionally, delete chunk files after merging
-            for i in range(total_chunks):
-                chunk_file_path = os.path.join(chunk_folder, f'{file_name}.part{i}')
-                if os.path.exists(chunk_file_path):
-                    os.remove(chunk_file_path)
-            
-            # Response indicating success
-            return JsonResponse({'message': 'Video uploaded and merged successfully!', 'location': final_file_path})
+            # Ensure the 'videos' directory exists in the media folder
+            video_directory = os.path.join(settings.MEDIA_ROOT, 'videos')
+            os.makedirs(video_directory, exist_ok=True)
+
+            # Path where the final video will be saved
+            final_video_path = os.path.join(video_directory, 'video.mp4')
+
+            # Open the final video file in binary write mode
+            with open(final_video_path, 'wb') as final_video:
+                # Iterate over all chunks and append them to the final video
+                for chunk_number in range(total_chunks):
+                    chunk_url = f"https://barts-cdn.bartsacademy.nl/media/chunks/chunk.mp4.part{chunk_number}"
+                    response = requests.get(chunk_url)
+                    response.raise_for_status()  # Ensure the request was successful
+                    
+                    # Write the chunk data to the final video
+                    final_video.write(response.content)
+
+            # Construct the final URL for the video
+            video_url = os.path.join(settings.MEDIA_URL, 'videos', 'video.mp4')
+            print(video_url)
+
+            return JsonResponse({'message': 'Video uploaded successfully.', 'video_url': video_url})
 
         except json.JSONDecodeError:
             return JsonResponse({'message': 'Invalid JSON data.'}, status=400)
+        except requests.RequestException as e:
+            print(f'Error downloading chunk: {e}')
+            return JsonResponse({'message': f'Error downloading chunk: {e}'}, status=500)
         except Exception as e:
             print(f'Error: {e}')
             return JsonResponse({'message': str(e)}, status=500)
@@ -1042,4 +1042,5 @@ def uploadVideoView(request):
     }
 
     return render(request, 'Academy/uploadVideo.html', context)
+
 
