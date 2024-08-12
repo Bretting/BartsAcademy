@@ -135,7 +135,7 @@ function uploadChunk() {
     ajax.setRequestHeader("Content-Type", file.type);
     ajax.setRequestHeader("x-amz-acl", "public-read");
     ajax.send(chunk);
-    console.log('signedURL: '+signedUrl)
+    console.log('signedURL: '+currentChunkIndex + " "+signedUrl)
 }
 
 function progressHandler(event, chunkIndex) {
