@@ -271,7 +271,7 @@ class BlogVideo(models.Model):
     video_upload_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.file.name} - Video"
+        return f"{self.file} - Video"
 
 
 class CoreImages(models.Model):
@@ -357,5 +357,9 @@ class RecipeIngredient(models.Model):
             return self.unrelated_product
             
 
+class VideoFile(models.Model):
+    title = models.CharField(max_length=255)
+    file_url = models.URLField(max_length=1024)
 
-
+    def __str__(self):
+        return self.title

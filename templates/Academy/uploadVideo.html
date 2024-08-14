@@ -43,16 +43,6 @@
       Submit
     </button>
   </form>
-  <hr class="mt-5" />
-  <div class="mt-5">
-    <h3 class="text-lg text-gray-800 mb-3">Upload History</h3>
-    {% for upload in uploads %}
-    <div class="py-5 px-3 border border-gray-200 bg-gray-50">{{ upload.file.name }}</div>
-    <div><video controls src="{{upload.file.url}}"></video></div>
-    {% empty %}
-    <p class="text-gray-800">No uploads</p>
-    {% endfor %}
-  </div>
 </div>
 
  
@@ -99,7 +89,6 @@
     event.preventDefault();  // Prevent the default form submission behavior
     setIsSubmitting(true);
     signedUrls = await getSignedUrls(); // Get all signed URLs for each chunk
-    console.log('urls: ' + signedUrls);
 
     try {
       uploadChunk(); // Start uploading chunks
@@ -130,7 +119,6 @@
         headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" }
       });
 
-      console.log('grabbing url...');
       const { url } = await response.json();
       console.log('got signed url');
       urls.push(url);
@@ -184,8 +172,7 @@ async function sendFinalPostRequest() {
     try {
         const data = {
             fileName: newFileName,
-            totalChunks: totalChunks,
-            signedUrls: signedUrls  // Add the signed URLs to the data
+            totalChunks: totalChunks
         };
 
         // Send the POST request
@@ -200,7 +187,6 @@ async function sendFinalPostRequest() {
 
         // Read the response body as text
         const responseText = await response.text();
-        console.log('Response Text:', responseText);
 
         // Parse the response text as JSON
         try {
@@ -220,8 +206,6 @@ async function sendFinalPostRequest() {
         _("submitBtn").disabled = false;
     }
 }
-
-
 
 
   function errorHandler(event) {

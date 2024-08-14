@@ -96,8 +96,7 @@ urlpatterns = [
     #Sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('test',test_view),
-    path('Upload_video', views.UploadView.as_view(), name='upload'),
     path('signed-url/', views.SignedURLView.as_view(), name='signed-url'), 
-    path('merge-chunks/', views.MergeChunksView.as_view(), name='merge-chunks'),
     path('Upload', uploadVideoView, name='upload-video'),
+    path('video/', views.ReassembleVideoFormView.as_view(), name='reassemble_video'),
 ]

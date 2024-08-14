@@ -912,21 +912,6 @@ def SKU_importer(request):
 
 
 # View to render the upload form with the list of blogs
-class UploadView(LoginRequiredMixin,generic.CreateView):
-    template_name = "Academy/upload.html"
-    model = BlogVideo
-    fields = ['file']
- 
-    def get_success_url(self):
-        return reverse("Academy:upload")
- 
-    def get_context_data(self, **kwargs):
-        context = super(UploadView, self).get_context_data(**kwargs)
-        context.update({
-            "uploads": BlogVideo.objects.all()
-        })
-        return context
-
 class SignedURLView(LoginRequiredMixin ,generic.View):
     def post(self, request, *args, **kwargs):
         session = boto3.session.Session()
@@ -948,102 +933,45 @@ class SignedURLView(LoginRequiredMixin ,generic.View):
         )
         return JsonResponse({"url": url})
     
-
-
-import os
-from django.conf import settings
-from django.http import JsonResponse
-from django.views import View
-from .models import BlogVideo
-
-class MergeChunksView(View):
-    def post(self, request):
-        file_name = request.POST.get('fileName')
-        related_blog_id = request.POST.get('related_blog_id')
-        
-        # Assuming chunks are saved in the MEDIA_ROOT directory
-        chunk_folder = os.path.join(settings.MEDIA_ROOT, 'chunks', file_name)
-        final_file_path = os.path.join(settings.MEDIA_ROOT, 'videos', file_name)
-
-        with open(final_file_path, 'wb') as final_file:
-            # Sort chunks to ensure they are merged in the correct order
-            for chunk_file in sorted(os.listdir(chunk_folder)):
-                chunk_file_path = os.path.join(chunk_folder, chunk_file)
-                with open(chunk_file_path, 'rb') as chunk:
-                    final_file.write(chunk.read())
-        
-        # Clean up chunks
-        for chunk_file in os.listdir(chunk_folder):
-            os.remove(os.path.join(chunk_folder, chunk_file))
-        os.rmdir(chunk_folder)
-        
-        # Save final video URL to the model
-        final_file_url = os.path.join('videos', file_name)
-        BlogVideo.objects.create(
-            related_blog_id=related_blog_id,
-            file=final_file_url
-        )
-
-        return JsonResponse({'success': True, 'url': final_file_url})
-
-
 from django.http import JsonResponse
 import json
-from django.conf import settings
-import requests
 
 @login_required
 def uploadVideoView(request):
     if request.method == 'POST':
+        data = json.loads(request.body)
+        print('Received data:', data)
+        total_chunks = data.get('totalChunks')
+
         try:
-            # Extract and parse the JSON data from the request body
-            data = json.loads(request.body)
-            print('Received data:', data)
+            session = boto3.session.Session()
+            client = session.client(
+                "s3",
+                region_name='ams3',
+                endpoint_url=os.environ.get('AWS_ENDPOINT_URL'),
+                aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+                aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+            )
+    
+            url = client.generate_presigned_url(
+                ClientMethod="put_object",
+                Params={
+                    "Bucket": "media",
+                    "Key" : "test"
+                    },
+                ExpiresIn=3000,)
 
-            file_name = data.get('fileName')
-            total_chunks = data.get('totalChunks')
+            print("the url: " + url)
 
-            # Ensure the 'videos' directory exists in the media folder
-            video_directory = os.path.join(settings.MEDIA_ROOT, 'videos')
-            os.makedirs(video_directory, exist_ok=True)
+            for i in range(total_chunks):
+                chunk_key = f'https://barts-cdn.bartsacademy.nl/media/chunks/chunk.mp4.part{i}'
+                print(chunk_key)
 
-            # Path where the final video will be saved
-            final_video_path = os.path.join(video_directory, 'video.mp4')
-
-            # Open the final video file in binary write mode
-            with open(final_video_path, 'wb') as final_video:
-                # Iterate over all chunks and append them to the final video
-                for chunk_number in range(total_chunks):
-                    chunk_url = f"https://barts-cdn.bartsacademy.nl/media/chunks/chunk.mp4.part{chunk_number}"
-                    response = requests.get(chunk_url)
-                    response.raise_for_status()  # Ensure the request was successful
-                    
-                    # Save the chunk temporarily to disk
-                    chunk_file_path = os.path.join(video_directory, f'chunk_{chunk_number}.mp4.part')
-                    with open(chunk_file_path, 'wb') as chunk_file:
-                        chunk_file.write(response.content)
-                    
-                    # Write the chunk data to the final video
-                    with open(chunk_file_path, 'rb') as chunk_file:
-                        final_video.write(chunk_file.read())
-
-                    # Delete the chunk file after it has been appended
-                    os.remove(chunk_file_path)
-
-            # Construct the final URL for the video
-            video_url = os.path.join(settings.MEDIA_URL, 'videos', 'video.mp4')
-
-            return JsonResponse({'message': 'Video uploaded successfully.', 'video_url': video_url})
-
-        except json.JSONDecodeError:
-            return JsonResponse({'message': 'Invalid JSON data.'}, status=400)
-        except requests.RequestException as e:
-            print(f'Error downloading chunk: {e}')
-            return JsonResponse({'message': f'Error downloading chunk: {e}'}, status=500)
-        except Exception as e:
-            print(f'Error: {e}')
-            return JsonResponse({'message': str(e)}, status=500)
-
+            return JsonResponse({'message': 'Video uploaded successfully!'})
+        except json.JSONDecodeError as e:
+                print('JSON Decode Error:', e)
+                return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
     # If GET request, render the upload page
     context = {
         'blogs': Blog.objects.all()
@@ -1052,3 +980,35 @@ def uploadVideoView(request):
     return render(request, 'Academy/uploadVideo.html', context)
 
 
+from django.http import JsonResponse
+from django.views import View
+from .services import DigitalOceanSpacesService
+from .models import VideoFile
+
+class ReassembleVideoFormView(View):
+    def get(self, request, *args, **kwargs):
+        # Render the form template
+        return render(request, 'Academy/test.html')
+
+    def post(self, request, *args, **kwargs):
+        # Extract data from the request
+        title = request.POST.get('title')
+        chunks_prefix = request.POST.get('chunks_prefix')
+        final_filename = 'reassembled_video.mp4'
+        bucket_name = 'barts-academy'
+
+        # Initialize the service with your DigitalOcean Spaces credentials
+        spaces_service = DigitalOceanSpacesService(
+            access_key=os.environ.get('AWS_ACCESS_KEY_ID'),
+            secret_key=os.environ.get('AWS_SECRET_ACCESS_KEY')
+        )
+
+        # Reassemble the chunks remotely and get the final URL
+        url = spaces_service.reassemble_chunks_remotely(bucket_name, chunks_prefix, final_filename)
+
+        # Save the URL in the model
+        video_file = VideoFile.objects.create(title=title, file_url=url)
+
+        # Render the form template with the URL context
+        return render(request, 'Academy/test.html', {'url': url})
+    
