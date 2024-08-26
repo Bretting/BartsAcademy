@@ -185,24 +185,13 @@ class Bottle(models.Model):
     tech_aging = models.CharField(blank=True, null=True, max_length=255, verbose_name='Aging')
     tech_aging_barrels = models.CharField(blank=True, null=True, max_length=255, verbose_name='Barrel(s)')
     tech_other = HTMLField(blank=True, null=True, verbose_name='Other')
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     bottle_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     bottle_date_edit = models.DateField(auto_now=True, null=True, blank=True)
     image_location = 'bottles'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(f"{self.brand}-{self.name}")
-        # output_size = (300, 169)
-        # output_thumb = BytesIO()
-
-        # img = Image.open(self.image)
-        # img_name = self.image.name.split('.')[0]
-
-        # if img.height > 300 or img.width > 300:
-        #     img.thumbnail(output_size)
-        #     img.save(output_thumb,format='WEBP',quality=100)
-
-        # self.thumbnail = InMemoryUploadedFile(output_thumb, 'ImageField', f"{self.brand}-{img_name}_thumb.jpg", 'image/webp', sys.getsizeof(output_thumb), None)
 
         super(Bottle, self).save()
 
