@@ -43,13 +43,18 @@ def logo_upload_handler(instance, filename):
         new_fname = f"{instance.name}-logo"
         return f"{instance.image_location}/{new_fname}{fpath.suffix}"
 
-
-
 def video_upload_handler(instance, filename):
     fpath = pathlib.Path(filename)
     new_fname = f"{instance.name}"
     return f"{instance.image_location}/{new_fname}{fpath.suffix}"
 
+
+from django.core.exceptions import ValidationError
+
+def validate_file_size(value):
+    max_size = 300 * 1024 * 1024  # 300 MB limit
+    if value.size > max_size:
+        raise ValidationError('File size must be under 300MB.')
 
 
 
@@ -65,7 +70,7 @@ class Category(models.Model):
     info = HTMLField()
     image = ResizedImageField(size=[1000,1000], upload_to=image_upload_handler)
     logo = ResizedImageField(size=[500,500], upload_to=logo_upload_handler)
-    video = models.FileField(upload_to='categories', blank=True, null=True)
+    video = models.FileField(upload_to='categories', blank=True, null=True, validators=[validate_file_size])
     image_location = 'categories'
     category_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     category_date_edit = models.DateField(auto_now=True, null=True, blank=True)
@@ -148,7 +153,7 @@ class Bottle(models.Model):
         Lighthouse = 1
         Regular = 2
 
-    name = models.CharField(max_length=255)
+    name = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     sorting = models.IntegerField(choices = displaySorting.choices,verbose_name='Sort order')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
@@ -287,38 +292,37 @@ class AgeGate(models.Model):
 
     def __str__(self):
         return f"Age gate checked from {self.ip}, at {self.date_time}"
-       
+
+
+class RecipeTaste(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class RecipeOccasion(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class RecipeType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 
 class Recipe(models.Model):
-
-    class typeSorting(models.IntegerChoices):
-        SOUR = 1, 'Sour'
-        MARTINI = 2, 'Martini'
-        OLD_FASHIONED = 3 , 'Old Fashioned'
-        HIGHBALL = 4, 'Highball'
-        PUNCH = 5, 'Punch'
-    
-    class occasionSorting(models.IntegerChoices):
-        APERITIF = 1, 'Aperitif'
-        AFTER_DINNER = 2, 'After Dinner'
-        NIGHT_OUT = 3, 'Night Out'
-        EASY_AT_HOME = 4, ' Easy At Home'
-        FESTIVE = 5, 'Festive'
-
-    class tasteSorting(models.IntegerChoices):
-        BITTER = 1, 'Bitter'
-        SWEET = 2, 'Sweet'
-        SOUR = 3, 'Sour'
-        HEAVY = 4, 'Heavy'
-        LIGHT = 5, 'Light`'
 
     name = models.CharField(max_length=255)
     image = ResizedImageField(size=[1000,600],upload_to='recipe')
     description = HTMLField()
     recipe_steps = HTMLField()
-    type = models.IntegerField(choices = typeSorting.choices,verbose_name='Type')
-    occasion = models.IntegerField(choices = occasionSorting.choices, verbose_name='Occasion')
-    taste = models.IntegerField(choices = tasteSorting.choices, verbose_name='Taste')
+    type = models.ManyToManyField(RecipeType,verbose_name='Type')
+    occasion = models.ManyToManyField(RecipeOccasion, verbose_name='Occasion')
+    taste = models.ManyToManyField(RecipeTaste, verbose_name='Taste')
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):

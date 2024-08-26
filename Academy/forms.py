@@ -1,7 +1,7 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Row, Column, HTML
-from django.forms.models import modelformset_factory
+from django.template.defaultfilters import filesizeformat
 from tinymce.widgets import TinyMCE
 
 from .models import (
@@ -14,7 +14,6 @@ from .models import (
     Recipe,
     RecipeIngredient,
 )
-
 
 class CategoryForm(forms.ModelForm):
     class Meta:

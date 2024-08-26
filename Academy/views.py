@@ -24,6 +24,9 @@ from .models import (
     Recipe,
     RecipeIngredient,
     BlogVideo,
+    RecipeTaste,
+    RecipeType,
+    RecipeOccasion,
 )
 
 from .forms import (
@@ -615,9 +618,9 @@ def blog_filtered_view(request: HtmxHttpRequest, type=None, filter=None) -> Http
 def recipe_view(request:HtmxHttpRequest) -> HttpResponse:
 
     recipes = Recipe.objects.all()
-    type = Recipe.typeSorting.choices
-    taste = Recipe.tasteSorting.choices
-    occasion = Recipe.occasionSorting.choices
+    type = RecipeType.objects.all() 
+    taste = RecipeTaste.objects.all()
+    occasion = RecipeOccasion.objects.all()
 
     context = {
         'recipes' : recipes,
@@ -648,28 +651,17 @@ def recipe_detailview(request, slug=None):
 
 def recipe_filtered_view(request: HtmxHttpRequest, sort=None, filter=None) -> HttpResponse:
 
-    type_lookup = {label: value for value, label in Recipe.typeSorting.choices}
-    occasion_lookup = {label: value for value, label in Recipe.occasionSorting.choices}
-    taste_lookup = {label: value for value, label in Recipe.tasteSorting.choices}
-
     # Filter the recipes based on the type and corresponding option number
     if sort == 'taste':
-        option_number = taste_lookup.get(filter)
-        if option_number is not None:
-            recipes = Recipe.objects.filter(taste=option_number)
+        recipes = Recipe.objects.filter(taste__name=filter)
     elif sort == 'occasion':
-        option_number = occasion_lookup.get(filter)
-        if option_number is not None:
-            recipes = Recipe.objects.filter(occasion=option_number)
+        recipes = Recipe.objects.filter(occasion__name=filter)
     elif sort == 'type':
-        option_number = type_lookup.get(filter)
-        if option_number is not None:
-            recipes = Recipe.objects.filter(type=option_number)
+        recipes = Recipe.objects.filter(type__name=filter)
 
-
-    type = Recipe.typeSorting.choices 
-    taste = Recipe.tasteSorting.choices
-    occasion = Recipe.occasionSorting.choices
+    type = RecipeType.objects.all() 
+    taste = RecipeTaste.objects.all()
+    occasion = RecipeOccasion.objects.all()
 
     context = {
         'recipes' : recipes,

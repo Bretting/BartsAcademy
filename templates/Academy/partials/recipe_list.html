@@ -11,9 +11,15 @@
                     </div>
 
                     <div class='d-flex justify-content-center mb-4'>
-                        <h3 class='tag-small'>{{recipe.get_type_display}}</h3>
-                        <h3 class='tag-small'>{{recipe.get_taste_display}}</h3>
-                        <h3 class='tag-small'>{{recipe.get_occasion_display}}</h3>
+                        {% for type in recipe.type.all  %}
+                            <h3 class='tag-small'>{{type}}</h3>
+                        {% endfor %}
+                        {% for taste in recipe.taste.all  %}
+                            <h3 class='tag-small'>{{taste}}</h3>
+                        {% endfor %}
+                        {% for occasion in recipe.occasion.all  %}
+                            <h3 class='tag-small'>{{occasion}}</h3>
+                        {% endfor %}
                     </div>
                     
                     <div class="text-center">

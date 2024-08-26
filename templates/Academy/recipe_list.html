@@ -29,9 +29,15 @@
     
     
                 <div class='d-flex justify-content-center mb-2'>
-                    <h3 class='grey-tag-small'>{{recipe.get_type_display}}</h3>
-                    <h3 class='grey-tag-small'>{{recipe.get_taste_display}}</h3>
-                    <h3 class='grey-tag-small'>{{recipe.get_occasion_display}}</h3>
+                        {% for type in recipe.type.all  %}
+                            <h3 class='grey-tag-small'>{{type}}</h3>
+                        {% endfor %}
+                        {% for taste in recipe.taste.all  %}
+                            <h3 class='grey-tag-small'>{{taste}}</h3>
+                        {% endfor %}
+                        {% for occasion in recipe.occasion.all  %}
+                            <h3 class='grey-tag-small'>{{occasion}}</h3>
+                        {% endfor %}
                 </div>
             </div>
         </div>
@@ -60,7 +66,7 @@
                             hx-swap='outerhtml'
                             hx-push-url='true'                            
                             >All Types</p>
-                        {% for value, type in type_options  %}
+                        {% for type in type_options  %}
                             <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='type' filter=type %}"
                                 hx-trigger='click'
                                 hx-target='#recipes'
@@ -85,7 +91,7 @@
                         hx-swap='outerhtml'
                         hx-push-url='true'                            
                         >All Flavours</p>
-                    {% for value, taste in taste_options  %}
+                    {% for taste in taste_options  %}
                         <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='taste' filter=taste %}"
                         hx-trigger='click'
                         hx-target='#recipes'
@@ -109,7 +115,7 @@
                         hx-swap='outerhtml'
                         hx-push-url='true'                            
                         >All Occasions</p>
-                        {% for value, occasion in occasion_options %}
+                        {% for occasion in occasion_options %}
                             <p  hx-get="{% url 'Academy:recipes_filtered_list' sort='occasion' filter=occasion %}"
                             hx-trigger='click'
                             hx-target='#recipes'
@@ -144,9 +150,15 @@
                     </div>
 
                     <div class='d-flex justify-content-center mb-4'>
-                        <h3 class='tag-small'>{{recipe.get_type_display}}</h3>
-                        <h3 class='tag-small'>{{recipe.get_taste_display}}</h3>
-                        <h3 class='tag-small'>{{recipe.get_occasion_display}}</h3>
+                        {% for type in recipe.type.all  %}
+                            <h3 class='tag-small'>{{type}}</h3>
+                        {% endfor %}
+                        {% for taste in recipe.taste.all  %}
+                            <h3 class='tag-small'>{{taste}}</h3>
+                        {% endfor %}
+                        {% for occasion in recipe.occasion.all  %}
+                            <h3 class='tag-small'>{{occasion}}</h3>
+                        {% endfor %}
                     </div>
                     
                     <div class="text-center">
