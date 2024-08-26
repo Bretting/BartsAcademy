@@ -153,7 +153,7 @@ class Bottle(models.Model):
         Lighthouse = 1
         Regular = 2
 
-    name = models.TextField()
+    name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     sorting = models.IntegerField(choices = displaySorting.choices,verbose_name='Sort order')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
