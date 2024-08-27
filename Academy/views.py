@@ -638,7 +638,7 @@ def recipe_detailview(request, slug=None):
 
     recipe = get_object_or_404(Recipe, slug=slug)
     ingredients = RecipeIngredient.objects.filter(related_recipe=recipe)
-    bottles = Bottle.objects.filter(id__in=ingredients.values_list('related_product_id', flat=True))
+    bottles = Bottle.objects.filter(id__in=ingredients.values_list('related_product_id', flat=True)).prefetch_related('brand')
 
     context = {
         'recipe' : recipe,
