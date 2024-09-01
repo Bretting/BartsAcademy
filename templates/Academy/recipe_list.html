@@ -47,7 +47,96 @@
 {% endif %}
 {% endfor %}
 
-<div class='container g-0'>
+<div class='container'>
+
+    <div class='my-3'>
+        <h1 class='text-center'>How we categorize drinks.</h1>
+        <p>
+            We categorize our recipe in three main categories: Type, Taste and Occasion. This will help you find drinks fast and easy. To keep things accasible we have five subcategories per main category.
+        </p>
+    </div>
+
+    <div class='d-flex justify-content-center my-3'>
+        <div class="text-center" id="headingOne">
+            <h5 class="mb-0">
+              <button class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <h4 class='button'>TYPE</h4>
+              </button>
+            </h5>
+          </div>    
+
+          <div class="text-center" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo collapseOne">
+                <h4 class='button'>TASTE</h4>
+              </button>
+            </h5>
+          </div>
+
+          <div class="text-center" id="headingThree">
+            <h5 class="mb-0">
+              <button class="collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <h4 class='button'>OCCASION</h4>
+              </button>
+            </h5>
+          </div>
+
+    </div>
+
+
+    <div class="accordion" id="explainer">
+        <div class="">
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#explainer">
+            <div class="card-body">
+                <article>
+                <p>
+                    <b>Martini</b> Any combination between a spirit and a fortified wine can be considered a martini- style cocktail. Cause a manhattan is just a sweet whisky martini isn't it? Usually spirit forward and served without ice, these drinks all have a similarity in their style and effect. 
+                    <br><br>
+                    <b>Sours</b> Everything that's a combination of a spirit, a sour and a sweet! The easiest combination to make cocktails that inspired so many different cocktails. A gin daisy is just a daiquiri with different ingredients, but it follows the same principle. In this category you can find all sour style cocktails that follow a certain pattern. 
+                    <br><br>
+                    <b>Old Fashioned</b> Spirit, sugar, bitter. The old fashioned way to make a cocktail. This combination of flavours can be found in many different varieties, but always comes down to the same thing and is a tried and tested style of making cocktails. No wonder it is the old fashioned way of making a mixed drink, since it almost always works.  
+                    <br><br>
+                    <b>Highball</b> One part spirit, two parts mixer. Sounds simple, but has endless applications. From a simple Cuba Libre to collins style drinks, they all use the pattern of a big spirit base with a light mixer. 
+                    <br><br>
+                    <b>Punch</b> 1 of sour, 2 of sweet, 3 of strong, 4 of weak. A timeless rhyme to make mixed drinks before mixed drinks were a thing and an easy way to make anything taste good. 
+                </p>
+                </article>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="">
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#explainer">
+            <div class="card-body">
+                <p>Taste is how we describe the basic flavor profile. <b>Bitter, sweet, sour, heavy,</b> and <b>light</b>. These will make it easy to distinguish the base profile of the drink. We understand there are a lot more subtleties to taste and flavor, but we aim to keep things easy to understand.</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="">
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#explainer">
+            <div class="card-body">
+                <article>
+                    <p>
+                        <b>Aperitif</b> Pre-dinner drinks.
+                        <br><br>
+                        <b>Digestive</b> After-dinner drinks.
+                        <br><br>
+                        <b>Night Out</b> Refreshing drinks for the start of the night.
+                        <br><br>
+                        <b>Festive</b> Fine and classy.
+                        <br><br>
+                        <b>Easy At Home</b> Easy to make with few ingredients.
+                    </p>
+                    </article>
+            </div>
+          </div>
+        </div>
+    </div>
+
+<div class='container g-0 mt-5'>
     <div class='text-center grey py-2 round'>
         <h4>FILTERS</h4>
 

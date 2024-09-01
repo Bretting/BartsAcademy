@@ -617,7 +617,7 @@ def blog_filtered_view(request: HtmxHttpRequest, type=None, filter=None) -> Http
 
 def recipe_view(request:HtmxHttpRequest) -> HttpResponse:
 
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.all().prefetch_related('type','taste','occasion')
     type = RecipeType.objects.all() 
     taste = RecipeTaste.objects.all()
     occasion = RecipeOccasion.objects.all()
