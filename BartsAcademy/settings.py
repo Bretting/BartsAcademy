@@ -236,6 +236,7 @@ TINYMCE_DEFAULT_CONFIG = {
 'theme': "silver", # default value
 'relative_urls': False, # default value
 'paste_as_text': True,
+'plugins':'link',
 'theme_advanced_buttons1': 'bold,italic,underline,bullist,numlist,link,unlink,styleselect,fontselect,fontsizeselect',
 'width': '100%',
 'height': 250,
