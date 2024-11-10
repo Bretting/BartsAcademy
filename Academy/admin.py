@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
@@ -32,13 +33,20 @@ class RecipeIngredientAdmin(admin.ModelAdmin):
      list_display = ['related_recipe', 'related_product', 'unrelated_product', 'amount', 'type']
 
 
+class CoreImagesAdmin(admin.ModelAdmin):
+    def image_tag(self, obj):
+        return format_html('<img src="{}" style="max-width:200px; max-height:200px"/>'.format(obj.image.url))
+
+    image_tag.short_description = 'Image'
+    list_display = ['image', 'image_tag',]
+
 
 admin.site.register(BlogVideo)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Bottle, BottleAdmin)
 admin.site.register(Blog, BlogAdmin)
-admin.site.register(CoreImages)
+admin.site.register(CoreImages, CoreImagesAdmin)
 admin.site.register(AgeGate)
 admin.site.register(BlogImage)
 admin.site.register(BlogType)
