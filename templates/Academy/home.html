@@ -40,7 +40,7 @@
             <div class="sku mb-5">
                 <a href="{{bottle.get_absolute_url}}">
                     <div class='d-flex justify-content-center'>
-                        <img src="{{bottle.image}}" alt="{{bottle.name}}" title="{{bottle.brand}} - {{bottle.name}}">
+                        <img src="{{bottle.image}}" alt="{{bottle.name}}" title="{{bottle.brand}} - {{bottle.name}}" loading="lazy">
                     </div>
                     <div class='my-2 bottle'>
                         <h4>{{bottle.brand}}</h4>
@@ -64,7 +64,7 @@
             </article>       
             </div>
         </div>
-        <img class='main main-category col-lg-6 g-0' src="{{category.image.url}}" alt="{{category.name}}" title="{{category.name}}">
+        <img class='main main-category col-lg-6 g-0' src="{{category.image.url}}" alt="{{category.name}}" title="{{category.name}}" loading="lazy">
     </div>
 </div>
 

@@ -73,8 +73,8 @@
   <!-- End Google Tag Manager (noscript) -->
   
     <div class='container d-flex justify-content-center my-3'>
-      <a href= {% url 'Academy:home' %}>
-      <img class='logo-big' src="{% static 'logos/logo-big.png' %}" alt="">
+      <a name='home' href= {% url 'Academy:home' %}>
+      <img class='logo-big' src="{% static 'logos/logo-big.png' %}" alt="Bart's Academy Logo">
       </a>
     </div>
 
@@ -110,7 +110,7 @@
       <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-2">
         <div class="col mb-3 d-flex flex-column">
           <a href="/" class="mb-3 d-flex justify-content-center">
-            <img class='logo' src="{% static 'logos/ba-logo.png' %}" alt="Bart's Academy Logo">
+            <img class='logo' src="{% static 'logos/ba-logo.png' %}" alt="Bart's Academy Logo" loading="lazy">
           </a>
           <h3 class="text-body-secondary copy">&copy; 2023</h3>
           <h3 class="text-body-secondary copy">Design & Development <br>by<br> Thomas Doll-Datema</h3>
@@ -121,7 +121,7 @@
         <div class="col mb-3">
           
           <ul class="nav flex-column">
-            <h5 class='mx-auto'>Navigation</h5>
+            <li class="nav-item mb-2 mx-auto"><h5>Navigation</h5></li>
             <li class="nav-item mb-2 mx-auto"><a href="{% url 'Academy:home' %}" class="nav-link p-0 text-body-secondary">Home</a></li>
             <li class="nav-item mb-2 mx-auto"><a href="{% url 'Academy:categories' %}" class="nav-link p-0 text-body-secondary">Categories</a></li>
             <li class="nav-item mb-2 mx-auto"><a href="{% url 'Academy:brands' %}" class="nav-link p-0 text-body-secondary">Brands</a></li>
