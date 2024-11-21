@@ -149,15 +149,15 @@ REDIS_PASSWORD = os.environ.get("REDIS_SECRET_KEY")
 REDIS_SERVER = os.environ.get("REDIS_SERVER_IP")
 
 
-CACHES = {
-    'default': { 
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': f'redis://:{REDIS_PASSWORD}@{REDIS_SERVER}',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-    }
-}
+# CACHES = {
+#     'default': { 
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': f'redis://:{REDIS_PASSWORD}@{REDIS_SERVER}',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         },
+#     }
+# }
 
 if DEBUG:
     CACHES = {
