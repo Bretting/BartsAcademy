@@ -5,6 +5,7 @@ from Academy import views
 from .views import (
     test_view,
     main_view,
+    about_view,
     category_view,
     category_select_view,
     category_global_view,
@@ -85,6 +86,11 @@ urlpatterns = [
     path('Recipes/<str:sort>-<str:filter>', recipe_filtered_view, name='recipes_filtered_list'),
     path('Recipes/Drink/<str:slug>', recipe_detailview, name='recipe_detailview'),
     path('Recipes/add', recipe_create_view, name='recipe_create'),
+
+
+    #####################
+     #ABOUT
+    path('About', about_view, name='about_view'),
 
 
    ######################

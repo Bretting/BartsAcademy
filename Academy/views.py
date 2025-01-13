@@ -47,7 +47,6 @@ class HtmxHttpRequest(HttpRequest):
     htmx: HtmxDetails
 
 ##############################################
-# Create your views here.
 def main_view(request):
 
     random_category = Category.objects.order_by('?').first()
@@ -63,6 +62,8 @@ def main_view(request):
     }
     return render(request,'Academy/home.html', context)
 
+def about_view(request):
+    return render(request, 'Academy/about.html')
 
 
 ##############################################
