@@ -89,7 +89,7 @@
             <a class="nav-link mx-auto" href="{% url 'Academy:categories' %}#top" title='CATEGORIES'>CATEGORIES</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:brands' %}#top" title='BRANDS'>BRANDS</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:bottles_list' brand='All' %}#top" title='BOTTLES'>BOTTLES</a>
-            <a class="nav-link mx-auto" href="#" title='RECIPES'>RECIPES</a>
+            <a class="nav-link mx-auto" href="{% url 'Academy:recipes_list' %}#top" title='RECIPES'>RECIPES</a>
             <a class="nav-link mx-auto" href="{% url 'Academy:blog_list' %}#top" title='BLOG'>BLOG</a>
             {% if user.is_authenticated %}<a class="nav-link mx-auto" href="{% url 'Academy:dashboard' %}#top" title='ADMIN'>ADMIN</a>{% endif %}
           </div>
