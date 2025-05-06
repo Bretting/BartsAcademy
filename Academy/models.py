@@ -224,7 +224,7 @@ class Blog(models.Model):
     video = models.FileField(upload_to='videos', null=True, blank=True)
     blog_date_create = models.DateField(auto_now_add=True, null=True, blank=True)
     blog_date_edit = models.DateField(auto_now=True, null=True, blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, max_length=255)
     category_tag = models.ManyToManyField(Category,  blank=True)
     brand_tag = models.ManyToManyField(Brand, blank=True)
     bottle_tag = models.ManyToManyField(Bottle, blank=True)
