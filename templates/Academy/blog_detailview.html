@@ -25,7 +25,7 @@
                 <h3 class='button-small'>{{tag.subcategory}}</h3>
             </a>
             {% else %}
-            <a href="{% url 'Academy:blogs_filtered' filter=tag.name %}#top">
+            <a href="{% url 'Academy:blogs_filtered' type="category" filter=tag.name %}#top">
                 <h3 class='button-small'>{{tag.name}}</h3>
             </a>
             {% endif %}
